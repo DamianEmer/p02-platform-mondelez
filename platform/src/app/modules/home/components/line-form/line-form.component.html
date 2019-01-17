@@ -1,8 +1,4 @@
 <div>
-  {{form.values}}
-</div>
-
-<div>
   <form [formGroup]="form">
 
     <label>Elige la linea</label>
@@ -45,8 +41,12 @@
 
     </div>
 
-    {{form.value | json}}
-
-    <button (click)="onSave();">Guardar</button>
   </form>
+
+  <app-sku-form [formParent]="form"></app-sku-form>
+
+  <button (click)="onSave();">Guardar</button>
+
+  {{form.value | json}}
+
 </div>

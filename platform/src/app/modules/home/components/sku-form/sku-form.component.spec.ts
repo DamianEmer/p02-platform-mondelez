@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StoppagesFormComponent } from './stoppages-form.component';
+import { SkuFormComponent } from './sku-form.component';
 
 describe('StoppagesFormComponent', () => {
-  let component: StoppagesFormComponent;
-  let fixture: ComponentFixture<StoppagesFormComponent>;
+  let component: SkuFormComponent;
+  let fixture: ComponentFixture<SkuFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StoppagesFormComponent ]
+      declarations: [ SkuFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StoppagesFormComponent);
+    fixture = TestBed.createComponent(SkuFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
