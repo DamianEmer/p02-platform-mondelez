@@ -1,0 +1,17 @@
+<form [formGroup]="formParent">
+
+<button (click)="addSkuClick();">Agregar nuevo producto</button>
+
+<div formArrayName="sku" *ngFor="let sku of formParent.get('sku').controls; let i = index;">
+  <div [formGroupName]="i">
+    <label [attr.for]="ptime">Tiempo de produccion</label>
+    <input type="text" [id]="" formControlName="productionTime"/>
+    
+    <label [attr.for]="ptime">Volumen</label>
+    <input type="text" [id]="" formControlName="volume"/>
+    
+    <label [attr.for]="ptime">Descripcion</label>
+    <input type="text" [id]="" formControlName="description"/>    
+  </div>
+</div>
+</form>

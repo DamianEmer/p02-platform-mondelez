@@ -25,6 +25,13 @@ export class LineFormComponent implements OnInit {
       turn: ['', Validators.required],
       scheduleStoppages: this.fb.array([
         this.addStoppagesForm()
+      ]),
+      sku: this.fb.array([
+        this.fb.group ({
+          productionTime: ['', Validators.required],
+          volume: ['', Validators.required],
+          description: ['', Validators.required],
+        })
       ])
     })
 
