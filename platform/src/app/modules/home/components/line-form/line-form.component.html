@@ -1,3 +1,24 @@
-<p>
-  line-form works!
-</p>
+
+<div>
+  {{form.values}}
+</div>
+
+<div>
+  <form [formGroup]="form" >
+    <label>Elige la linea</label>
+    <select formControlName="line" (change)="selectDropDown($event.target.value)">
+      <option *ngFor="let line of lines; let i=index" value="{{line.key}}">{{line.name}}</option>
+    </select>
+    <label>Operadores</label>
+    <select formControlName="operator">
+      <option *ngFor="let opt of operators;" value="{{opt.name}}">{{opt.name}}</option>
+    </select>  
+    <label>Elige el turno</label>
+    <select formControlName="turn">
+      <option value="1">Turno1-480min</option>
+      <option value="2">Turno2-450min</option>
+      <option value="3">Turno3-510min</option>
+    </select>    
+    <button (click)="onSave();">Guardar</button>  
+  </form>
+</div>
