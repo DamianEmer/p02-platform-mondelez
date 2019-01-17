@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { DataService } from 'src/app/shared/services/data.service';
-import { map } from 'rxjs/Operators';
 
 @Component({
   selector: 'app-line-form',
@@ -16,12 +15,34 @@ export class LineFormComponent implements OnInit {
 
   operators: any[];
 
-  constructor( private fb: FormBuilder, private ds: DataService) {
+  stoppages: any[];
+
+  constructor(private fb: FormBuilder, private ds: DataService) {
 
     this.form = fb.group({
       line: ['', Validators.required],
       operator: ['', Validators.required],
-      turn: ['', Validators.required]
+      turn: ['', Validators.required],
+      scheduleStoppages: this.fb.array([
+        this.addStoppagesForm()
+      ]),
+      sku: this.fb.array([
+        this.fb.group({
+          productionTime: ['', Validators.required],
+          volume: ['', Validators.required],
+          description: ['', Validators.required],
+          waste: ['', Validators.required],
+          retentions: ['', Validators.required],
+          reprocess: ['', Validators.required],
+          ocurrences: this.fb.array([
+            this.fb.group({
+              key: ['', Validators.required],
+              minutes: ['', Validators.required],
+              numberOcurrence: ['', Validators.required]
+            })
+          ])
+        })
+      ])
     })
 
   }
@@ -33,26 +54,43 @@ export class LineFormComponent implements OnInit {
         this.lines = lines;
       }
     );
-    
-   
+
+    this.ds.getStoppages().subscribe(
+      stoppages => {
+        this.stoppages = stoppages;
+      }
+    )
+
   }
 
-  generateForm(): void{
-    
+  addStoppagesForm(): FormGroup {
+    return this.fb.group({
+      id: [''],
+      minutes: ['', Validators.required],
+      times: ['', Validators.required]
+    })
   }
 
-  onSave():void {
+  onSave(): void {
     console.log(this.form.value);
-  } 
+  }
 
-  selectDropDown(select: string){
+  selectDropDown(select: string) {
     this.ds.getOperators().subscribe(
       operators => this.operators = operators.filter(
-        (operator, i) => { 
+        (operator, i) => {
           return parseInt(select) === operator.idLine;
         }
       )
     );
+  }
+
+  addStoppageClick(): void {
+    this.getScheduleStoppages.push(this.addStoppagesForm());
+  }
+
+  get getScheduleStoppages() {
+    return this.form.get('scheduleStoppages') as FormArray
   }
 
 }

@@ -6,7 +6,7 @@ import { HomeModule } from './modules/home/pages/home/home.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

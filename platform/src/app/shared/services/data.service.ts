@@ -61,4 +61,25 @@ export class DataService {
     })
   }
 
+  getStoppages(): Observable<any[]>{
+    let stoppages: any[] = [
+      {
+        key:1,
+        name: 'Cena de navidad'
+      },
+      {
+        key:2,
+        name: 'Rosca de Reyes'
+      },
+      {
+        key:3,
+        name: 'Dia libre'
+      }
+    ];
+
+    return Observable.create( observer => {
+      observer.next(stoppages);
+    })
+  }
+
 }

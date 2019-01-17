@@ -1,0 +1,45 @@
+<form [formGroup]="formParent">
+
+<button (click)="addSkuClick();">Agregar nuevo producto</button>
+
+<div formArrayName="sku" *ngFor="let sku of formParent.get('sku').controls; let i = index;">
+
+  <div [formGroupName]="i">
+    <label [attr.for]="'ptime'+i">Tiempo de produccion</label>
+    <input type="text" [id]="'ptime'+i" formControlName="productionTime"/>
+    
+    <label [attr.for]="'vol'+i">Volumen</label>
+    <input type="text" [id]="'vol'+i" formControlName="volume"/>
+    
+    <label [attr.for]="'desc'+i">Descripcion</label>
+    <input type="text" [id]="'desc'+i" formControlName="description"/>    
+
+    <label [attr.for]="'desp'+i">Desperdicio</label>
+    <input type="text" [id]="'desp'+i" formControlName="waste"/>    
+
+    <label [attr.for]="'ret'+i">Retenciones</label>
+    <input type="text" [id]="'ret'+i" formControlName="retentions"/>    
+
+    <label [attr.for]="'rep'+i">Reproceso</label>
+    <input type="text" [id]="'rep'+i"formControlName="reprocess"/>
+    
+    <button (click)="addOcurrenceClick()">Agregar ocurrencia</button>
+
+    <div formArrayName="ocurrences" *ngFor="let ocurrence of sku['controls'].ocurrences.controls; let j = index;">
+      <div [formGroupName]="j">
+          <label [attr.for]="'desc'+j">Descripción</label>
+          <select [id]="'desc'+j" formControlName="key">
+            <option value="1">Opcion 1</option>
+            <option value="2">Opcion 2</option>
+          </select>
+
+          <label [attr.for]="'ocu'+j">Minutos</label>
+          <input type="number" [id]="'ocu'+j" formControlName="minutes"/>     
+          
+          <label [attr.for]="'numOcu'+j">Ocurrencias</label>
+          <input type="number" [id]="'numOcu'+j" formControlName="numberOcurrence">
+      </div>
+    </div>
+  </div>
+</div>
+</form>
