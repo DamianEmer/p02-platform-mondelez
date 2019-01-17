@@ -3,6 +3,7 @@
 <button (click)="addSkuClick();">Agregar nuevo producto</button>
 
 <div formArrayName="sku" *ngFor="let sku of formParent.get('sku').controls; let i = index;">
+
   <div [formGroupName]="i">
     <label [attr.for]="'ptime'+i">Tiempo de produccion</label>
     <input type="text" [id]="'ptime'+i" formControlName="productionTime"/>
@@ -21,7 +22,7 @@
 
     <label [attr.for]="'rep'+i">Reproceso</label>
     <input type="text" [id]="'rep'+i"formControlName="reprocess"/>
-
+    
     <button (click)="addOcurrenceClick()">Agregar ocurrencia</button>
 
     <div formArrayName="ocurrences" *ngFor="let ocurrence of sku['controls'].ocurrences.controls; let j = index;">
