@@ -17,7 +17,7 @@ export class LineFormComponent implements OnInit {
 
   stoppages: any[];
 
-  constructor( private fb: FormBuilder, private ds: DataService) {
+  constructor(private fb: FormBuilder, private ds: DataService) {
 
     this.form = fb.group({
       line: ['', Validators.required],
@@ -25,6 +25,23 @@ export class LineFormComponent implements OnInit {
       turn: ['', Validators.required],
       scheduleStoppages: this.fb.array([
         this.addStoppagesForm()
+      ]),
+      sku: this.fb.array([
+        this.fb.group({
+          productionTime: ['', Validators.required],
+          volume: ['', Validators.required],
+          description: ['', Validators.required],
+          waste: ['', Validators.required],
+          retentions: ['', Validators.required],
+          reprocess: ['', Validators.required],
+          ocurrences: this.fb.array([
+            this.fb.group({
+              key: ['', Validators.required],
+              minutes: ['', Validators.required],
+              numberOcurrence: ['', Validators.required]
+            })
+          ])
+        })
       ])
     })
 
@@ -37,31 +54,31 @@ export class LineFormComponent implements OnInit {
         this.lines = lines;
       }
     );
-    
+
     this.ds.getStoppages().subscribe(
       stoppages => {
         this.stoppages = stoppages;
       }
     )
-   
+
   }
 
   addStoppagesForm(): FormGroup {
-      return this.fb.group({
-        id: [''],
-        minutes: ['', Validators.required],
-        times: ['', Validators.required]
-      })
+    return this.fb.group({
+      id: [''],
+      minutes: ['', Validators.required],
+      times: ['', Validators.required]
+    })
   }
 
-  onSave():void {
+  onSave(): void {
     console.log(this.form.value);
-  } 
+  }
 
-  selectDropDown(select: string){
+  selectDropDown(select: string) {
     this.ds.getOperators().subscribe(
       operators => this.operators = operators.filter(
-        (operator, i) => { 
+        (operator, i) => {
           return parseInt(select) === operator.idLine;
         }
       )
@@ -72,7 +89,7 @@ export class LineFormComponent implements OnInit {
     this.getScheduleStoppages.push(this.addStoppagesForm());
   }
 
-  get getScheduleStoppages(){
+  get getScheduleStoppages() {
     return this.form.get('scheduleStoppages') as FormArray
   }
 
