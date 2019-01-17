@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { DataService } from 'src/app/shared/services/data.service';
-import { map } from 'rxjs/Operators';
 
 @Component({
   selector: 'app-line-form',
@@ -16,12 +15,17 @@ export class LineFormComponent implements OnInit {
 
   operators: any[];
 
+  stoppages: any[];
+
   constructor( private fb: FormBuilder, private ds: DataService) {
 
     this.form = fb.group({
       line: ['', Validators.required],
       operator: ['', Validators.required],
-      turn: ['', Validators.required]
+      turn: ['', Validators.required],
+      scheduleStoppages: this.fb.array([
+        this.addStoppagesForm()
+      ])
     })
 
   }
@@ -34,11 +38,20 @@ export class LineFormComponent implements OnInit {
       }
     );
     
+    this.ds.getStoppages().subscribe(
+      stoppages => {
+        this.stoppages = stoppages;
+      }
+    )
    
   }
 
-  generateForm(): void{
-    
+  addStoppagesForm(): FormGroup {
+      return this.fb.group({
+        id: [''],
+        minutes: ['', Validators.required],
+        times: ['', Validators.required]
+      })
   }
 
   onSave():void {
@@ -53,6 +66,14 @@ export class LineFormComponent implements OnInit {
         }
       )
     );
+  }
+
+  addStoppageClick(): void {
+    this.getScheduleStoppages.push(this.addStoppagesForm());
+  }
+
+  get getScheduleStoppages(){
+    return this.form.get('scheduleStoppages') as FormArray
   }
 
 }

@@ -1,24 +1,52 @@
-
 <div>
   {{form.values}}
 </div>
 
 <div>
-  <form [formGroup]="form" >
+  <form [formGroup]="form">
+
     <label>Elige la linea</label>
     <select formControlName="line" (change)="selectDropDown($event.target.value)">
       <option *ngFor="let line of lines; let i=index" value="{{line.key}}">{{line.name}}</option>
     </select>
+
     <label>Operadores</label>
     <select formControlName="operator">
       <option *ngFor="let opt of operators;" value="{{opt.name}}">{{opt.name}}</option>
-    </select>  
+    </select>
     <label>Elige el turno</label>
+
     <select formControlName="turn">
       <option value="1">Turno1-480min</option>
       <option value="2">Turno2-450min</option>
       <option value="3">Turno3-510min</option>
-    </select>    
-    <button (click)="onSave();">Guardar</button>  
+    </select>
+
+    <div class="StoppagesContainer">
+
+      <button (click)="addStoppageClick()">
+        Agregar paro programado
+      </button>
+
+      <div formArrayName="scheduleStoppages" *ngFor="let ss of form.get('scheduleStoppages').controls; let i = index;">
+        <div [formGroupName]="i">
+          <label [attr.for]="'description'+i">Descripcion</label>
+          <select [id]="'description'+i" formControlName="id">
+            <option *ngFor="let s of stoppages" value="{{s.key}}">{{s.name}}</option>
+          </select>
+
+          <label [attr.for]="'minutes'+i">Minutos</label>
+          <input type="number" [id]="'minutes'+i" formControlName="minutes" />
+
+          <label [attr.for]="'times'+i">Veces</label>
+          <input type="number" [id]="'times'+i" formControlName="times" />
+        </div>
+      </div>
+
+    </div>
+
+    {{form.value | json}}
+
+    <button (click)="onSave();">Guardar</button>
   </form>
 </div>
