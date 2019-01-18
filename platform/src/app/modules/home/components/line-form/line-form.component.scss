@@ -1,0 +1,38 @@
+.line-form-container {
+  border-bottom: 1px solid rgb(0, 0, 0);
+  width: 90%;
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin: 15px auto;
+}
+
+.total-container{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.stoppages-container {
+  border-bottom: 1px solid rgb(0, 0, 0);
+  width: 90%;
+  height: auto;
+  max-height: 250px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin: 20px auto;
+
+  .stoppages-form {
+    width: 100%;
+
+    .fields-form {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+    }
+  }
+}

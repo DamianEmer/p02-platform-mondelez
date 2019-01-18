@@ -1,0 +1,17 @@
+.sku-container {
+    width: 90%;
+    margin: auto;
+
+    .fields{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .field-ocurrences {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+        }
+    }
+}

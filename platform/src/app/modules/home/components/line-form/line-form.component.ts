@@ -11,6 +11,8 @@ export class LineFormComponent implements OnInit {
 
   form: FormGroup;
 
+  formTotal: FormGroup;
+
   lines: number[];
 
   operators: any[];
@@ -24,7 +26,7 @@ export class LineFormComponent implements OnInit {
       operator: ['', Validators.required],
       turn: ['', Validators.required],
       scheduleStoppages: this.fb.array([
-        this.addStoppagesForm()
+        
       ]),
       sku: this.fb.array([
         this.fb.group({
@@ -35,14 +37,15 @@ export class LineFormComponent implements OnInit {
           retentions: ['', Validators.required],
           reprocess: ['', Validators.required],
           ocurrences: this.fb.array([
-            this.fb.group({
-              key: ['', Validators.required],
-              minutes: ['', Validators.required],
-              numberOcurrence: ['', Validators.required]
-            })
+            
           ])
         })
       ])
+    });
+
+    this.formTotal = this.fb.group({
+      OEETotal: [''],
+      GETotal: ['']
     })
 
   }
@@ -71,11 +74,8 @@ export class LineFormComponent implements OnInit {
     })
   }
 
-  onSave(): void {
-    console.log(this.form.value);
-  }
-
   selectDropDown(select: string) {
+    console.log(select);
     this.ds.getOperators().subscribe(
       operators => this.operators = operators.filter(
         (operator, i) => {

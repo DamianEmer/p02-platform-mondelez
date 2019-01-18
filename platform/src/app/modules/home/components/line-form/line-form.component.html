@@ -1,41 +1,57 @@
 <div>
   <form [formGroup]="form">
 
-    <label>Elige la linea</label>
-    <select formControlName="line" (change)="selectDropDown($event.target.value)">
-      <option *ngFor="let line of lines; let i=index" value="{{line.key}}">{{line.name}}</option>
-    </select>
+    <div class="line-form-container">
+      <label>Elige la linea</label>
+      <select formControlName="line" (change)="selectDropDown($event.target.value)">
+        <option *ngFor="let line of lines; let i=index" value="{{line.key}}">{{line.name}}</option>
+      </select>
 
-    <label>Operadores</label>
-    <select formControlName="operator">
-      <option *ngFor="let opt of operators;" value="{{opt.name}}">{{opt.name}}</option>
-    </select>
-    <label>Elige el turno</label>
+      <label>Operadores</label>
+      <select formControlName="operator">
+        <option *ngFor="let opt of operators;" value="{{opt.name}}">{{opt.name}}</option>
+      </select>
+      <label>Elige el turno</label>
 
-    <select formControlName="turn">
-      <option value="1">Turno1-480min</option>
-      <option value="2">Turno2-450min</option>
-      <option value="3">Turno3-510min</option>
-    </select>
+      <select formControlName="turn">
+        <option value="1">Turno1-480min</option>
+        <option value="2">Turno2-450min</option>
+        <option value="3">Turno3-510min</option>
+      </select>
+    </div>
 
-    <div class="StoppagesContainer">
+    <div class="total-container">
+      <form [formGroup]="formTotal">
+        <label for="">OEE Total</label>
+        <input type="text" formControlName="OEETotal" readonly/>
 
-      <button (click)="addStoppageClick()">
+        <label for="">GE Total</label>
+        <input type="text" formControlName="GETotal" readonly/>
+      </form>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="addStoppageClick()">
         Agregar paro programado
       </button>
 
-      <div formArrayName="scheduleStoppages" *ngFor="let ss of form.get('scheduleStoppages').controls; let i = index;">
-        <div [formGroupName]="i">
-          <label [attr.for]="'description'+i">Descripcion</label>
-          <select [id]="'description'+i" formControlName="id">
-            <option *ngFor="let s of stoppages" value="{{s.key}}">{{s.name}}</option>
-          </select>
+    <div class="stoppages-container">
 
-          <label [attr.for]="'minutes'+i">Minutos</label>
-          <input type="number" [id]="'minutes'+i" formControlName="minutes" />
+     <div formArrayName="scheduleStoppages" class="stoppages-form" *ngFor="let ss of form.get('scheduleStoppages').controls; let i = index;">
+        <div class="fields-form" [formGroupName]="i">
+          <mat-form-field>
+            <mat-select [id]="'description'+i" formControlName="id" placeholder="Descripcion">
+              <mat-option *ngFor="let s of stoppages" value="{{s.key}}">{{s.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <label [attr.for]="'times'+i">Veces</label>
-          <input type="number" [id]="'times'+i" formControlName="times" />
+          <mat-form-field>
+            <input matInput placeholder="Minutos" type="number" [id]="'minutes'+i" formControlName="minutes" />
+          </mat-form-field>          
+
+          <mat-form-field>
+            <input matInput placeholder="Veces" type="number" [id]="'times'+i" formControlName="times" />
+          </mat-form-field>
+          
         </div>
       </div>
 
@@ -45,8 +61,6 @@
 
   <app-sku-form [formParent]="form"></app-sku-form>
 
-  <button (click)="onSave();">Guardar</button>
-
-  {{form.value | json}}
+  <!-- {{form.value | json}} -->
 
 </div>
