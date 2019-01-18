@@ -31,7 +31,7 @@ export class SkuFormComponent implements OnInit {
       retentions: ['', Validators.required],
       reprocess: ['', Validators.required],
       ocurrences: this.fb.array([
-        this.createOcurrenceForm()
+        
       ])
     })
   }
@@ -50,8 +50,12 @@ export class SkuFormComponent implements OnInit {
     })
   }
 
-  addOcurrenceClick(){
-    this.getOcurrences.push(this.createOcurrenceForm());
+  addOcurrenceClick(i){
+    (this.getSku.controls[i].get('ocurrences') as FormArray).push(this.createOcurrenceForm());
+  }
+
+  onSave(): void {
+    console.log(this.formParent.value);
   }
 
 }
