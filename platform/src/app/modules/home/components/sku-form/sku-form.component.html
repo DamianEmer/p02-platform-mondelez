@@ -1,14 +1,17 @@
 <form [formGroup]="formParent">
 
-  <button mat-raised-button color="primary" (click)="addSkuClick();">Agregar nuevo producto</button>
+  <button mat-raised-button color="primary" (click)="addSkuClick();" [disabled]="formParent.get('sku').invalid">
+    Agregar nuevo producto
+  </button>
 
   <div formArrayName="sku" class="sku-container" *ngFor="let sku of formParent.get('sku').controls; let i = index;">
 
+    <hr *ngIf="i>0">
     <h5>SKU {{i}}</h5>
 
     <div class="fields" [formGroupName]="i">
       <mat-form-field>
-        <input matInput placeholder="Tiempo de producción" type="text" [id]="'ptime'+i" formControlName="productionTime" />
+        <input matInput placeholder="Tiempo de producción" type="number" [id]="'ptime'+i" formControlName="productionTime" />
       </mat-form-field>
 
       <mat-form-field>
@@ -16,7 +19,6 @@
       </mat-form-field>
 
       <mat-form-field>
-        <!-- <input matInput placeholder="Descripción" type="text" [id]="'desc'+i" formControlName="description" /> -->
         <mat-select placeholder="Selecciona" formControlName="description">
           <mat-option value="1">Opcion 1</mat-option>
           <mat-option value="2">Opcion 2</mat-option>
@@ -37,12 +39,36 @@
       </mat-form-field>
 
       <div>
-        <form>
-          <label>Resultados</label>
+        <form [formGroup]="formResults">
+          <mat-form-field>
+            <input matInput placeholder="OEE (%)" type="text" readonly formControlName="oee">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="GE (%)" type="text" readonly formControlName="ge">
+          </mat-form-field>
+          
+          <mat-form-field>
+            <input matInput placeholder="TLD" type="text" readonly formControlName="tld">
+          </mat-form-field>
+          
+          <mat-form-field>
+            <input matInput placeholder="kg/min" type="text" readonly formControlName="kgMin">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="kg/cj" type="text" readonly formControlName="kgCj">
+          </mat-form-field>
+
+          <mat-form-field>
+              <input matInput placeholder="Perdida de tiempo" type="text" readonly formControlName="wasteTime">
+          </mat-form-field>
         </form>
       </div>
 
-      <button mat-raised-button color="primary" (click)="addOcurrenceClick(i)">Agregar ocurrencia</button>
+      <button mat-raised-button color="primary" (click)="addOcurrenceClick(i)" [disabled]="sku['controls'].ocurrences.invalid">
+        Agregar ocurrencia
+      </button>
 
       <div formArrayName="ocurrences" *ngFor="let ocurrence of sku['controls'].ocurrences.controls; let j = index;">
         <div class="field-ocurrences" [formGroupName]="j">
@@ -65,4 +91,7 @@
   </div>
 </form>
 
-<button mat-raised-button color="primary"  (click)="onSave();">Guardar</button>
+<div class="actions-container">
+  <button mat-raised-button color="primary" (click)="onSave();">Guardar</button>
+  <button mat-raised-button color="primary" (click)="onCalculate();">Calcular</button>
+</div>

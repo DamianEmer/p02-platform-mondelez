@@ -1,6 +1,6 @@
 .sku-container {
     width: 90%;
-    margin: auto;
+    margin: 20px auto;
 
     .fields{
         display: flex;
@@ -13,5 +13,18 @@
             justify-content: space-around;
             align-items: center;
         }
+    }
+}
+
+.actions-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin: 20px auto;
+
+    button{
+        margin-left: 15px;
     }
 }
