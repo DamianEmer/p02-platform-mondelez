@@ -2,56 +2,77 @@
   <form [formGroup]="form">
 
     <div class="line-form-container">
-      <label>Elige la linea</label>
-      <select formControlName="line" (change)="selectDropDown($event.target.value)">
-        <option *ngFor="let line of lines; let i=index" value="{{line.key}}">{{line.name}}</option>
-      </select>
+      <div>
+        <label>Elige la linea</label>
+        <select formControlName="line" (change)="selectDropDown($event.target.value)">
+          <option *ngFor="let line of lines; let i=index" value="{{line.key}}">{{line.name}}</option>
+        </select>
+        <div class="error-container" *ngIf="getLine.invalid && (getLine.dirty || getLine.touched)">
+          <h6 *ngIf="getLine.errors.required">Es necesario la seleccion</h6>
+        </div>
+      </div>
 
-      <label>Operadores</label>
-      <select formControlName="operator">
-        <option *ngFor="let opt of operators;" value="{{opt.name}}">{{opt.name}}</option>
-      </select>
-      <label>Elige el turno</label>
+      <div>
+        <label>Operadores</label>
+        <select formControlName="operator">
+          <option *ngFor="let opt of operators;" value="{{opt.name}}">{{opt.name}}</option>
+        </select>
+        <div class="error-container" *ngIf="getOperator.invalid && (getOperator.dirty || getOperator.touched)">
+          <h6 *ngIf="getOperator.errors.required">Es necesario la seleccion</h6>
+        </div>
+      </div>
 
-      <select formControlName="turn">
-        <option value="1">Turno1-480min</option>
-        <option value="2">Turno2-450min</option>
-        <option value="3">Turno3-510min</option>
-      </select>
+      <div>
+        <label>Elige el turno</label>
+        <select formControlName="turn">
+          <option value="1">Turno1-480min</option>
+          <option value="2">Turno2-450min</option>
+          <option value="3">Turno3-510min</option>
+        </select>
+        <div class="error-container" *ngIf="getTurn.invalid && (getTurn.dirty || getTurn.touched)">
+          <h6 *ngIf="getTurn.errors.required">Es necesario la seleccion</h6>
+        </div>
+      </div>
     </div>
 
     <div class="total-container">
       <form [formGroup]="formTotal">
         <label for="">OEE Total</label>
-        <input type="text" formControlName="OEETotal" readonly/>
+        <input type="text" formControlName="OEETotal" readonly />
 
         <label for="">GE Total</label>
-        <input type="text" formControlName="GETotal" readonly/>
+        <input type="text" formControlName="GETotal" readonly />
       </form>
     </div>
 
-    <button mat-raised-button color="primary" (click)="addStoppageClick()">
-        Agregar paro programado
-      </button>
+    <button mat-raised-button color="primary" (click)="addStoppageClick()" [disabled]="form.get('scheduleStoppages').invalid">
+      Agregar paro programado
+    </button>
 
     <div class="stoppages-container">
 
-     <div formArrayName="scheduleStoppages" class="stoppages-form" *ngFor="let ss of form.get('scheduleStoppages').controls; let i = index;">
+      <div formArrayName="scheduleStoppages" class="stoppages-form" *ngFor="let ss of form.get('scheduleStoppages').controls; let i = index;">
+        <hr *ngIf="i>0">
         <div class="fields-form" [formGroupName]="i">
-          <mat-form-field>
-            <mat-select [id]="'description'+i" formControlName="id" placeholder="Descripcion">
-              <mat-option *ngFor="let s of stoppages" value="{{s.key}}">{{s.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div>
+            <mat-form-field>
+              <mat-select [id]="'description'+i" formControlName="id" placeholder="Descripcion">
+                <mat-option *ngFor="let s of stoppages" value="{{s.key}}">{{s.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="Minutos" type="number" [id]="'minutes'+i" formControlName="minutes" />
-          </mat-form-field>          
+          <div>
+            <mat-form-field>
+              <input matInput placeholder="Minutos" type="number" [id]="'minutes'+i" formControlName="minutes" />
+            </mat-form-field>
+          </div>
 
-          <mat-form-field>
-            <input matInput placeholder="Veces" type="number" [id]="'times'+i" formControlName="times" />
-          </mat-form-field>
-          
+          <div>
+            <mat-form-field>
+              <input matInput placeholder="Veces" type="number" [id]="'times'+i" formControlName="times" />
+            </mat-form-field>
+          </div>
         </div>
       </div>
 
