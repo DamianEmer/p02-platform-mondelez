@@ -10,7 +10,18 @@ export class SkuFormComponent implements OnInit {
 
   @Input()formParent: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  formResults: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.formResults = fb.group({
+      oee: [''],
+      ge: [''],
+      tld: [''],
+      kgMin: [''],
+      kgCj: [''],
+      wasteTime: [''],
+    })
+  }
 
   ngOnInit() {  }
   
@@ -55,7 +66,14 @@ export class SkuFormComponent implements OnInit {
   }
 
   onSave(): void {
-    console.log(this.formParent.value);
+    if(this.formParent.valid)
+      console.log(this.formParent.value);
+      else
+      console.log('Aun faltan datos')
+  }
+
+  onCalculate(){
+    this.formResults.get('wasteTime').setValue(200);
   }
 
 }

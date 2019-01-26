@@ -93,4 +93,20 @@ export class LineFormComponent implements OnInit {
     return this.form.get('scheduleStoppages') as FormArray
   }
 
+  get getLine(){
+    return this.form.get('line');
+  }
+
+  get getOperator(){
+    return this.form.get('operator');
+  }
+
+  get getTurn(){
+    return this.form.get('turn');
+  }
+
+  get getId(){
+    return this.getScheduleStoppages.get('id');
+  }
+
 }
