@@ -2,7 +2,7 @@
 
   <div class="section-1">
     <div class="subsection-1">
-      <form [formGroup]="form">
+      <form [formGroup]="form" (ngSubmit)="onSave()">
         <div class="fields">
           <div class="field">
             <label>Elige la linea</label>
@@ -49,18 +49,22 @@
         </div>
 
         <div class="fields">
-          <form [formGroup]="formTotal">
-            <div class="field">
+
+          <div class="field results">
+            <div>
               <mat-form-field>
-                <input type="text" readonly matInput placeholder="OEE Total (%)">
+                <input type="text" readonly matInput placeholder="OEE Total (%)" formControlName="oeetotal">
               </mat-form-field>
             </div>
-            <div class="field">
+            <div>
               <mat-form-field>
-                <input type="text" readonly matInput placeholder="GE Total (%)">
+                <input type="text" readonly matInput placeholder="GE Total (%)" formControlName="getotal">
               </mat-form-field>
             </div>
-          </form>
+          </div>
+          <div class="field actions">
+            <button class="btn" [disabled]="form.invalid" type="submit">Guardar</button>
+          </div>
         </div>
       </form>
     </div>
@@ -68,7 +72,8 @@
 
     <div class="subsection-2">
       <div class="fields">
-        <button class="btn" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro Planeado</button>
+        <button class="btn" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro
+          Planeado</button>
       </div>
       <div class="fields-stoppages">
         <app-stoppages-form [form]="form"></app-stoppages-form>
@@ -76,6 +81,15 @@
     </div>
   </div>
 
-  {{form.value | json}}
+  <div class="section-2">
+    <div class="fields">
+      <button class="btn" style="margin-left:15px" (click)="addSku()" [disabled]="form.get('sku').invalid">SKU</button>
+    </div>
+    <div style="overflow-x:scroll">
+      <app-sku-form [formParent]="form"></app-sku-form>
+    </div>
+  </div>
+
+  <!-- {{form.value | json}} -->
 
 </div>

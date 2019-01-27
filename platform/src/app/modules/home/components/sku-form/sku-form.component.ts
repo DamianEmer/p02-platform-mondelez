@@ -10,70 +10,42 @@ export class SkuFormComponent implements OnInit {
 
   @Input()formParent: FormGroup;
 
-  formResults: FormGroup;
+  //formResults: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.formResults = fb.group({
-      oee: [''],
-      ge: [''],
-      tld: [''],
-      kgMin: [''],
-      kgCj: [''],
-      wasteTime: [''],
-    })
+    // this.formResults = fb.group({
+    //   oee: [''],
+    //   ge: [''],
+    //   tld: [''],
+    //   kgMin: [''],
+    //   kgCj: [''],
+    //   wasteTime: [''],
+    // })
   }
 
-  ngOnInit() {  }
-  
+  ngOnInit() { 
+  }
+
   get getSku(){
     return this.formParent.get('sku') as FormArray;
   }
 
-  get getOcurrences(){
-    return this.getSku.controls[0].get('ocurrences') as FormArray;
+  get getUnplanedStoppages(){
+    return this.getSku.get('stoppages') as FormArray;
   }
 
-  addSkuForm(): FormGroup{
+  stoppagesForm(): FormGroup {
     return this.fb.group({
-      productionTime: ['', Validators.required],
-      volume: ['', Validators.required],
-      description: ['', Validators.required],
-      waste: ['', Validators.required],
-      retentions: ['', Validators.required],
-      reprocess: ['', Validators.required],
-      ocurrences: this.fb.array([
-        
-      ])
-    })
-  }
-
-
-  addSkuClick():void{
-    this.getSku.push(this.addSkuForm());
-    console.log(this.formParent);
-  }
-
-  createOcurrenceForm(): FormGroup{
-    return this.fb.group({
-      key: ['', Validators.required],
+      id: [''],
       minutes: ['', Validators.required],
-      numberOcurrence: ['', Validators.required]
+      times: ['', Validators.required]
     })
   }
 
-  addOcurrenceClick(i){
-    (this.getSku.controls[i].get('ocurrences') as FormArray).push(this.createOcurrenceForm());
-  }
-
-  onSave(): void {
-    if(this.formParent.valid)
-      console.log(this.formParent.value);
-      else
-      console.log('Aun faltan datos')
-  }
-
-  onCalculate(){
-    this.formResults.get('wasteTime').setValue(200);
+  paro(i: number){
+    console.log("SKU-> ",this.getSku.controls[i]);
+    (<FormArray>this.getSku.controls[i].get('stoppages')).push(this.stoppagesForm());
+    
   }
 
 }
