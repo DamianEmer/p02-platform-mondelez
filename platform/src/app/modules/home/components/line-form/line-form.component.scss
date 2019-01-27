@@ -19,6 +19,18 @@
         .field {
           width: 40%;
         }
+
+        .results{
+          display: flex;
+          flex-direction: column;
+        }
+
+        .actions{
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
 

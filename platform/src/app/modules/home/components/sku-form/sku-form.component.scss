@@ -1,6 +1,5 @@
 .container {
   width: 100%;
-  border: 1px solid rgb(0, 66, 128);
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -11,7 +10,7 @@
   .sku-container {
     width: 33.3%;
     margin: 0 5px;
-    border: 1px solid red;
+    border: 1px solid rgb(128, 149, 187);
 
     .fields {
       display: flex;
@@ -19,18 +18,53 @@
       justify-content: center;
 
       .section {
-        border: 1px solid green;
-
         mat-form-field{
           width: 100%;
         }       
       }
       
       .sub1 {
-        border: 1px solid orange;
         width: 100%;
         display: flex;
         flex-direction: row;
+
+        mat-form-field{
+          width: 45%;
+          margin: 5px;
+        }
+
+      }
+
+      .sub2{
+        margin: 5px;
+      }
+
+      .sub3{
+        display: flex;
+        flex-direction: row;
+
+        .sub-section{
+          margin: 5px;
+        }
+      }
+
+      .sub5{
+        width: 100%;
+        height: 120px;
+        overflow-y: scroll;
+
+        app-stoppages-form{
+          width: 100%;
+        }
+      }
+
+      .sub6{
+        width: 100%;
+
+        mat-form-field{
+          width: 95%;
+          margin: 0 auto;
+        }
       }
     }
   }

@@ -7,17 +7,16 @@
     <div class="fields" [formGroupName]="i">
 
       <div class="section sub1">
-        <mat-form-field style="width:50%;">
+        <mat-form-field>
           <input matInput placeholder="Tiempo de producción" type="number" [id]="'ptime'+i" formControlName="productionTime" />
         </mat-form-field>
 
-        <mat-form-field style="width:50%;">
+        <mat-form-field>
           <input matInput placeholder="Volumen" type="text" [id]="'vol'+i" formControlName="volume" />
         </mat-form-field>
       </div>
 
-
-      <div class="section">
+      <div class="section sub2">
         <mat-form-field>
           <mat-select placeholder="Selecciona" formControlName="description">
             <mat-option value="1">Opcion 1</mat-option>
@@ -27,65 +26,58 @@
         </mat-form-field>
       </div>
 
+      <div class="section sub3">
+        <div class="sub-section">
+          <mat-form-field>
+            <input matInput placeholder="Desperdicio (kg)" type="text" [id]="'desp'+i" formControlName="waste" />
+          </mat-form-field>
 
-      <div class="section">
-        <mat-form-field>
-          <input matInput placeholder="Desperdicio (kg)" type="text" [id]="'desp'+i" formControlName="waste" />
-        </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Retenciones (Cjs)" type="text" [id]="'ret'+i" formControlName="retentions" />
+          </mat-form-field>
 
-        <mat-form-field>
-          <input matInput placeholder="Retenciones (Cjs)" type="text" [id]="'ret'+i" formControlName="retentions" />
-        </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Reproceso (Kg)" type="text" [id]="'rep'+i" formControlName="reprocess" />
+          </mat-form-field>
 
-        <mat-form-field>
-          <input matInput placeholder="Reproceso (Kg)" type="text" [id]="'rep'+i" formControlName="reprocess" />
-        </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="TLD" readonly type="text" formControlName="tld" />
+          </mat-form-field>
+
+        </div>
+
+        <div class="sub-section">
+          <mat-form-field>
+            <input matInput placeholder="OEE (%)" type="text" readonly formControlName="oee">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="GE (%)" type="text" readonly formControlName="ge">
+          </mat-form-field>
+          
+          <mat-form-field>
+            <input matInput placeholder="kg/min" type="text" readonly formControlName="kgMin">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="kg/cj" type="text" readonly formControlName="kgCj">
+          </mat-form-field>
+        </div>
       </div>
 
+      <div class="section sub4">
+          <button class="btn" style="margin-left:15px" (click)="paro(i)" [disabled]="formParent.get('sku').controls[i].get('stoppages').invalid">Paro NO
+              Planeado</button>
+      </div>
 
+      <div class="section sub5">
+        <app-stoppages-form [form]="formParent.get('sku').controls[i]"></app-stoppages-form>
+      </div>
 
-      <!-- resultados -->
-      <div class="section">
-
-          <!-- OEE y GE -->
-          <div class="sub-1">
-            <mat-form-field>
-              <input matInput placeholder="OEE (%)" type="text" readonly formControlName="oee">
-            </mat-form-field>
-
-            <mat-form-field>
-              <input matInput placeholder="GE (%)" type="text" readonly formControlName="ge">
-            </mat-form-field>
-          </div>
-
-
-          <!-- TLD -->
-          <div class="sub-2">
-            <mat-form-field>
-              <input matInput placeholder="TLD" type="text" readonly formControlName="tld">
-            </mat-form-field>
-          </div>
-
-
-          <!-- kg/min kg/CJ -->
-          <div class="sub-3">
-            <mat-form-field>
-              <input matInput placeholder="kg/min" type="text" readonly formControlName="kgMin">
-            </mat-form-field>
-
-            <mat-form-field>
-              <input matInput placeholder="kg/cj" type="text" readonly formControlName="kgCj">
-            </mat-form-field>
-          </div>
-
-          <!-- Paros no programados -->
-
-          <!-- Perdida de velocidad -->
-          <div class="section">
-            <mat-form-field>
-              <input matInput placeholder="Perdida de tiempo" type="text" readonly formControlName="wasteTime">
-            </mat-form-field>
-          </div>
+      <div class="section sub6">
+        <mat-form-field>
+          <input matInput placeholder="Perdida de tiempo" type="text" readonly formControlName="wasteTime">
+        </mat-form-field>
       </div>
     </div>
   </div>

@@ -50,6 +50,11 @@ export class LineFormComponent implements OnInit {
 
   }
 
+  onSave(){
+    console.log(this.form.value);
+    this.form.reset();
+  }
+
   stoppagesForm(): FormGroup {
     return this.fb.group({
       id: [''],
@@ -119,9 +124,5 @@ export class LineFormComponent implements OnInit {
   get getSku(){
     return this.form.get('sku') as FormArray;
   }
-
-  // get getId(){
-  //   return this.getStoppages.get('id');
-  // }
 
 }

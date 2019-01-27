@@ -30,4 +30,22 @@ export class SkuFormComponent implements OnInit {
     return this.formParent.get('sku') as FormArray;
   }
 
+  get getUnplanedStoppages(){
+    return this.getSku.get('stoppages') as FormArray;
+  }
+
+  stoppagesForm(): FormGroup {
+    return this.fb.group({
+      id: [''],
+      minutes: ['', Validators.required],
+      times: ['', Validators.required]
+    })
+  }
+
+  paro(i: number){
+    console.log("SKU-> ",this.getSku.controls[i]);
+    (<FormArray>this.getSku.controls[i].get('stoppages')).push(this.stoppagesForm());
+    
+  }
+
 }
