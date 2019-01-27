@@ -1,0 +1,30 @@
+.sku-container {
+    width: 90%;
+    margin: 20px auto;
+
+    .fields{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .field-ocurrences {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+        }
+    }
+}
+
+.actions-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin: 20px auto;
+
+    button{
+        margin-left: 15px;
+    }
+}

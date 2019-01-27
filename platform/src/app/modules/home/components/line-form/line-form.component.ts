@@ -11,6 +11,8 @@ export class LineFormComponent implements OnInit {
 
   form: FormGroup;
 
+  formTotal: FormGroup;
+
   lines: number[];
 
   operators: any[];
@@ -23,8 +25,9 @@ export class LineFormComponent implements OnInit {
       line: ['', Validators.required],
       operator: ['', Validators.required],
       turn: ['', Validators.required],
+      date: ['', Validators.required],
       scheduleStoppages: this.fb.array([
-        this.addStoppagesForm()
+        
       ]),
       sku: this.fb.array([
         this.fb.group({
@@ -35,15 +38,16 @@ export class LineFormComponent implements OnInit {
           retentions: ['', Validators.required],
           reprocess: ['', Validators.required],
           ocurrences: this.fb.array([
-            this.fb.group({
-              key: ['', Validators.required],
-              minutes: ['', Validators.required],
-              numberOcurrence: ['', Validators.required]
-            })
+            
           ])
         })
       ])
-    })
+    });
+
+    this.formTotal = this.fb.group({
+      OEETotal: [''],
+      GETotal: ['']
+    });
 
   }
 
@@ -71,11 +75,8 @@ export class LineFormComponent implements OnInit {
     })
   }
 
-  onSave(): void {
-    console.log(this.form.value);
-  }
-
   selectDropDown(select: string) {
+    console.log("Linea seleccionada: ",select);
     this.ds.getOperators().subscribe(
       operators => this.operators = operators.filter(
         (operator, i) => {
@@ -91,6 +92,22 @@ export class LineFormComponent implements OnInit {
 
   get getScheduleStoppages() {
     return this.form.get('scheduleStoppages') as FormArray
+  }
+
+  get getLine(){
+    return this.form.get('line');
+  }
+
+  get getOperator(){
+    return this.form.get('operator');
+  }
+
+  get getTurn(){
+    return this.form.get('turn');
+  }
+
+  get getId(){
+    return this.getScheduleStoppages.get('id');
   }
 
 }

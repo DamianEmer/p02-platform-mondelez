@@ -4,6 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SkuFormModule } from '../sku-form/sku-form.module';
 
+import { MatButtonModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from "@angular/material";
+
 const COMMON_DECLARATIONS = [
     LineFormComponent
 ]
@@ -14,9 +21,18 @@ const COMMON_IMPORTS = [
     SkuFormModule
 ]
 
+const COMMON_IMPORT_MATERIAL = [
+    MatButtonModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+]
+
 @NgModule({
     declarations: COMMON_DECLARATIONS,
-    imports: COMMON_IMPORTS,
+    imports: [COMMON_IMPORTS, COMMON_IMPORT_MATERIAL],
     exports: COMMON_DECLARATIONS
 })
 

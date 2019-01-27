@@ -1,0 +1,28 @@
+.container{
+  width: 90%;
+  margin: 0 auto;
+  .section-1{
+    display: flex;
+    flex-direction: row;
+
+    .subsection-1{
+      width: 50%;
+
+      .fields{
+        width: 100%;
+        margin: 10px 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        .field{
+          width: 40%;
+        }
+      }
+    }
+
+    .subsection-2{
+      width: 50%;
+    }
+  }
+}
