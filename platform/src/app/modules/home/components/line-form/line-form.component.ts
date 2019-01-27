@@ -26,8 +26,8 @@ export class LineFormComponent implements OnInit {
       operator: ['', Validators.required],
       turn: ['', Validators.required],
       date: ['', Validators.required],
-      scheduleStoppages: this.fb.array([
-        
+      stoppages: this.fb.array([
+        this.addStoppagesForm()
       ]),
       sku: this.fb.array([
         this.fb.group({
@@ -86,12 +86,14 @@ export class LineFormComponent implements OnInit {
     );
   }
 
-  addStoppageClick(): void {
-    this.getScheduleStoppages.push(this.addStoppagesForm());
+  addPlannedStoppage(): void {
+    this.getStoppages.push(this.addStoppagesForm());
   }
 
-  get getScheduleStoppages() {
-    return this.form.get('scheduleStoppages') as FormArray
+
+
+  get getStoppages() {
+    return this.form.get('stoppages') as FormArray
   }
 
   get getLine(){
@@ -107,7 +109,7 @@ export class LineFormComponent implements OnInit {
   }
 
   get getId(){
-    return this.getScheduleStoppages.get('id');
+    return this.getStoppages.get('id');
   }
 
 }
