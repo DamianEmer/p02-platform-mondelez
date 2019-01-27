@@ -25,6 +25,7 @@ export class LineFormComponent implements OnInit {
       line: ['', Validators.required],
       operator: ['', Validators.required],
       turn: ['', Validators.required],
+      date: ['', Validators.required],
       scheduleStoppages: this.fb.array([
         
       ]),
@@ -46,7 +47,7 @@ export class LineFormComponent implements OnInit {
     this.formTotal = this.fb.group({
       OEETotal: [''],
       GETotal: ['']
-    })
+    });
 
   }
 
@@ -75,7 +76,7 @@ export class LineFormComponent implements OnInit {
   }
 
   selectDropDown(select: string) {
-    console.log(select);
+    console.log("Linea seleccionada: ",select);
     this.ds.getOperators().subscribe(
       operators => this.operators = operators.filter(
         (operator, i) => {
