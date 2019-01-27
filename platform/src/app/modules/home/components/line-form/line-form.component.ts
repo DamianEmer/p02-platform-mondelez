@@ -11,8 +11,6 @@ export class LineFormComponent implements OnInit {
 
   form: FormGroup;
 
-  formTotal: FormGroup;
-
   lines: number[];
 
   operators: any[];
@@ -26,27 +24,12 @@ export class LineFormComponent implements OnInit {
       operator: ['', Validators.required],
       turn: ['', Validators.required],
       date: ['', Validators.required],
-      stoppages: this.fb.array([
-        this.addStoppagesForm()
-      ]),
+      stoppages: this.fb.array([ ]),
       sku: this.fb.array([
-        this.fb.group({
-          productionTime: ['', Validators.required],
-          volume: ['', Validators.required],
-          description: ['', Validators.required],
-          waste: ['', Validators.required],
-          retentions: ['', Validators.required],
-          reprocess: ['', Validators.required],
-          ocurrences: this.fb.array([
-            
-          ])
-        })
-      ])
-    });
-
-    this.formTotal = this.fb.group({
-      OEETotal: [''],
-      GETotal: ['']
+        this.skuForm()
+      ]),
+      oeetotal: [''],
+      getotal: ['']
     });
 
   }
@@ -67,11 +50,29 @@ export class LineFormComponent implements OnInit {
 
   }
 
-  addStoppagesForm(): FormGroup {
+  stoppagesForm(): FormGroup {
     return this.fb.group({
       id: [''],
       minutes: ['', Validators.required],
       times: ['', Validators.required]
+    })
+  }
+
+  skuForm(): FormGroup{
+    return this.fb.group({
+      productionTime: ['', Validators.required],
+      volume: ['', Validators.required],
+      description: ['', Validators.required],
+      waste: ['', Validators.required],
+      retentions: ['', Validators.required],
+      reprocess: ['', Validators.required],
+      stoppages: this.fb.array([ ]),
+      oee: [''],
+      ge: [''],
+      tld: [''],
+      kgMin: [''],
+      kgCj: [''],
+      wasteTime: [''],
     })
   }
 
@@ -87,29 +88,40 @@ export class LineFormComponent implements OnInit {
   }
 
   addPlannedStoppage(): void {
-    this.getStoppages.push(this.addStoppagesForm());
+    this.getStoppages.push(this.stoppagesForm());
   }
 
+  addSku():void{
+    this.getSku.push(this.skuForm());
+  }
 
-
+  // Obtiene paros pleaneados
   get getStoppages() {
     return this.form.get('stoppages') as FormArray
   }
 
+  // Obtiene Linea
   get getLine(){
     return this.form.get('line');
   }
 
+  // Obtiene Operador
   get getOperator(){
     return this.form.get('operator');
   }
 
+  // Obtiene Turno
   get getTurn(){
     return this.form.get('turn');
   }
 
-  get getId(){
-    return this.getStoppages.get('id');
+  // Obtiene lista de productos
+  get getSku(){
+    return this.form.get('sku') as FormArray;
   }
+
+  // get getId(){
+  //   return this.getStoppages.get('id');
+  // }
 
 }

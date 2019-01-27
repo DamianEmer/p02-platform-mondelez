@@ -49,18 +49,16 @@
         </div>
 
         <div class="fields">
-          <form [formGroup]="formTotal">
             <div class="field">
               <mat-form-field>
-                <input type="text" readonly matInput placeholder="OEE Total (%)">
+                <input type="text" readonly matInput placeholder="OEE Total (%)" formControlName="oeetotal">
               </mat-form-field>
             </div>
             <div class="field">
               <mat-form-field>
-                <input type="text" readonly matInput placeholder="GE Total (%)">
+                <input type="text" readonly matInput placeholder="GE Total (%)" formControlName="getotal">
               </mat-form-field>
             </div>
-          </form>
         </div>
       </form>
     </div>
@@ -68,12 +66,20 @@
 
     <div class="subsection-2">
       <div class="fields">
-        <button class="btn" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro Planeado</button>
+        <button class="btn" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro
+          Planeado</button>
       </div>
       <div class="fields-stoppages">
         <app-stoppages-form [form]="form"></app-stoppages-form>
       </div>
     </div>
+  </div>
+
+  <div class="section-2">
+    <div class="fields">
+      <button class="btn" style="margin-left:15px" (click)="addSku()" [disabled]="form.get('sku').invalid">SKU</button>
+    </div>
+    <app-sku-form [formParent]="form"></app-sku-form>
   </div>
 
   {{form.value | json}}
