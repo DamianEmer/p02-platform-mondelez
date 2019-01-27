@@ -9,3 +9,25 @@
 .error-container{
     color: red;
 }
+
+.btn{
+    width: 180px;
+    height: 35px;
+    background-color: rgb(146, 87, 161);
+    color: #fff;
+    font-weight: 400;
+    border: 1px solid rgb(146, 87, 161);;
+    border-radius: 5%;
+
+    &:hover{
+        background-color: rgb(184, 119, 201);
+        cursor: pointer;
+        box-shadow: 10px 10px 10px #ddd;
+    }
+
+    &[disabled]{
+        background-color: rgb(190, 159, 197);
+        box-shadow: none;
+    }
+}
+

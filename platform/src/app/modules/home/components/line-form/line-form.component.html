@@ -67,7 +67,12 @@
 
 
     <div class="subsection-2">
-
+      <div class="fields">
+        <button class="btn" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro Planeado</button>
+      </div>
+      <div class="fields-stoppages">
+        <app-stoppages-form [form]="form"></app-stoppages-form>
+      </div>
     </div>
   </div>
 

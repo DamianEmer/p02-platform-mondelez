@@ -1,0 +1,26 @@
+<div [formGroup]="form">
+  <div formArrayName="stoppages" *ngFor="let stop of form.get('stoppages').controls; let i = index">
+    <div class="stoppages_container" [formGroupName]="i">
+      <div class="field">
+        <mat-form-field>
+          <label for="'inp-desc'i">Descripción</label>
+          <mat-select formControlName="id">
+            <mat-option *ngFor="let desc of descriptions" [value]="desc.id">{{desc.value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="field">
+        <mat-form-field>
+          <label for="'inp-min'i">Minutos</label>
+          <input matInput type="number" id="'inp-min'i" formControlName="minutes">
+        </mat-form-field>
+      </div>
+      <div class="field">
+          <mat-form-field>
+            <label for="'inp-time'i">Numero de veces</label>
+            <input matInput type="number" id="'inp-time'i" formControlName="times">
+          </mat-form-field>
+        </div>
+    </div>    
+  </div>
+</div>
