@@ -47,6 +47,21 @@
             </mat-form-field>
           </div>
         </div>
+
+        <div class="fields">
+          <form [formGroup]="formTotal">
+            <div class="field">
+              <mat-form-field>
+                <input type="text" readonly matInput placeholder="OEE Total (%)">
+              </mat-form-field>
+            </div>
+            <div class="field">
+              <mat-form-field>
+                <input type="text" readonly matInput placeholder="GE Total (%)">
+              </mat-form-field>
+            </div>
+          </form>
+        </div>
       </form>
     </div>
 
