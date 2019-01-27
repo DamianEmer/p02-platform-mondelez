@@ -1,45 +1,97 @@
 <form [formGroup]="formParent">
 
-<button (click)="addSkuClick();">Agregar nuevo producto</button>
+  <button mat-raised-button color="primary" (click)="addSkuClick();" [disabled]="formParent.get('sku').invalid">
+    Agregar nuevo producto
+  </button>
 
-<div formArrayName="sku" *ngFor="let sku of formParent.get('sku').controls; let i = index;">
+  <div formArrayName="sku" class="sku-container" *ngFor="let sku of formParent.get('sku').controls; let i = index;">
 
-  <div [formGroupName]="i">
-    <label [attr.for]="'ptime'+i">Tiempo de produccion</label>
-    <input type="text" [id]="'ptime'+i" formControlName="productionTime"/>
-    
-    <label [attr.for]="'vol'+i">Volumen</label>
-    <input type="text" [id]="'vol'+i" formControlName="volume"/>
-    
-    <label [attr.for]="'desc'+i">Descripcion</label>
-    <input type="text" [id]="'desc'+i" formControlName="description"/>    
+    <hr *ngIf="i>0">
+    <h5>SKU {{i}}</h5>
 
-    <label [attr.for]="'desp'+i">Desperdicio</label>
-    <input type="text" [id]="'desp'+i" formControlName="waste"/>    
+    <div class="fields" [formGroupName]="i">
+      <mat-form-field>
+        <input matInput placeholder="Tiempo de producción" type="number" [id]="'ptime'+i" formControlName="productionTime" />
+      </mat-form-field>
 
-    <label [attr.for]="'ret'+i">Retenciones</label>
-    <input type="text" [id]="'ret'+i" formControlName="retentions"/>    
+      <mat-form-field>
+        <input matInput placeholder="Volumen" type="text" [id]="'vol'+i" formControlName="volume" />
+      </mat-form-field>
 
-    <label [attr.for]="'rep'+i">Reproceso</label>
-    <input type="text" [id]="'rep'+i"formControlName="reprocess"/>
-    
-    <button (click)="addOcurrenceClick()">Agregar ocurrencia</button>
+      <mat-form-field>
+        <mat-select placeholder="Selecciona" formControlName="description">
+          <mat-option value="1">Opcion 1</mat-option>
+          <mat-option value="2">Opcion 2</mat-option>
+          <mat-option value="3">Opcion 3</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <div formArrayName="ocurrences" *ngFor="let ocurrence of sku['controls'].ocurrences.controls; let j = index;">
-      <div [formGroupName]="j">
+      <mat-form-field>
+        <input matInput placeholder="Desperdicio (kg)" type="text" [id]="'desp'+i" formControlName="waste" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Retenciones (Cjs)" type="text" [id]="'ret'+i" formControlName="retentions" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Reproceso (Kg)" type="text" [id]="'rep'+i" formControlName="reprocess" />
+      </mat-form-field>
+
+      <div>
+        <form [formGroup]="formResults">
+          <mat-form-field>
+            <input matInput placeholder="OEE (%)" type="text" readonly formControlName="oee">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="GE (%)" type="text" readonly formControlName="ge">
+          </mat-form-field>
+          
+          <mat-form-field>
+            <input matInput placeholder="TLD" type="text" readonly formControlName="tld">
+          </mat-form-field>
+          
+          <mat-form-field>
+            <input matInput placeholder="kg/min" type="text" readonly formControlName="kgMin">
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="kg/cj" type="text" readonly formControlName="kgCj">
+          </mat-form-field>
+
+          <mat-form-field>
+              <input matInput placeholder="Perdida de tiempo" type="text" readonly formControlName="wasteTime">
+          </mat-form-field>
+        </form>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="addOcurrenceClick(i)" [disabled]="sku['controls'].ocurrences.invalid">
+        Agregar ocurrencia
+      </button>
+
+      <div formArrayName="ocurrences" *ngFor="let ocurrence of sku['controls'].ocurrences.controls; let j = index;">
+        <div class="field-ocurrences" [formGroupName]="j">
           <label [attr.for]="'desc'+j">Descripción</label>
           <select [id]="'desc'+j" formControlName="key">
             <option value="1">Opcion 1</option>
             <option value="2">Opcion 2</option>
           </select>
 
-          <label [attr.for]="'ocu'+j">Minutos</label>
-          <input type="number" [id]="'ocu'+j" formControlName="minutes"/>     
-          
-          <label [attr.for]="'numOcu'+j">Ocurrencias</label>
-          <input type="number" [id]="'numOcu'+j" formControlName="numberOcurrence">
+          <mat-form-field>
+            <input matInput placeholder="Minutos" type="number" [id]="'ocu'+j" formControlName="minutes" />
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Ocurrencias" type="number" [id]="'numOcu'+j" formControlName="numberOcurrence">
+          </mat-form-field>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </form>
+
+<div class="actions-container">
+  <button mat-raised-button color="primary" (click)="onSave();">Guardar</button>
+  <button mat-raised-button color="primary" (click)="onCalculate();">Calcular</button>
+</div>

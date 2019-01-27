@@ -11,6 +11,8 @@ export class LineFormComponent implements OnInit {
 
   form: FormGroup;
 
+  formTotal: FormGroup;
+
   lines: number[];
 
   operators: any[];
@@ -23,7 +25,8 @@ export class LineFormComponent implements OnInit {
       line: ['', Validators.required],
       operator: ['', Validators.required],
       turn: ['', Validators.required],
-      scheduleStoppages: this.fb.array([
+      date: ['', Validators.required],
+      stoppages: this.fb.array([
         this.addStoppagesForm()
       ]),
       sku: this.fb.array([
@@ -35,15 +38,16 @@ export class LineFormComponent implements OnInit {
           retentions: ['', Validators.required],
           reprocess: ['', Validators.required],
           ocurrences: this.fb.array([
-            this.fb.group({
-              key: ['', Validators.required],
-              minutes: ['', Validators.required],
-              numberOcurrence: ['', Validators.required]
-            })
+            
           ])
         })
       ])
-    })
+    });
+
+    this.formTotal = this.fb.group({
+      OEETotal: [''],
+      GETotal: ['']
+    });
 
   }
 
@@ -71,11 +75,8 @@ export class LineFormComponent implements OnInit {
     })
   }
 
-  onSave(): void {
-    console.log(this.form.value);
-  }
-
   selectDropDown(select: string) {
+    console.log("Linea seleccionada: ",select);
     this.ds.getOperators().subscribe(
       operators => this.operators = operators.filter(
         (operator, i) => {
@@ -85,12 +86,30 @@ export class LineFormComponent implements OnInit {
     );
   }
 
-  addStoppageClick(): void {
-    this.getScheduleStoppages.push(this.addStoppagesForm());
+  addPlannedStoppage(): void {
+    this.getStoppages.push(this.addStoppagesForm());
   }
 
-  get getScheduleStoppages() {
-    return this.form.get('scheduleStoppages') as FormArray
+
+
+  get getStoppages() {
+    return this.form.get('stoppages') as FormArray
+  }
+
+  get getLine(){
+    return this.form.get('line');
+  }
+
+  get getOperator(){
+    return this.form.get('operator');
+  }
+
+  get getTurn(){
+    return this.form.get('turn');
+  }
+
+  get getId(){
+    return this.getStoppages.get('id');
   }
 
 }
