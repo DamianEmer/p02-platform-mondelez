@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HomeModule } from './modules/home/pages/home/home.module';
+import { OperationsService } from './shared/services/operations.service';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { HomeModule } from './modules/home/pages/home/home.module';
     BrowserAnimationsModule,
     HomeModule
   ],
-  providers: [],
+  providers: [OperationsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

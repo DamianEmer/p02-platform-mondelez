@@ -11,11 +11,17 @@ export class LineFormComponent implements OnInit {
 
   form: FormGroup;
 
-  lines: number[];
+  turns: any[];
+
+  lines: any[];
 
   operators: any[];
 
   stoppages: any[];
+
+  products: any[];
+
+  turnTime: any;
 
   constructor(private fb: FormBuilder, private ds: DataService) {
 
@@ -24,7 +30,7 @@ export class LineFormComponent implements OnInit {
       operator: ['', Validators.required],
       turn: ['', Validators.required],
       date: ['', Validators.required],
-      stoppages: this.fb.array([ ]),
+      stoppages: this.fb.array([]),
       sku: this.fb.array([
         this.skuForm()
       ]),
@@ -35,6 +41,12 @@ export class LineFormComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.ds.getTurns().subscribe(
+      turns => {
+        this.turns = turns;
+      }
+    )
 
     this.ds.getLines().subscribe(
       lines => {
@@ -48,11 +60,49 @@ export class LineFormComponent implements OnInit {
       }
     )
 
+    this.onTotalCal(); // Metodo con observable interno para detectar cambios en cada SKU y recalcular valores totales
+
   }
 
-  onSave(){
+  onSave() {
     console.log(this.form.value);
-    this.form.reset();
+  }
+
+  onTotalCal() {
+    this.getSku.valueChanges.subscribe(data => {
+      let oeeTotal: any[] = [];
+      let geTotal: any[] = [];
+      let sumPlanned = 0;
+      let oee = 0;
+      let ge = 0;
+
+      for (let i = 0; i <= this.getSku.length - 1; i++) {
+        console.log('itera: ' + i)
+        oeeTotal.push(parseFloat(this.getSku.controls[i].get('oee').value));
+        geTotal.push(parseFloat(this.getSku.controls[i].get('tld').value));
+      }
+
+      oee = (oeeTotal.reduce((anterior, actual) => anterior + actual)) / this.getSku.length;
+      this.form.get('oeetotal').setValue(oee.toFixed(2));
+
+      this.form.get('stoppages').valueChanges.subscribe((data: any[]) => {
+        sumPlanned = 0;
+        data.map(val => {
+          this.stoppages.filter(stop => {
+            if (stop.id === val.id) {
+              if ('z' === stop.type) {
+                sumPlanned += (val.minutes * val.times);
+              }
+            }
+          })
+        })
+        ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime[0].time - sumPlanned) * 100;
+        this.form.get('getotal').setValue(ge.toFixed(2));
+      });
+      //En caso de no haber paros plenados calcula calcular con valor 0
+      ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime[0].time - sumPlanned) * 100;
+      this.form.get('getotal').setValue(ge.toFixed(2));
+    })
   }
 
   stoppagesForm(): FormGroup {
@@ -63,40 +113,62 @@ export class LineFormComponent implements OnInit {
     })
   }
 
-  skuForm(): FormGroup{
+  skuForm(): FormGroup {
     return this.fb.group({
       productionTime: ['', Validators.required],
       volume: ['', Validators.required],
       description: ['', Validators.required],
-      waste: ['', Validators.required],
-      retentions: ['', Validators.required],
-      reprocess: ['', Validators.required],
-      stoppages: this.fb.array([ ]),
+      waste: [''],
+      retentions: [''],
+      reprocess: [''],
+      stoppages: this.fb.array([]),
       oee: [''],
       ge: [''],
       tld: [''],
       kgMin: [''],
       kgCj: [''],
-      wasteTime: [''],
+      lossSpeed: [''],
     })
   }
 
+  //Obtiene operadores y productos dependiendo de la linea seleccionada
+
   selectDropDown(select: string) {
-    console.log("Linea seleccionada: ",select);
     this.ds.getOperators().subscribe(
-      operators => this.operators = operators.filter(
-        (operator, i) => {
-          return parseInt(select) === operator.idLine;
-        }
-      )
+      operators => {
+        this.operators = operators.filter(
+          (operator, i) => {
+            return parseInt(select) === operator.idLine;
+          }
+        );
+      }
     );
+
+    this.ds.getProducts().subscribe(
+      products => {
+        this.products = products.filter(
+          (product, i) => {
+            return parseInt(select) === product.idLine;
+          }
+        );
+      }
+    )
   }
 
+  // Obtiene valor del tiempo del turno seleccionado
+  selectDropTurn(select: string) {
+    this.ds.getTurns().subscribe(turns => {
+      this.turnTime = this.turns.filter(turn => parseInt(select) === turn.id);
+    })
+  }
+
+  // Agrega formulario de paro planeado
   addPlannedStoppage(): void {
     this.getStoppages.push(this.stoppagesForm());
   }
 
-  addSku():void{
+  // Agrega formulario para nuevo SKU
+  addSku(): void {
     this.getSku.push(this.skuForm());
   }
 
@@ -106,22 +178,22 @@ export class LineFormComponent implements OnInit {
   }
 
   // Obtiene Linea
-  get getLine(){
+  get getLine() {
     return this.form.get('line');
   }
 
   // Obtiene Operador
-  get getOperator(){
+  get getOperator() {
     return this.form.get('operator');
   }
 
   // Obtiene Turno
-  get getTurn(){
+  get getTurn() {
     return this.form.get('turn');
   }
 
   // Obtiene lista de productos
-  get getSku(){
+  get getSku() {
     return this.form.get('sku') as FormArray;
   }
 
