@@ -18,10 +18,8 @@
 
       <div class="section sub2">
         <mat-form-field>
-          <mat-select placeholder="Selecciona" formControlName="description">
-            <mat-option value="1">Opcion 1</mat-option>
-            <mat-option value="2">Opcion 2</mat-option>
-            <mat-option value="3">Opcion 3</mat-option>
+          <mat-select placeholder="Selecciona" formControlName="description" (selectionChange)="selectDropDown($event.value, i)">
+            <mat-option *ngFor="let sku of products" [value]="sku.id">{{sku.product}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -66,7 +64,7 @@
       </div>
 
       <div class="section sub4">
-          <button class="btn" style="margin-left:15px" (click)="paro(i)" [disabled]="formParent.get('sku').controls[i].get('stoppages').invalid">Paro NO
+          <button class="btn" style="margin-left:15px" (click)="addParo(i)" [disabled]="formParent.get('sku').controls[i].get('stoppages').invalid">Paro NO
               Planeado</button>
       </div>
 
@@ -76,7 +74,7 @@
 
       <div class="section sub6">
         <mat-form-field>
-          <input matInput placeholder="Perdida de tiempo" type="text" readonly formControlName="wasteTime">
+          <input matInput placeholder="Perdida de tiempo" type="text" readonly formControlName="lossSpeed">
         </mat-form-field>
       </div>
     </div>
