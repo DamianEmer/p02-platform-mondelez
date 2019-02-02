@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { OperationsService } from 'src/app/shared/services/operations.service';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-sku-form',
@@ -17,10 +18,14 @@ export class SkuFormComponent implements OnInit {
 
   product: any;
 
-  constructor(private fb: FormBuilder, private operationsServices: OperationsService) { }
+  unplannedStoppages: any[];
+
+  constructor(private fb: FormBuilder, private operationsServices: OperationsService, private ds: DataService) { }
 
   ngOnInit() {
-
+    this.ds.getUnplannedStoppages().subscribe(data=> {
+      this.unplannedStoppages = data;
+    })
   }
 
   stoppagesForm(): FormGroup {
@@ -31,19 +36,24 @@ export class SkuFormComponent implements OnInit {
     })
   }
 
+  //Calculos automaticos cuando seleccione el producto(sku)
+
   selectDropDown(select: string, i: number) {
-    let prodTime;
-    let volume;
-    let tld;
-    let sumUnplanned: number = 0;
-    let sumPlanned: number = 0;
-    let speed;
+    let prodTime;//Tiempo de produccion
+    let volume; //volumen
+    let tld; // Tiempo libre de defecto
+    let sumUnplanned: number = 0; //sumatoria de minutos para paros no planeados
+    let sumPlanned: number = 0; // sumatoria de minutos para paros planeados
+    let speed; // velocidad de produccion
     this.product = this.products.filter(product => select === product.id);
 
-    speed = this.operationsServices.convertionSpeed(this.product[0].kgMin);
-    this.getSku.controls[i].get('kgMin').setValue(speed.toFixed(2));
-    this.getSku.controls[i].get('kgCj').setValue(this.product[0].kgCj);
+    speed = this.operationsServices.convertionSpeed(this.product[0].kgMin);//Se saca el valor de velocidad del productor seleccionado
+    this.getSku.controls[i].get('kgMin').setValue(speed.toFixed(2));// Mostrando informacion de velocidad
+    this.getSku.controls[i].get('kgCj').setValue(this.product[0].kgCj); // Mostrando informacion de kg/caja
 
+    /**Recalcula (TLD, OEE, Perdida de velocidad y GE) Cuando se detectan cambios en los campos 
+      tiempos de produccion y volumen
+    **/
     this.getSku.controls[i].get('productionTime').valueChanges.subscribe(val => {
       prodTime = val;
       this.getSku.controls[i].get('volume').valueChanges.subscribe(val => {
@@ -65,6 +75,7 @@ export class SkuFormComponent implements OnInit {
       this.getSku.controls[i].get('lossSpeed').setValue(this.operationsServices.calcLossSpeed(prodTime, tld, sumUnplanned).toFixed(2));
     });
 
+    /** En caso de agregar un paro planeado recalcula la perdida de velocidad*/
     this.formParent.get('stoppages').valueChanges.subscribe((data: any[]) => {
       sumPlanned = 0;
       data.map(val => {
@@ -74,6 +85,7 @@ export class SkuFormComponent implements OnInit {
     });
   }
 
+  //Agrega nuevo pare no planeado al SKU
   addParo(i: number) {
     (<FormArray>this.getSku.controls[i].get('stoppages')).push(this.stoppagesForm());
   }

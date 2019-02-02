@@ -85,15 +85,39 @@ export class DataService {
     let stoppages: any[] = [
       {
         id:1,
+        type: 'z',
         name: 'Dias Festivos'
       },
       {
         id:2,
+        type: 'z',
         name: 'Dias acordados por el sindicato'
       },
       {
         id:3,
+        type: 'p',
         name: 'Programa cumplido - no demanda'
+      }
+    ];
+
+    return Observable.create( observer => {
+      observer.next(stoppages);
+    })
+  }
+
+  getUnplannedStoppages(): Observable<any[]>{
+    let stoppages: any[] = [
+      {
+        id:1,
+        name: 'Option 1'
+      },
+      {
+        id:2,
+        name: 'Option 2'
+      },
+      {
+        id:3,
+        name: 'Option 3'
       }
     ];
 

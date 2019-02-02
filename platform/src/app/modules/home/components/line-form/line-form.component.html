@@ -62,7 +62,6 @@
           </div>
           <div class="field actions">
             <button class="btn" [disabled]="form.invalid" type="submit">Guardar</button>
-            <button class="btn" [disabled]="form.invalid" type="button" (click)="onTotalCal()">Calcular</button>
           </div>
         </div>
       </form>
@@ -75,7 +74,7 @@
           Planeado</button>
       </div>
       <div class="fields-stoppages">
-        <app-stoppages-form [form]="form"></app-stoppages-form>
+        <app-stoppages-form [form]="form" [stoppages]="stoppages"></app-stoppages-form>
       </div>
     </div>
   </div>

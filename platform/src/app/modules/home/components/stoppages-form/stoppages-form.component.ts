@@ -10,11 +10,7 @@ export class StoppagesFormComponent implements OnInit {
 
   @Input() form: FormGroup;
 
-  descriptions: any[ ] = [
-    { id: 1, value: 'opcion1'},
-    { id: 2, value: 'opcion2'},
-    { id: 3, value: 'opcion3'}
-  ]
+  @Input() stoppages: any[];
 
   constructor() { }
 

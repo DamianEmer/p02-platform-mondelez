@@ -60,38 +60,49 @@ export class LineFormComponent implements OnInit {
       }
     )
 
+    this.onTotalCal(); // Metodo con observable interno para detectar cambios en cada SKU y recalcular valores totales
+
   }
 
   onSave() {
     console.log(this.form.value);
-    //this.form.reset();
   }
 
   onTotalCal() {
-    let oeeTotal: any[] = [];
-    let geTotal: any[] = [];
-    let sumPlanned = 0;
-    let oee = 0;
-    let ge = 0;
-    for (let i = 0; i <= this.getSku.length - 1; i++) {
-      console.log('itera: '+i)
-      oeeTotal.push(this.getSku.controls[i].get('oee').value);
-      geTotal.push(this.getSku.controls[i].get('tld').value);
-    }
-    oee = (oeeTotal.reduce((anterior, actual) => anterior + actual)) / this.getSku.length;
-    console.log("oee", oeeTotal.reduce((anterior, actual) => anterior + actual));
-    this.form.get('oeetotal').setValue(oee.toFixed(2));
+    this.getSku.valueChanges.subscribe(data => {
+      let oeeTotal: any[] = [];
+      let geTotal: any[] = [];
+      let sumPlanned = 0;
+      let oee = 0;
+      let ge = 0;
 
-    this.form.get('stoppages').valueChanges.subscribe((data: any[]) => {
-      sumPlanned = 0;
-      data.map(val => {
-        sumPlanned += (val.minutes * val.times);
-      })
-    });
+      for (let i = 0; i <= this.getSku.length - 1; i++) {
+        console.log('itera: ' + i)
+        oeeTotal.push(parseFloat(this.getSku.controls[i].get('oee').value));
+        geTotal.push(parseFloat(this.getSku.controls[i].get('tld').value));
+      }
 
-    ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime[0].time - sumPlanned)*100;
-    console.log("ge",geTotal);
-    this.form.get('getotal').setValue(ge.toFixed(2));
+      oee = (oeeTotal.reduce((anterior, actual) => anterior + actual)) / this.getSku.length;
+      this.form.get('oeetotal').setValue(oee.toFixed(2));
+
+      this.form.get('stoppages').valueChanges.subscribe((data: any[]) => {
+        sumPlanned = 0;
+        data.map(val => {
+          this.stoppages.filter(stop => {
+            if (stop.id === val.id) {
+              if ('z' === stop.type) {
+                sumPlanned += (val.minutes * val.times);
+              }
+            }
+          })
+        })
+        ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime[0].time - sumPlanned) * 100;
+        this.form.get('getotal').setValue(ge.toFixed(2));
+      });
+      //En caso de no haber paros plenados calcula calcular con valor 0
+      ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime[0].time - sumPlanned) * 100;
+      this.form.get('getotal').setValue(ge.toFixed(2));
+    })
   }
 
   stoppagesForm(): FormGroup {
@@ -120,10 +131,9 @@ export class LineFormComponent implements OnInit {
     })
   }
 
-  //Obtiene valores dependiendo de la linea seleccionada
+  //Obtiene operadores y productos dependiendo de la linea seleccionada
 
   selectDropDown(select: string) {
-    // console.log("Linea seleccionada: ",select);
     this.ds.getOperators().subscribe(
       operators => {
         this.operators = operators.filter(
