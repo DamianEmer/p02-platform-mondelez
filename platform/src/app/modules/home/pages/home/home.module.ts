@@ -4,10 +4,7 @@ import { LineFormModule } from '../../components/line-form/line-form.module';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: HomeComponent
-    }
+    { path: '', component: HomeComponent }
 ]
 
 const COMMON_DECLARATIONS = [
