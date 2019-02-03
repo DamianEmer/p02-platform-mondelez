@@ -3,8 +3,17 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
     {
-        path:'home',
+        path: 'home',
         loadChildren: './modules/home/pages/home/home.module#HomeModule'
+    },
+    {
+        path: 'report',
+        loadChildren: './modules/home/pages/report/report.module#ReportModule'
+    },
+    { 
+        path: '', 
+        redirectTo: 'home', 
+        pathMatch: 'full' 
     }
 ]
 
@@ -13,4 +22,4 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 
-export class AppRoutingModule {}
+export class AppRoutingModule { }
