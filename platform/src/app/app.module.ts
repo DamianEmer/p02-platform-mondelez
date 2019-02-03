@@ -3,8 +3,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HomeModule } from './modules/home/pages/home/home.module';
+// import { HomeModule } from './modules/home/pages/home/home.module';
 import { OperationsService } from './shared/services/operations.service';
+import { ReportModule } from './modules/home/pages/report/report.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { OperationsService } from './shared/services/operations.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HomeModule
+    ReportModule
   ],
   providers: [OperationsService],
   bootstrap: [AppComponent]

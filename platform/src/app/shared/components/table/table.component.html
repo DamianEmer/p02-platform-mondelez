@@ -1,0 +1,8 @@
+<table>
+  <thead>
+    <app-row-header [header_columns]="header_columns"></app-row-header>
+  </thead>
+  <tbody>
+    <app-row-info *ngFor="let di of info" [info]="di"></app-row-info>
+  </tbody>
+</table>
