@@ -5,7 +5,10 @@ import { RowInfoComponent } from './row-info/row-info.component';
 import { RowHeaderComponent } from './row-header/row-header.component';
 import { RowResultsComponent } from './row-results/row-results.component';
 
-import {MatTableModule} from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+import { ModalChartModule } from '../modal-chart/modal-chart.module';
+
 
 const COMMON_DECLARATIONS = [
     TableComponent,
@@ -16,7 +19,9 @@ const COMMON_DECLARATIONS = [
 
 const COMMON_IMPORTS = [
     CommonModule,
-    MatTableModule
+    MatButtonModule,
+    MatDialogModule,
+    ModalChartModule
 ];
 
 @NgModule({

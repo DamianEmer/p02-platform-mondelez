@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {MatDialog} from '@angular/material';
+import { ModalChartComponent } from '../../modal-chart/modal-chart.component';
 
 @Component({
   selector: 'app-row-info',
@@ -9,10 +11,9 @@ export class RowInfoComponent implements OnInit {
 
   @Input()info: any = {};
 
-  constructor() { }
+  constructor( public dialog: MatDialog ) { }
 
   ngOnInit() {
-    // console.log("row-info: ", this.info);
   }
 
   calc(turns: any[]):number {
@@ -24,6 +25,14 @@ export class RowInfoComponent implements OnInit {
         divder++;
     })
     return (avg/divder);
+  }
+
+  showChart(turns: any[]){
+    this.dialog.open(ModalChartComponent, {
+      data: {
+        info: turns
+      }
+    });
   }
 
 }

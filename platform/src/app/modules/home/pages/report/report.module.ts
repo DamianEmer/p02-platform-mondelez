@@ -3,11 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReportComponent } from './report.component';
 import { SearchFormModule } from '../../components/search-form/search-form.module';
 
-import {MatTableModule} from '@angular/material/table';
 import { ReportsService } from 'src/app/shared/services/reports.service';
 import { CommonModule } from '@angular/common';
 import { SpecialTableModule } from 'src/app/shared/components/special-table/special-table.module';
 import { TableModule } from 'src/app/shared/components/table/table.module';
+import { TableLineModule } from 'src/app/shared/components/table-line/table-line.module';
 
 const routes: Routes = [
     { path: '', component: ReportComponent }
@@ -22,7 +22,7 @@ const COMMON_IMPORTS = [
     SearchFormModule,
     SpecialTableModule,
     TableModule,
-    MatTableModule
+    TableLineModule
 ];
 
 @NgModule({

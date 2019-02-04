@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { OperationsService } from './shared/services/operations.service';
 import { ReportModule } from './modules/home/pages/report/report.module';
 
+import { ChartModule } from 'angular-highcharts';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -14,7 +16,8 @@ import { ReportModule } from './modules/home/pages/report/report.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ReportModule
+    ReportModule,
+    ChartModule
   ],
   providers: [OperationsService],
   bootstrap: [AppComponent]

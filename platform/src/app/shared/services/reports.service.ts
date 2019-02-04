@@ -115,7 +115,7 @@ info_week = [
     {
         line: 'Hart 1',
         dates: [
-            {id: 1, value: 100},
+            {id: 1, value: 0},
             {id: 2, value: 99},
             {id: 3, value: 95},
             {id: 4, value: 85},
@@ -136,7 +136,7 @@ info_week = [
             {id: 4, value: 98},
             {id: 5, value: 95},
             {id: 6, value: 99},
-            {id: 7, value: 97},
+            {id: 7, value: null},
         ],
         volplan: 2000,
         volreal: 4000,
@@ -152,6 +152,21 @@ info_week = [
             {id: 5, value: 95},
             {id: 6, value: 85},
             {id: 7, value: 90},
+        ],
+        volplan: 4000,
+        volreal: 8000,
+        kgvar: 9000
+    },
+    {
+        line: 'Nueva linea',
+        dates: [
+            {id: 1, value: 0},
+            {id: 2, value: 0},
+            {id: 3, value: 0},
+            {id: 4, value: 0},
+            {id: 5, value: 0},
+            {id: 6, value: 0},
+            {id: 7, value: 0},
         ],
         volplan: 4000,
         volreal: 8000,

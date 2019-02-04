@@ -7,46 +7,47 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RowResultsComponent implements OnInit {
 
-  @Input()data: any[];
+  @Input() data: any[];
 
-  resultsByColumn : number[] = [];
+  resultsByColumn: number[] = [];
 
   avgByRow: number[] = [];
 
   contadores: number[] = [];
 
-  constructor() { 
+  constructor() {
   }
 
   ngOnInit() {
     this.avgByDay();
   }
 
-  avgByDay(){
+  avgByDay() {
     let sum: number = 0;
-    let acum: number = 0; // contabiliza aquellos campos que tengan valor en el arreglo de dias/semanas
-    let acum2: number = 0; // contabiliza aquellos campos que tengan valor
     let sumvolplan: number = 0;
     let sumvolreal: number = 0;
     let sumkgvar: number = 0;
-    this.data.map((obj, i )=> {
+    this.data.map((obj, i) => {
 
-      sumvolplan+=obj.volplan;
-      sumvolreal+=obj.volreal;
-      sumkgvar+=obj.kgvar;
+      sumvolplan += obj.volplan;
+      sumvolreal += obj.volreal;
+      sumkgvar += obj.kgvar;
 
       obj.dates.map((date, j) => {
-        sum += date.value;
-        (date.value != null || date.value > 0 )? acum++ : acum;
-        (i==0)? this.resultsByColumn.push(date.value): this.resultsByColumn[j]+=date.value;
+        sum+=date.value
+        if (i == 0) {
+          (date.value != null && date.value != 0)?this.contadores.push(1):this.contadores.push(0);
+          this.resultsByColumn.push(date.value);
+        } else {
+          (date.value != null && date.value != 0)?this.contadores[j]+=1:this.contadores[j]+=0;
+          this.resultsByColumn[j] += date.value;
+        }
       });
     });
-    this.resultsByColumn.push(sum);  
+    this.resultsByColumn.push(sum);
     this.resultsByColumn.push(sumvolplan);
     this.resultsByColumn.push(sumvolreal);
-    this.resultsByColumn.push(sumkgvar); 
-    console.log("Suma Column : ", this.resultsByColumn);
-    console.log("Suma Row : ", sum);
+    this.resultsByColumn.push(sumkgvar);
   }
 
 }
