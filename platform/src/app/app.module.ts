@@ -3,9 +3,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-// import { HomeModule } from './modules/home/pages/home/home.module';
 import { OperationsService } from './shared/services/operations.service';
-import { ReportModule } from './modules/home/pages/report/report.module';
+
+import { AppRoutingModule } from "./app-routing.module";
 
 import { ChartModule } from 'angular-highcharts';
 
@@ -16,8 +16,8 @@ import { ChartModule } from 'angular-highcharts';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ReportModule,
-    ChartModule
+    ChartModule,
+    AppRoutingModule
   ],
   providers: [OperationsService],
   bootstrap: [AppComponent]

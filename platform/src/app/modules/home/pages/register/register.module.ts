@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
-import { HomeComponent } from './home.component';
+import { RegisterComponent } from './register.component';
 import { LineFormModule } from '../../components/line-form/line-form.module';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent }
+    { path: '', component: RegisterComponent }
 ]
 
 const COMMON_DECLARATIONS = [
-    HomeComponent
+    RegisterComponent
 ]
 
 const COMMON_IMPORTS = [ 
@@ -21,4 +21,4 @@ const COMMON_IMPORTS = [
     exports: COMMON_DECLARATIONS
 })
 
-export class HomeModule { }
+export class RegisterModule { }
