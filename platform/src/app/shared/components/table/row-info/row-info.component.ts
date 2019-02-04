@@ -12,7 +12,18 @@ export class RowInfoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("row-info: ", this.info);
+    // console.log("row-info: ", this.info);
+  }
+
+  calc(turns: any[]):number {
+    let avg = 0;
+    let divder = 0;
+    turns.map(data => {
+      avg+=data.value
+      if(data.value != null && data.value != 0)
+        divder++;
+    })
+    return (avg/divder);
   }
 
 }

@@ -18,13 +18,21 @@ export class ReportComponent implements OnInit {
     "Total Semana", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val", "Gráfica"
   ]
 
+  header_columns_weeks: string[] = [
+    "Linea", "W1", "W2", "W3", "W4", "W5", 
+    "Total Mensual", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val", "Gráfica"
+  ]
+
   data_info: any[];
+
+  data_info_weeks: any[];
 
   constructor(private reportService : ReportsService) {    }
 
   ngOnInit() {
     this.dataSource = this.reportService.getData();
     this.data_info = this.reportService.getInfoWeek();
+    this.data_info_weeks = this.reportService.getInfoWeeks();
   }
 
 

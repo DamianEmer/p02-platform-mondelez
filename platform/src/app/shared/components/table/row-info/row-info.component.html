@@ -1,14 +1,24 @@
 <tr>
   <td> {{info.line}} </td>
-  <td> {{info.monday}} </td>
-  <td> {{info.tuesday}} </td>
-  <td> {{info.wednesday}} </td>
-  <td> {{info.thursday}} </td>
-  <td> {{info.friday}} </td>
-  <td> {{info.saturday}} </td>
-  <td> {{info.sunday}} </td>
-  <td>  Promedio semana </td>
+
+  <td *ngFor="let date of info.dates"
+  [ngClass]="{
+    'b-green': (date.value >= 95),
+    'b-red': (date.value &#60; 95),
+    'b-null': (date.value == null || date.value == 0)
+  }">
+    {{date.value}}
+  </td>
+
+  <td 
+  [ngClass]="{
+    'b-green': (calc(info.dates) >= 95),
+    'b-red': (calc(info.dates) &#60; 95),
+    'b-null': (calc(info.dates) == null || calc(info.dates) == 0)
+  }"> {{calc(info.dates) | number:'1.1-2'}} </td>
+  
   <td> {{info.volplan}} </td>
   <td> {{info.volreal}} </td>
   <td> {{info.kgvar}} </td>
+  <td> grafica </td>
 </tr>
