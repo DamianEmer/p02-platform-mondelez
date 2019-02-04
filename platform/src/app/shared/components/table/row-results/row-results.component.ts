@@ -7,13 +7,15 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RowResultsComponent implements OnInit {
 
-  @Input() data: any[];
+  @Input() data: any[]; // Data para avaluar
 
-  resultsByColumn: number[] = [];
+  resultsByColumn: number[] = []; // Almacena sumatorias por columna
 
-  avgByRow: number[] = [];
+  avgByRow: number[] = []; // Almacena promedio por fila
 
-  contadores: number[] = [];
+  avgByColumn: number[] = []; // Almacena promedio por columna
+
+  contadores: number[] = []; // Almacena contadores de numero de valores por columna para promediar
 
   constructor() {
   }
@@ -23,18 +25,23 @@ export class RowResultsComponent implements OnInit {
   }
 
   avgByDay() {
-    let sum: number = 0;
     let sumvolplan: number = 0;
     let sumvolreal: number = 0;
     let sumkgvar: number = 0;
-    this.data.map((obj, i) => {
+    
+    let acumTotalHorizontal: number = 0;
+    let sumHorizontal: number = 0;
+
+    this.data.map((obj, i) => {   
 
       sumvolplan += obj.volplan;
       sumvolreal += obj.volreal;
       sumkgvar += obj.kgvar;
 
-      obj.dates.map((date, j) => {
-        sum+=date.value
+      sumHorizontal += this.calc(obj.dates);
+      (this.calc(obj.dates) != 0)?acumTotalHorizontal++ : acumTotalHorizontal;
+
+      obj.dates.map((date, j) => {        
         if (i == 0) {
           (date.value != null && date.value != 0)?this.contadores.push(1):this.contadores.push(0);
           this.resultsByColumn.push(date.value);
@@ -44,10 +51,30 @@ export class RowResultsComponent implements OnInit {
         }
       });
     });
-    this.resultsByColumn.push(sum);
+    this.contadores.push(acumTotalHorizontal);
+    this.resultsByColumn.push(sumHorizontal);
     this.resultsByColumn.push(sumvolplan);
     this.resultsByColumn.push(sumvolreal);
     this.resultsByColumn.push(sumkgvar);
+    this.avgTotalByColumn();
+  }
+
+  calc(turns: any[]):number {
+    let avg = 0;
+    let divder = 0;
+    turns.map(data => {
+      avg+=data.value
+      if(data.value != null && data.value != 0)
+        divder++;
+    })
+    return (divder == 0)? 0: (avg/divder);
+  }
+
+  avgTotalByColumn():void{
+    this.resultsByColumn.map((value, i) => {
+      (i <= this.contadores.length-1)? 
+        this.avgByColumn.push((value/this.contadores[i])): this.avgByColumn.push(value)
+    });
   }
 
 }
