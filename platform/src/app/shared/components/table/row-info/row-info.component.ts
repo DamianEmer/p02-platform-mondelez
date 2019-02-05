@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import { ModalChartComponent } from '../../modal-chart/modal-chart.component';
 
@@ -11,9 +11,14 @@ export class RowInfoComponent implements OnInit {
 
   @Input()info: any = {};
 
+  @Output() valueAvg = new EventEmitter();
+
+  avg: number;
+
   constructor( public dialog: MatDialog ) { }
 
-  ngOnInit() {
+  ngOnInit() { 
+    this.avg = this.calc(this.info.dates);
   }
 
   calc(turns: any[]):number {
@@ -23,14 +28,17 @@ export class RowInfoComponent implements OnInit {
       avg+=data.value
       if(data.value != null && data.value != 0)
         divder++;
-    })
+    });
+    (divder != 0)? 
+      this.valueAvg.emit({line: this.info.line, avg: avg/divder}) 
+      : this.valueAvg.emit({line: this.info.line, avg: 0});
     return (avg/divder);
   }
 
   showChart(turns: any[]){
     this.dialog.open(ModalChartComponent, {
       data: {
-        info: turns
+        info: turns.map(v => v.value)
       }
     });
   }

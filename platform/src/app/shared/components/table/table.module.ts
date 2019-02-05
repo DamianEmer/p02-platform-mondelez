@@ -5,8 +5,8 @@ import { RowInfoComponent } from './row-info/row-info.component';
 import { RowHeaderComponent } from './row-header/row-header.component';
 import { RowResultsComponent } from './row-results/row-results.component';
 
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { ModalChartModule } from '../modal-chart/modal-chart.module';
 
 

@@ -12,13 +12,12 @@
 
   <td 
   [ngClass]="{
-    'b-green': (calc(info.dates) >= 95),
-    'b-red': (calc(info.dates) &#60; 95),
-    'b-null': (calc(info.dates) == null || calc(info.dates) == 0)
-  }"> {{calc(info.dates) | number:'1.1-2'}} </td>
+    'b-green': (avg >= 95),
+    'b-red': (avg &#60; 95),
+    'b-null': (avg == null || avg == 0)
+  }"> {{avg | number:'1.1-2'}} </td>
   
   <td> {{info.volplan}} </td>
   <td> {{info.volreal}} </td>
   <td> {{info.kgvar}} </td>
-  <td> <button mat-button color="primary" (click)="showChart(info.dates)">Grafico</button> </td>
 </tr>

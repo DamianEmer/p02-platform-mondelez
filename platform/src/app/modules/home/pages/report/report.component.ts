@@ -15,12 +15,12 @@ export class ReportComponent implements OnInit {
 
   header_columns_week: string[] = [
     "Linea", "Lunes", "Martes", "Miercoles", "Jueves","Viernes", "Sabado", "Domingo",
-    "Total Semana", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val", "Gráfica"
+    "Total Semana", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val"
   ]
 
   header_columns_weeks: string[] = [
     "Linea", "W1", "W2", "W3", "W4", "W5", 
-    "Total Mensual", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val", "Gráfica"
+    "Total Mensual", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val"
   ]
 
   data_info: any[];

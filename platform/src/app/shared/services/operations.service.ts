@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { arrayMax } from 'highcharts';
 
 @Injectable({
   providedIn: 'root'
