@@ -184,9 +184,9 @@ info_weeks = [
             {id: 4, value: 85},
             {id: 5, value: 99},
         ],
-        volplan: 5555,
-        volreal: 29565,
-        kgvar: 15489
+        volplan: 846,
+        volreal: 295,
+        kgvar: 1547
     },
     {
         line: 'Hart 2',
@@ -197,9 +197,9 @@ info_weeks = [
             {id: 4, value: 70},
             {id: 5, value: 85},
         ],
-        volplan: 6666,
-        volreal: 29615,
-        kgvar: 15899
+        volplan: 666,
+        volreal: 2965,
+        kgvar: 1589
     },
     {
         line: 'Hart 3',
@@ -210,9 +210,9 @@ info_weeks = [
             {id: 4, value: 80},
             {id: 5, value: 85},
         ],
-        volplan: 7777,
-        volreal: 8975,
-        kgvar: 13215
+        volplan: 777,
+        volreal: 895,
+        kgvar: 135
     }
 ]
 

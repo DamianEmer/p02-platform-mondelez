@@ -11,11 +11,17 @@ export class ModalChartComponent implements OnInit {
 
   constructor( @Inject(MAT_DIALOG_DATA) public data: any ) { }
 
-  ngOnInit() {  }
+  ngOnInit() { 
+    console.log("names: ",this.data.names);
+    console.log("info: ",this.data.info);
+   }
 
    chart = new Chart({
     chart: {
-      type: 'line'
+      type: 'column'
+    },
+    xAxis: {
+      categories: this.data.names.map( value => value)
     },
     title: {
       text: 'Linechart'
@@ -26,7 +32,7 @@ export class ModalChartComponent implements OnInit {
     series: [
       {
         name: 'Line 1',
-        data: this.data.info.map(v=> v.value)
+        data: this.data.info.map(val => val)
       } as Highcharts.SeriesColumnOptions
     ]
   });

@@ -77,4 +77,13 @@ export class RowResultsComponent implements OnInit {
     });
   }
 
+  // showChart(turns: any[]){
+  //   this.dialog.open(ModalChartComponent, {
+  //     data: {
+  //       info: turns
+  //     }
+  //   });
+  // }
+
+
 }
