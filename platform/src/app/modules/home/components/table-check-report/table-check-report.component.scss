@@ -1,0 +1,37 @@
+table { 
+
+  td,
+  th {
+    border-top: 1px solid;
+    text-align: center;
+    height: 40px;
+  }
+}
+
+
+.container-table{
+  display: flex;
+  flex-direction: row;
+
+  .left-area{
+    width: 20%;
+    .left-area-table {
+      width: 100%;
+
+    }
+  }
+  .right-area{
+    width: 80%;
+    overflow: scroll;
+    .right-area-table {
+      width: 100%;
+
+      .columns {
+        .header_column {
+          min-width: 185px;
+        }
+      }
+    }
+  }
+
+}
