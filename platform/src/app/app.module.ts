@@ -3,7 +3,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HomeModule } from './modules/home/pages/home/home.module';
+import { OperationsService } from './shared/services/operations.service';
+
+import { AppRoutingModule } from "./app-routing.module";
+
+import { ChartModule } from 'angular-highcharts';
 
 @NgModule({
   declarations: [
@@ -12,9 +16,10 @@ import { HomeModule } from './modules/home/pages/home/home.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HomeModule
+    ChartModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [OperationsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

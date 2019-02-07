@@ -1,0 +1,19 @@
+<form [formGroup]="searchForm" class="fields" (ngSubmit)="onSearch()">
+    <div class="field">
+      <mat-form-field>
+        <input matInput placeholder="semana" type="number" min="1" max="52" formControlName="week">
+      </mat-form-field>
+    </div>
+    
+    <div class="field">
+        <mat-form-field>
+            <mat-select placeholder="Selecciona una linea" formControlName="line">
+                <mat-option *ngFor="let l of lines" [value]="l.id">{{l.name}}</mat-option>
+              </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <div class="field">
+        <button mat-raised-button color="primary" type="submit">Buscar</button>
+      </div>
+  </form>

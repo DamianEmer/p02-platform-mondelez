@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { StoppagesFormModule } from '../stoppages-form/stoppages-form.module';
 
 const COMMON_DECLARATIONS = [
     SkuFormComponent
@@ -15,7 +16,8 @@ const COMMON_DECLARATIONS = [
 const COMMON_IMPORTS = [
     ReactiveFormsModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    StoppagesFormModule
 ]
 
 const COMMON_IMPORTS_MATERIAL = [

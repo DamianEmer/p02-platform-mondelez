@@ -2,12 +2,12 @@
 
   <div class="section-1">
     <div class="subsection-1">
-      <form [formGroup]="form">
+      <form [formGroup]="form" (ngSubmit)="onSave()">
         <div class="fields">
           <div class="field">
             <label>Elige la linea</label>
             <mat-select formControlName="line" placeholder="Selecciona" (selectionChange)="selectDropDown($event.value)">
-              <mat-option *ngFor="let line of lines; let i=index" [value]="line.key">{{line.name}}</mat-option>
+              <mat-option *ngFor="let line of lines; let i=index" [value]="line.id">{{line.name}}</mat-option>
             </mat-select>
             <div class="error-container" *ngIf="getLine.invalid && (getTurn.dirty || getTurn.touched)">
               <h6 *ngIf="getLine.errors.required">Es necesario la seleccion</h6>
@@ -29,10 +29,8 @@
         <div class="fields">
           <div class="field">
             <label>Elige el turno</label>
-            <mat-select formControlName="turn" placeholder="Selecciona">
-              <mat-option value="1">Turno1-480min</mat-option>
-              <mat-option value="2">Turno2-450min</mat-option>
-              <mat-option value="3">Turno3-510min</mat-option>
+            <mat-select formControlName="turn" placeholder="Selecciona" (selectionChange)="selectDropTurn($event.value)">
+              <mat-option *ngFor="let turn of turns" [value]="turn.id">{{turn.id}}- {{turn.time}}</mat-option>
             </mat-select>
             <div class="error-container" *ngIf="getTurn.invalid && (getTurn.dirty || getTurn.touched)">
               <h6 *ngIf="getTurn.errors.required">Es necesario la seleccion</h6>
@@ -49,28 +47,47 @@
         </div>
 
         <div class="fields">
-          <form [formGroup]="formTotal">
-            <div class="field">
+
+          <div class="field results">
+            <div>
               <mat-form-field>
-                <input type="text" readonly matInput placeholder="OEE Total (%)">
+                <input type="text" readonly matInput placeholder="OEE Total (%)" formControlName="oeetotal">
               </mat-form-field>
             </div>
-            <div class="field">
+            <div>
               <mat-form-field>
-                <input type="text" readonly matInput placeholder="GE Total (%)">
+                <input type="text" readonly matInput placeholder="GE Total (%)" formControlName="getotal">
               </mat-form-field>
             </div>
-          </form>
+          </div>
+          <div class="field actions">
+            <button class="btn" [disabled]="form.invalid" type="submit">Guardar</button>
+          </div>
         </div>
       </form>
     </div>
 
 
     <div class="subsection-2">
-
+      <div class="fields">
+        <button class="btn" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro
+          Planeado</button>
+      </div>
+      <div class="fields-stoppages">
+        <app-stoppages-form [form]="form" [stoppages]="stoppages"></app-stoppages-form>
+      </div>
     </div>
   </div>
 
-  {{form.value | json}}
+  <div class="section-2">
+    <div class="fields">
+      <button class="btn" style="margin-left:15px" (click)="addSku()" [disabled]="form.get('sku').invalid">SKU</button>
+    </div>
+    <div style="overflow-x:scroll">
+      <app-sku-form [formParent]="form" [products]=products [turnTime]=turnTime></app-sku-form>
+    </div>
+  </div>
+
+  <!-- {{form.value | json}} -->
 
 </div>

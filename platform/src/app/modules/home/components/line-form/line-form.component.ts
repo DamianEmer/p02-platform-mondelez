@@ -11,13 +11,17 @@ export class LineFormComponent implements OnInit {
 
   form: FormGroup;
 
-  formTotal: FormGroup;
+  turns: any[];
 
-  lines: number[];
+  lines: any[];
 
   operators: any[];
 
   stoppages: any[];
+
+  products: any[];
+
+  turnTime: any;
 
   constructor(private fb: FormBuilder, private ds: DataService) {
 
@@ -26,32 +30,23 @@ export class LineFormComponent implements OnInit {
       operator: ['', Validators.required],
       turn: ['', Validators.required],
       date: ['', Validators.required],
-      scheduleStoppages: this.fb.array([
-        
-      ]),
+      stoppages: this.fb.array([]),
       sku: this.fb.array([
-        this.fb.group({
-          productionTime: ['', Validators.required],
-          volume: ['', Validators.required],
-          description: ['', Validators.required],
-          waste: ['', Validators.required],
-          retentions: ['', Validators.required],
-          reprocess: ['', Validators.required],
-          ocurrences: this.fb.array([
-            
-          ])
-        })
-      ])
-    });
-
-    this.formTotal = this.fb.group({
-      OEETotal: [''],
-      GETotal: ['']
+        this.skuForm()
+      ]),
+      oeetotal: [''],
+      getotal: ['']
     });
 
   }
 
   ngOnInit() {
+
+    this.ds.getTurns().subscribe(
+      turns => {
+        this.turns = turns;
+      }
+    )
 
     this.ds.getLines().subscribe(
       lines => {
@@ -65,9 +60,52 @@ export class LineFormComponent implements OnInit {
       }
     )
 
+    this.onTotalCal(); // Metodo con observable interno para detectar cambios en cada SKU y recalcular valores totales
+
   }
 
-  addStoppagesForm(): FormGroup {
+  onSave() {
+    console.log(this.form.value);
+  }
+
+  onTotalCal() {
+    this.getSku.valueChanges.subscribe(data => {
+      let oeeTotal: any[] = [];
+      let geTotal: any[] = [];
+      let sumPlanned = 0;
+      let oee = 0;
+      let ge = 0;
+
+      for (let i = 0; i <= this.getSku.length - 1; i++) {
+        console.log('itera: ' + i)
+        oeeTotal.push(parseFloat(this.getSku.controls[i].get('oee').value));
+        geTotal.push(parseFloat(this.getSku.controls[i].get('tld').value));
+      }
+
+      oee = (oeeTotal.reduce((anterior, actual) => anterior + actual)) / this.getSku.length;
+      this.form.get('oeetotal').setValue(oee.toFixed(2));
+
+      this.form.get('stoppages').valueChanges.subscribe((data: any[]) => {
+        sumPlanned = 0;
+        data.map(val => {
+          this.stoppages.filter(stop => {
+            if (stop.id === val.id) {
+              if ('z' === stop.type) {
+                sumPlanned += (val.minutes * val.times);
+              }
+            }
+          })
+        })
+        ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime[0].time - sumPlanned) * 100;
+        this.form.get('getotal').setValue(ge.toFixed(2));
+      });
+      //En caso de no haber paros plenados calcula calcular con valor 0
+      ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime[0].time - sumPlanned) * 100;
+      this.form.get('getotal').setValue(ge.toFixed(2));
+    })
+  }
+
+  stoppagesForm(): FormGroup {
     return this.fb.group({
       id: [''],
       minutes: ['', Validators.required],
@@ -75,39 +113,88 @@ export class LineFormComponent implements OnInit {
     })
   }
 
+  skuForm(): FormGroup {
+    return this.fb.group({
+      productionTime: ['', Validators.required],
+      volume: ['', Validators.required],
+      description: ['', Validators.required],
+      waste: [''],
+      retentions: [''],
+      reprocess: [''],
+      stoppages: this.fb.array([]),
+      oee: [''],
+      ge: [''],
+      tld: [''],
+      kgMin: [''],
+      kgCj: [''],
+      lossSpeed: [''],
+    })
+  }
+
+  //Obtiene operadores y productos dependiendo de la linea seleccionada
+
   selectDropDown(select: string) {
-    console.log("Linea seleccionada: ",select);
     this.ds.getOperators().subscribe(
-      operators => this.operators = operators.filter(
-        (operator, i) => {
-          return parseInt(select) === operator.idLine;
-        }
-      )
+      operators => {
+        this.operators = operators.filter(
+          (operator, i) => {
+            return parseInt(select) === operator.idLine;
+          }
+        );
+      }
     );
+
+    this.ds.getProducts().subscribe(
+      products => {
+        this.products = products.filter(
+          (product, i) => {
+            return parseInt(select) === product.idLine;
+          }
+        );
+      }
+    )
   }
 
-  addStoppageClick(): void {
-    this.getScheduleStoppages.push(this.addStoppagesForm());
+  // Obtiene valor del tiempo del turno seleccionado
+  selectDropTurn(select: string) {
+    this.ds.getTurns().subscribe(turns => {
+      this.turnTime = this.turns.filter(turn => parseInt(select) === turn.id);
+    })
   }
 
-  get getScheduleStoppages() {
-    return this.form.get('scheduleStoppages') as FormArray
+  // Agrega formulario de paro planeado
+  addPlannedStoppage(): void {
+    this.getStoppages.push(this.stoppagesForm());
   }
 
-  get getLine(){
+  // Agrega formulario para nuevo SKU
+  addSku(): void {
+    this.getSku.push(this.skuForm());
+  }
+
+  // Obtiene paros pleaneados
+  get getStoppages() {
+    return this.form.get('stoppages') as FormArray
+  }
+
+  // Obtiene Linea
+  get getLine() {
     return this.form.get('line');
   }
 
-  get getOperator(){
+  // Obtiene Operador
+  get getOperator() {
     return this.form.get('operator');
   }
 
-  get getTurn(){
+  // Obtiene Turno
+  get getTurn() {
     return this.form.get('turn');
   }
 
-  get getId(){
-    return this.getScheduleStoppages.get('id');
+  // Obtiene lista de productos
+  get getSku() {
+    return this.form.get('sku') as FormArray;
   }
 
 }
