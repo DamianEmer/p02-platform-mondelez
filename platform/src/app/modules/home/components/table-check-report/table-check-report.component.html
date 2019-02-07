@@ -1,0 +1,97 @@
+<div class="container-table">
+  <div class="left-area">
+    <table class="left-area-table">
+      <thead>
+        <tr>
+          <th>1</th>
+          <th>2</th>
+        </tr>
+        <tr>
+          <th>-</th>
+          <th>-</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let day of days">
+        <tr>
+          <th rowspan="8">{{day}}</th>
+          <th>Linea</th>
+        </tr>
+        <tr>
+          <th>91</th>
+        </tr>
+        <tr>
+          <th>-</th>
+        </tr>
+        <tr>
+          <th>92</th>
+        </tr>
+        <tr>
+          <th>-</th>
+        </tr>
+        <tr>
+          <th>93</th>
+        </tr>
+        <tr>
+          <th>-</th>
+        </tr>
+        <tr>
+          <th>94</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="right-area">
+    <table class="right-area-table">
+      <thead>
+        <tr class="columns">
+          <th class="header_column" *ngFor="let title of titles">{{title}}</th>
+        </tr>
+        <tr>
+          <th *ngFor="let subtitle of subtitles">{{subtitle}}</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let data of report.days">
+        <tr *ngFor="let da of data.lineByDay">
+            <td>{{da.line}}</td>
+            <td>{{da.product_designation}}</td>
+            <td>{{da.line_global_waterfall}}</td>
+            <td>{{da.product_global_waterfall}}</td>
+            <td>{{da.day}}</td>
+            <td>{{da.shift}}</td>
+            <td>{{da.product_speed}}</td>
+            <td>{{da.maximum_time}}</td>
+            <td>{{da.legal_non_operating_time}}</td>
+            <td>{{da.no_demand}}</td>
+            <td>{{da.force_majeure}}</td>
+            <td>{{da.minutes_used}}</td>
+            <td>{{da.planned_maintenance}}</td>
+            <td>{{da.planned_autonomous_maintenance}}</td>
+            <td>{{da.sanitation}}</td>
+            <td>{{da.changeovers}}</td>
+            <td>{{da.planned_stops}}</td>
+            <td>{{da.consumables_replacement}}</td>
+            <td>{{da.start_and_finish_production}}</td>
+            <td>{{da.production_time}}</td>
+            <td>{{da.minor_stoppages}}</td>
+            <td>{{da.breackdowns}}</td>
+            <td>{{da.operational_losses}}</td>
+            <td>{{da.line_delays}}</td>
+            <td>{{da.labor_management_losses}}</td>
+            <td>{{da.speed_loss}}</td>
+            <td>{{da.quality_loss}}</td>
+            <td>{{da.operating_time}}</td>
+            <td>{{da.lu}}</td>
+            <td>{{da.ge}}</td>
+            <td>{{da.oee}}</td>
+            <td>{{da.volume_defect_fee}}</td>
+            <td>{{da.volume_defect_losses}}</td>
+            <td>{{da.producto_terminado}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+
+</div>

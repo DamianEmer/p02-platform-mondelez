@@ -1,0 +1,5 @@
+<h1>Chequeo</h1>
+<br>
+<app-search-form (result)="onResult($event)"></app-search-form>
+<br>
+<app-table-check-report *ngIf="showTable" [report]="resultSearch"></app-table-check-report>

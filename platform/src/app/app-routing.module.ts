@@ -14,6 +14,10 @@ const routes: Routes = [
         path: 'report',
         loadChildren: './modules/home/pages/report/report.module#ReportModule'
     },
+    {
+        path: 'check-report',
+        loadChildren: './modules/home/pages/check-report/check-report.module#CheckReportModule'
+    },
     { 
         path: '', 
         redirectTo: 'home', 
