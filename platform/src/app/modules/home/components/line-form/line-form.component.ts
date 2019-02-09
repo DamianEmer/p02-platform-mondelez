@@ -2,6 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { DataService } from 'src/app/shared/services/data.service';
 
+// NGRX
+import { Store } from '@ngrx/store';
+import { AppState } from "../../../../shared/store/reducers/index";
+// actions
+import * as AllActionsLines from "../../../../shared/store/actions/line.actions";
+import * as AllActionsStoppages from '../../../../shared/store/actions/stoppage.actions';
+//Selectors
+import { getLines } from "../../../../shared/store/selectors/line.selectors";
+import { getOperators } from 'src/app/shared/store/selectors/operator.selectors';
+import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
+import { getStoppages } from 'src/app/shared/store/selectors/stoppage.selector';
+//Models
+import { Line } from 'src/app/shared/models/line';
+import { Turn } from 'src/app/shared/models/turn';
+import { Operator } from 'src/app/shared/models/operator';
+import { Stoppage } from 'src/app/shared/models/stoppage';
+
 @Component({
   selector: 'app-line-form',
   templateUrl: './line-form.component.html',
@@ -11,19 +28,26 @@ export class LineFormComponent implements OnInit {
 
   form: FormGroup;
 
-  turns: any[];
+  turns: Turn[];
 
-  lines: any[];
+  lines: Line[];
 
-  operators: any[];
+  operators: Operator[];
 
-  stoppages: any[];
+  stoppages: Stoppage[];
 
   products: any[];
 
   turnTime: any;
 
-  constructor(private fb: FormBuilder, private ds: DataService) {
+  constructor(private fb: FormBuilder, 
+    private ds: DataService, private store: Store<AppState>) {
+
+      this.store.dispatch(new AllActionsLines.LoadLines());
+      this.store.dispatch(new AllActionsStoppages.LoadStoppages())
+      this.store.select(getLines).subscribe(lines => this.lines = lines);
+      this.store.select(getTurns).subscribe(turns => this.turns = turns);
+      this.store.select(getStoppages).subscribe(stoppages => this.stoppages = stoppages);
 
     this.form = fb.group({
       line: ['', Validators.required],
@@ -41,24 +65,6 @@ export class LineFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.ds.getTurns().subscribe(
-      turns => {
-        this.turns = turns;
-      }
-    )
-
-    this.ds.getLines().subscribe(
-      lines => {
-        this.lines = lines;
-      }
-    );
-
-    this.ds.getStoppages().subscribe(
-      stoppages => {
-        this.stoppages = stoppages;
-      }
-    )
 
     this.onTotalCal(); // Metodo con observable interno para detectar cambios en cada SKU y recalcular valores totales
 
@@ -134,15 +140,9 @@ export class LineFormComponent implements OnInit {
   //Obtiene operadores y productos dependiendo de la linea seleccionada
 
   selectDropDown(select: string) {
-    this.ds.getOperators().subscribe(
-      operators => {
-        this.operators = operators.filter(
-          (operator, i) => {
-            return parseInt(select) === operator.idLine;
-          }
-        );
-      }
-    );
+
+    this.store.dispatch(new AllActionsLines.LoadIdLine(select));
+    this.store.select(getOperators).subscribe(operators => this.operators = operators);
 
     this.ds.getProducts().subscribe(
       products => {
@@ -157,9 +157,8 @@ export class LineFormComponent implements OnInit {
 
   // Obtiene valor del tiempo del turno seleccionado
   selectDropTurn(select: string) {
-    this.ds.getTurns().subscribe(turns => {
-      this.turnTime = this.turns.filter(turn => parseInt(select) === turn.id);
-    })
+    let obj: any = this.turns.find(turn => parseInt(select) === turn.id);
+    this.turnTime = obj.time;
   }
 
   // Agrega formulario de paro planeado

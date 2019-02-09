@@ -1,0 +1,17 @@
+.report-container {
+  .table {
+    table {
+      tr {
+        th {
+          border: 2px solid rgb(31, 36, 110);
+
+          tr {
+            th {
+              border: 2px solid rgb(31, 110, 57);
+            }
+          }
+        }
+      }
+    }
+  }
+}

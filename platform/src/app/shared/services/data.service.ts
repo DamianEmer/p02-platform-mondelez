@@ -48,7 +48,7 @@ export class DataService {
     })
   }
 
-  getOperators(): Observable<any[]> {
+  getOperators(idLine?: string): Observable<any[]> {
     let operators: any[] = [
       {
         id: 1,
@@ -76,8 +76,11 @@ export class DataService {
         name: "Julio"
       }
     ];
+
+    let operatorsFilter = operators.filter(operator => operator.idLine === idLine);
+
     return Observable.create(observer => {
-      observer.next(operators);
+      observer.next(operatorsFilter);
     })
   }
 

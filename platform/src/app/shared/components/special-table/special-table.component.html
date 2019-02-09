@@ -1,0 +1,94 @@
+<table id="table" style="width:100%; border: 5px solid orangered;">
+
+    <thead>
+      <tr>
+
+        <th colspan="2">Linea</th>
+
+        <th colspan="6">
+          <tr>
+            <th>GE Turno</th>
+          </tr>
+          <tr>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+          </tr>
+      </th>
+
+      <th colspan="2">GE Total Dia</th>
+
+      <th colspan="6">
+        <tr>
+          <th>OEE Turno</th>
+        </tr>
+
+        <tr>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+        </tr>
+      </th>
+
+      <th colspan="2">OEE Total Dia</th>
+
+      <th colspan="2">Vol Plan (KG)</th>
+
+      <th colspan="2">Vol Real (KG)</th>
+
+      <th colspan="2">Kg Var </th>
+
+      <th colspan="2">Grafica</th>
+
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr *ngFor="let d of dataSource; let i=index">
+        <td colspan="2">{{d.line}}</td>
+
+        <td colspan="2"
+        *ngFor="let geT of d.geTurno"
+        [ngClass]="{
+          'b-green': (geT.value >= 95),
+          'b-red': (geT.value &#60; 95),
+          'b-null': (geT.value == null || geT.value == 0)
+        }">
+        {{geT.value}}
+        </td>
+
+        <td colspan="2" 
+        [ngClass]="{
+          'b-green': (calc(d.geTurno) >= 95),
+          'b-red': (calc(d.geTurno) &#60; 95),
+          'b-null': (calc(d.geTurno) == null || calc(d.geTurno) == 0)
+        }"
+        >{{calc(d.geTurno) | number:'1.1-2'}}</td>
+
+        <td colspan="2"
+        *ngFor="let oeeT of d.oeeTurno"
+        [ngClass]="{
+          'b-green': (oeeT.value >= 95),
+          'b-red': (oeeT.value &#60; 95),
+          'b-null': (oeeT.value == null || oeeT.value == 0)
+        }">
+        {{oeeT.value}}
+        </td>
+
+        <td colspan="2" 
+        [ngClass]="{
+          'b-green': (calc(d.oeeTurno) >= 95),
+          'b-red': (calc(d.oeeTurno) &#60; 95),
+          'b-null': (calc(d.oeeTurno) == null || calc(d.oeeTurno) == 0)
+        }">
+        {{calc(d.oeeTurno) | number:'1.1-2'}}</td>
+        
+        <td colspan="2">{{d.volplan}}</td>
+        <td colspan="2">{{d.volreal}}</td>
+        <td colspan="2">{{d.kgvar}}</td>
+        
+        <td colspan="2"> - </td>
+      </tr>
+    </tbody>
+
+  </table>
