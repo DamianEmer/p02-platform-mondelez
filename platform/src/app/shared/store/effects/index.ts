@@ -4,5 +4,6 @@ import { TurnEffects } from "./turn.effects";
 
 export const effects = [
     LineEffects,
-    OperatorEffects
+    OperatorEffects,
+    TurnEffects
 ]

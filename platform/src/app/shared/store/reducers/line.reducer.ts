@@ -23,7 +23,7 @@ export function LineReducer(state: LineState = initialState, action: AllLineActi
                 isLoading: true
             }
         case ActionLineTypes.LOAD_LINES_SUCCESS:
-            return{
+            return {
                 ...state,
                 isLoading: false,
                 lines: action.payload
@@ -40,5 +40,7 @@ export function LineReducer(state: LineState = initialState, action: AllLineActi
                 isLoading: false,
                 id: action.payload
             }
+        default:
+            return state
     }
 }

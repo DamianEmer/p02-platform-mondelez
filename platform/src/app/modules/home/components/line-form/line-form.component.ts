@@ -13,6 +13,9 @@ import { Observable } from 'rxjs';
 import { Line } from 'src/app/shared/models/line';
 import { map } from 'rxjs/operators';
 import { getOperators } from 'src/app/shared/store/selectors/operator.selectors';
+import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
+import { Turn } from 'src/app/shared/models/turn';
+import { Operator } from 'src/app/shared/models/operator';
 // import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
 
 @Component({
@@ -24,13 +27,11 @@ export class LineFormComponent implements OnInit {
 
   form: FormGroup;
 
-  turns: any[];
-
-  lines$: Observable<Line[]>;
+  turns: Turn[];
 
   lines: Line[];
 
-  operators: any[];
+  operators: Operator[];
 
   stoppages: any[];
 
@@ -42,8 +43,8 @@ export class LineFormComponent implements OnInit {
     private ds: DataService, private store: Store<AppState>) {
 
       this.store.dispatch(new AllActionsLines.LoadLines());
-      // this.store.select(getLines).subscribe(val => this.lines = val);
-      this.lines$ = this.store.pipe(select(getLines));
+      this.store.select(getLines).subscribe(lines => this.lines = lines);
+      this.store.select(getTurns).subscribe(turns => this.turns = turns);
 
     this.form = fb.group({
       line: ['', Validators.required],
@@ -61,14 +62,6 @@ export class LineFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    //this.store.select(getTurns).subscribe(val => this.turns = val);
-
-    this.ds.getTurns().subscribe(
-      turns => {
-        this.turns = turns;
-      }
-    )
 
     this.ds.getStoppages().subscribe(
       stoppages => {
@@ -150,18 +143,9 @@ export class LineFormComponent implements OnInit {
   //Obtiene operadores y productos dependiendo de la linea seleccionada
 
   selectDropDown(select: string) {
-    // this.ds.getOperators().subscribe(
-    //   operators => {
-    //     this.operators = operators.filter(
-    //       (operator, i) => {
-    //         return parseInt(select) === operator.idLine;
-    //       }
-    //     );
-    //   }
-    // );
 
     this.store.dispatch(new AllActionsLines.LoadIdLine(select));
-    this.store.select(getOperators).subscribe(val => this.operators = val);
+    this.store.select(getOperators).subscribe(operators => this.operators = operators);
 
     this.ds.getProducts().subscribe(
       products => {
@@ -176,9 +160,8 @@ export class LineFormComponent implements OnInit {
 
   // Obtiene valor del tiempo del turno seleccionado
   selectDropTurn(select: string) {
-    this.ds.getTurns().subscribe(turns => {
-      this.turnTime = this.turns.filter(turn => parseInt(select) === turn.id);
-    })
+    let obj: any = this.turns.find(turn => parseInt(select) === turn.id);
+    this.turnTime = obj.time;
   }
 
   // Agrega formulario de paro planeado

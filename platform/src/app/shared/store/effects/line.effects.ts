@@ -26,16 +26,4 @@ export class LineEffects {
             ))
     )
 
-    // @Effect()
-    // linesById$: Observable<Action> = this.actions$.pipe(
-    //     ofType(fromLines.ActionLineTypes.LOAD_ID_LINE),
-    //     map((action: fromLines.AllLineActions) => action.payload),
-    //     switchMap(id=>
-    //         this.dataService.getLines().pipe(
-    //             map((data: Line[]) => new fromLines.LoadLineSuccess(data)),
-    //             catchError(()=> of(new fromLines.LoadError('Error e la carga de lineas')))
-    //         ))
-    // )
-
-
 }

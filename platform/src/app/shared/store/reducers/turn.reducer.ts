@@ -16,8 +16,8 @@ export const initialState: TurnState = {
 }
 
 export function TurnReducer(state: TurnState = initialState, action: AllTurnAction): TurnState {
-    switch(action.type){
-        case ActionTurnTypes.LOAD_TURNS: 
+    switch (action.type) {
+        case ActionTurnTypes.LOAD_TURNS:
             return {
                 ...state,
                 isLoading: true
@@ -35,10 +35,12 @@ export function TurnReducer(state: TurnState = initialState, action: AllTurnActi
                 msg_error: action.payload
             }
         case ActionTurnTypes.LOAD_ID_TURN:
-            return{
+            return {
                 ...state,
                 isLoading: false,
                 id: action.payload
             }
+        default:
+            return state
     }
 }

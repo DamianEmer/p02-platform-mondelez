@@ -7,7 +7,7 @@
           <div class="field">
             <label>Elige la linea</label>
             <mat-select formControlName="line" placeholder="Selecciona" (selectionChange)="selectDropDown($event.value)">
-              <mat-option *ngFor="let line of (lines$ | async); let i=index" [value]="line.id">{{line.name}}</mat-option>
+              <mat-option *ngFor="let line of lines; let i=index" [value]="line.id">{{line.name}}</mat-option>
             </mat-select>
             <div class="error-container" *ngIf="getLine.invalid && (getTurn.dirty || getTurn.touched)">
               <h6 *ngIf="getLine.errors.required">Es necesario la seleccion</h6>

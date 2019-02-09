@@ -18,7 +18,7 @@ export const initialState: OperatorState = {
 export function OperatorReducer(state: OperatorState = initialState, action: AllOperatorActions): OperatorState {
     switch (action.type) {
         case ActionOperatorTypes.LOAD_OPERATORS:
-            return{
+            return {
                 ...state,
                 isLoading: true
             }
@@ -40,5 +40,7 @@ export function OperatorReducer(state: OperatorState = initialState, action: All
                 isLoading: false,
                 id: action.payload
             }
+        default:
+            return state
     }
 }
