@@ -2,6 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { DataService } from 'src/app/shared/services/data.service';
 
+// NGRX
+import * as AllActionsLines from "../../../../shared/store/actions/line.actions";
+// import * as AllActionsTurns from '../../../../shared/store/actions/turn.actions';
+// import * as AllActionsOperators from '../../../../shared/store/actions/operator.actions';
+import { AppState } from "../../../../shared/store/reducers/index";
+import { getLines } from "../../../../shared/store/selectors/line.selectors";
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Line } from 'src/app/shared/models/line';
+import { map } from 'rxjs/operators';
+import { getOperators } from 'src/app/shared/store/selectors/operator.selectors';
+// import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
+
 @Component({
   selector: 'app-line-form',
   templateUrl: './line-form.component.html',
@@ -13,7 +26,9 @@ export class LineFormComponent implements OnInit {
 
   turns: any[];
 
-  lines: any[];
+  lines$: Observable<Line[]>;
+
+  lines: Line[];
 
   operators: any[];
 
@@ -23,7 +38,12 @@ export class LineFormComponent implements OnInit {
 
   turnTime: any;
 
-  constructor(private fb: FormBuilder, private ds: DataService) {
+  constructor(private fb: FormBuilder, 
+    private ds: DataService, private store: Store<AppState>) {
+
+      this.store.dispatch(new AllActionsLines.LoadLines());
+      // this.store.select(getLines).subscribe(val => this.lines = val);
+      this.lines$ = this.store.pipe(select(getLines));
 
     this.form = fb.group({
       line: ['', Validators.required],
@@ -42,17 +62,13 @@ export class LineFormComponent implements OnInit {
 
   ngOnInit() {
 
+    //this.store.select(getTurns).subscribe(val => this.turns = val);
+
     this.ds.getTurns().subscribe(
       turns => {
         this.turns = turns;
       }
     )
-
-    this.ds.getLines().subscribe(
-      lines => {
-        this.lines = lines;
-      }
-    );
 
     this.ds.getStoppages().subscribe(
       stoppages => {
@@ -134,15 +150,18 @@ export class LineFormComponent implements OnInit {
   //Obtiene operadores y productos dependiendo de la linea seleccionada
 
   selectDropDown(select: string) {
-    this.ds.getOperators().subscribe(
-      operators => {
-        this.operators = operators.filter(
-          (operator, i) => {
-            return parseInt(select) === operator.idLine;
-          }
-        );
-      }
-    );
+    // this.ds.getOperators().subscribe(
+    //   operators => {
+    //     this.operators = operators.filter(
+    //       (operator, i) => {
+    //         return parseInt(select) === operator.idLine;
+    //       }
+    //     );
+    //   }
+    // );
+
+    this.store.dispatch(new AllActionsLines.LoadIdLine(select));
+    this.store.select(getOperators).subscribe(val => this.operators = val);
 
     this.ds.getProducts().subscribe(
       products => {
