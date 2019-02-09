@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { HomeComponent } from './home.component';
-import { LineFormModule } from '../../components/line-form/line-form.module';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core"; 
+import { CommonModule } from "@angular/common";
+import { HomeComponent } from "./home.component";
+import { Routes, RouterModule } from "@angular/router";
 
 const routes: Routes = [
     {
@@ -12,15 +12,16 @@ const routes: Routes = [
 
 const COMMON_DECLARATIONS = [
     HomeComponent
-]
+];
 
-const COMMON_IMPORTS = [ 
-    LineFormModule
-]
+const COMMON_IMPORTS = [
+    CommonModule,
+    RouterModule.forChild(routes)
+];
 
 @NgModule({
     declarations: COMMON_DECLARATIONS,
-    imports: [COMMON_IMPORTS, RouterModule.forChild(routes)],
+    imports: COMMON_IMPORTS,
     exports: COMMON_DECLARATIONS
 })
 

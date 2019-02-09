@@ -1,0 +1,23 @@
+<tr>
+  <td> {{info.line}} </td>
+
+  <td *ngFor="let date of info.dates"
+  [ngClass]="{
+    'b-green': (date.value >= 95),
+    'b-red': (date.value &#60; 95),
+    'b-null': (date.value == null || date.value == 0)
+  }">
+    {{date.value}}
+  </td>
+
+  <td 
+  [ngClass]="{
+    'b-green': (avg >= 95),
+    'b-red': (avg &#60; 95),
+    'b-null': (avg == null || avg == 0)
+  }"> {{avg | number:'1.1-2'}} </td>
+  
+  <td> {{info.volplan}} </td>
+  <td> {{info.volreal}} </td>
+  <td> {{info.kgvar}} </td>
+</tr>

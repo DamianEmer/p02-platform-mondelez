@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-stoppages-form',
@@ -10,16 +10,15 @@ export class StoppagesFormComponent implements OnInit {
 
   @Input() form: FormGroup;
 
-  descriptions: any[ ] = [
-    { id: 1, value: 'opcion1'},
-    { id: 2, value: 'opcion2'},
-    { id: 3, value: 'opcion3'}
-  ]
+  @Input() stoppages: any[];
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.form);
+  }
+
+  get getStoppagesBySku(){
+    return this.form.get('stoppages') as FormArray
   }
 
 }
