@@ -3,20 +3,21 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { DataService } from 'src/app/shared/services/data.service';
 
 // NGRX
-import * as AllActionsLines from "../../../../shared/store/actions/line.actions";
-// import * as AllActionsTurns from '../../../../shared/store/actions/turn.actions';
-// import * as AllActionsOperators from '../../../../shared/store/actions/operator.actions';
+import { Store } from '@ngrx/store';
 import { AppState } from "../../../../shared/store/reducers/index";
+// actions
+import * as AllActionsLines from "../../../../shared/store/actions/line.actions";
+import * as AllActionsStoppages from '../../../../shared/store/actions/stoppage.actions';
+//Selectors
 import { getLines } from "../../../../shared/store/selectors/line.selectors";
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { Line } from 'src/app/shared/models/line';
-import { map } from 'rxjs/operators';
 import { getOperators } from 'src/app/shared/store/selectors/operator.selectors';
 import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
+import { getStoppages } from 'src/app/shared/store/selectors/stoppage.selector';
+//Models
+import { Line } from 'src/app/shared/models/line';
 import { Turn } from 'src/app/shared/models/turn';
 import { Operator } from 'src/app/shared/models/operator';
-// import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
+import { Stoppage } from 'src/app/shared/models/stoppage';
 
 @Component({
   selector: 'app-line-form',
@@ -33,7 +34,7 @@ export class LineFormComponent implements OnInit {
 
   operators: Operator[];
 
-  stoppages: any[];
+  stoppages: Stoppage[];
 
   products: any[];
 
@@ -43,8 +44,10 @@ export class LineFormComponent implements OnInit {
     private ds: DataService, private store: Store<AppState>) {
 
       this.store.dispatch(new AllActionsLines.LoadLines());
+      this.store.dispatch(new AllActionsStoppages.LoadStoppages())
       this.store.select(getLines).subscribe(lines => this.lines = lines);
       this.store.select(getTurns).subscribe(turns => this.turns = turns);
+      this.store.select(getStoppages).subscribe(stoppages => this.stoppages = stoppages);
 
     this.form = fb.group({
       line: ['', Validators.required],
@@ -62,12 +65,6 @@ export class LineFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.ds.getStoppages().subscribe(
-      stoppages => {
-        this.stoppages = stoppages;
-      }
-    )
 
     this.onTotalCal(); // Metodo con observable interno para detectar cambios en cada SKU y recalcular valores totales
 
