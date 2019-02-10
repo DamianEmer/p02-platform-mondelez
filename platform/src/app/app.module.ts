@@ -8,6 +8,12 @@ import { OperationsService } from './shared/services/operations.service';
 import { AppRoutingModule } from "./app-routing.module";
 
 import { ChartModule } from 'angular-highcharts';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { appReducers } from './shared/store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { effects } from './shared/store/effects';
 
 @NgModule({
   declarations: [
@@ -17,7 +23,13 @@ import { ChartModule } from 'angular-highcharts';
     BrowserModule,
     BrowserAnimationsModule,
     ChartModule,
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot(effects),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    })
   ],
   providers: [OperationsService],
   bootstrap: [AppComponent]
