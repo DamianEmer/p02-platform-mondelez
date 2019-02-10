@@ -25,7 +25,7 @@ export class OperatorEffects {
     )
 
     constructor(private actions$: Actions, 
-        private dataService:DataService ) { console.log("Operator effect") }
+        private dataService:DataService ) { }
 
 }
 

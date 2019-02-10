@@ -12,9 +12,7 @@ import { DataService } from '../../services/data.service';
 @Injectable()
 export class StoppageEffects {
     constructor(private dataService: DataService,
-        private actions$: Actions) {
-        console.log('Stoppages Effects')
-    }
+        private actions$: Actions) {  }
 
     @Effect()
     lines$: Observable<Action> = this.actions$.pipe(
