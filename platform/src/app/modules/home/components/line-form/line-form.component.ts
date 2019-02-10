@@ -139,6 +139,7 @@ export class LineFormComponent implements OnInit {
       kgMin: [''],
       kgCj: [''],
       lossSpeed: [''],
+      idealvolume: ['']
     })
   }
 

@@ -1,11 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { OperationsService } from 'src/app/shared/services/operations.service';
-import { DataService } from 'src/app/shared/services/data.service';
-
-//NGRX
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../../shared/store/reducers/index';
 //Models
 import { UnplannedStoppage } from 'src/app/shared/models/unplannedStoppage';
 
@@ -65,6 +60,7 @@ export class SkuFormComponent implements OnInit {
         volume = val;
         tld = this.operationsServices.calculateTLD(this.product[0].kgCj, volume, speed);
         this.getSku.controls[i].get('tld').setValue(tld.toFixed(2));
+        this.getSku.controls[i].get('idealvolume').setValue(this.operationsServices.calcIdealProduction(speed,prodTime,this.product[0].kgCj).toFixed(2));
         this.getSku.controls[i].get('oee').setValue(this.operationsServices.calcOEE_Sku(tld, prodTime).toFixed(2));
         this.getSku.controls[i].get('lossSpeed').setValue(this.operationsServices.calcLossSpeed(prodTime, tld, sumUnplanned).toFixed(2));
         this.getSku.controls[i].get('ge').setValue(this.operationsServices.calcGE_Sku(tld, this.turnTime, sumPlanned).toFixed(2));
