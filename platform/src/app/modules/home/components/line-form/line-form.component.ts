@@ -13,11 +13,15 @@ import { getLines } from "../../../../shared/store/selectors/line.selectors";
 import { getOperators } from 'src/app/shared/store/selectors/operator.selectors';
 import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
 import { getStoppages } from 'src/app/shared/store/selectors/stoppage.selector';
+import { getProducts } from 'src/app/shared/store/selectors/product.selectors';
+import { getUnplannedStoppage } from 'src/app/shared/store/selectors/unplannedStoppage.selectors';
 //Models
 import { Line } from 'src/app/shared/models/line';
 import { Turn } from 'src/app/shared/models/turn';
 import { Operator } from 'src/app/shared/models/operator';
 import { Stoppage } from 'src/app/shared/models/stoppage';
+import { Product } from 'src/app/shared/models/product';
+import { UnplannedStoppage } from 'src/app/shared/models/unplannedStoppage';
 
 @Component({
   selector: 'app-line-form',
@@ -36,12 +40,14 @@ export class LineFormComponent implements OnInit {
 
   stoppages: Stoppage[];
 
-  products: any[];
+  products: Product[];
 
-  turnTime: any;
+  unplannedStoppages: UnplannedStoppage[];
+
+  turnTime: number;
 
   constructor(private fb: FormBuilder, 
-    private ds: DataService, private store: Store<AppState>) {
+    private store: Store<AppState>) {
 
       this.store.dispatch(new AllActionsLines.LoadLines());
       this.store.dispatch(new AllActionsStoppages.LoadStoppages())
@@ -83,7 +89,6 @@ export class LineFormComponent implements OnInit {
       let ge = 0;
 
       for (let i = 0; i <= this.getSku.length - 1; i++) {
-        console.log('itera: ' + i)
         oeeTotal.push(parseFloat(this.getSku.controls[i].get('oee').value));
         geTotal.push(parseFloat(this.getSku.controls[i].get('tld').value));
       }
@@ -102,11 +107,11 @@ export class LineFormComponent implements OnInit {
             }
           })
         })
-        ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime[0].time - sumPlanned) * 100;
+        ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime - sumPlanned) * 100;
         this.form.get('getotal').setValue(ge.toFixed(2));
       });
       //En caso de no haber paros plenados calcula calcular con valor 0
-      ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime[0].time - sumPlanned) * 100;
+      ge = (geTotal.reduce((anterior, actual) => anterior + actual)) / (this.turnTime - sumPlanned) * 100;
       this.form.get('getotal').setValue(ge.toFixed(2));
     })
   }
@@ -143,16 +148,8 @@ export class LineFormComponent implements OnInit {
 
     this.store.dispatch(new AllActionsLines.LoadIdLine(select));
     this.store.select(getOperators).subscribe(operators => this.operators = operators);
-
-    this.ds.getProducts().subscribe(
-      products => {
-        this.products = products.filter(
-          (product, i) => {
-            return parseInt(select) === product.idLine;
-          }
-        );
-      }
-    )
+    this.store.select(getProducts).subscribe(products => this.products = products);
+    this.store.select(getUnplannedStoppage).subscribe(unplannedStops => this.unplannedStoppages = unplannedStops);
   }
 
   // Obtiene valor del tiempo del turno seleccionado

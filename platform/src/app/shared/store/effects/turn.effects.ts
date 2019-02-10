@@ -13,9 +13,7 @@ import { DataService } from '../../services/data.service';
 @Injectable()
 export class TurnEffects {
     constructor ( private dataService: DataService,
-        private actions$: Actions){ 
-            console.log("Turn Effects")
-        }
+        private actions$: Actions){ }
 
     @Effect()
     turns$: Observable<Action> = this.actions$.pipe(

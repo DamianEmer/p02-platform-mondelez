@@ -84,7 +84,10 @@
       <button class="btn" style="margin-left:15px" (click)="addSku()" [disabled]="form.get('sku').invalid">SKU</button>
     </div>
     <div style="overflow-x:scroll">
-      <app-sku-form [formParent]="form" [products]=products [turnTime]=turnTime></app-sku-form>
+      <app-sku-form [formParent]="form" 
+        [products]=products 
+        [turnTime]=turnTime
+        [unplannedStoppages]="unplannedStoppages"></app-sku-form>
     </div>
   </div>
 
