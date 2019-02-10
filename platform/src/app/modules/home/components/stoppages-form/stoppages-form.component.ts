@@ -14,8 +14,7 @@ export class StoppagesFormComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {  }
 
   get getStoppagesBySku(){
     return this.form.get('stoppages') as FormArray

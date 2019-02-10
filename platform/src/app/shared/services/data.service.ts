@@ -48,7 +48,7 @@ export class DataService {
     })
   }
 
-  getOperators(): Observable<any[]> {
+  getOperators(idLine?: string): Observable<any[]> {
     let operators: any[] = [
       {
         id: 1,
@@ -76,8 +76,11 @@ export class DataService {
         name: "Julio"
       }
     ];
+
+    let operatorsFilter = operators.filter(operator => operator.idLine === idLine);
+
     return Observable.create(observer => {
-      observer.next(operators);
+      observer.next(operatorsFilter);
     })
   }
 
@@ -105,28 +108,33 @@ export class DataService {
     })
   }
 
-  getUnplannedStoppages(): Observable<any[]>{
+  getUnplannedStoppages(idLine?:string): Observable<any[]>{
     let stoppages: any[] = [
       {
         id:1,
-        name: 'Option 1'
+        name: 'Option 1',
+        lines: [1,2,3]
       },
       {
         id:2,
-        name: 'Option 2'
+        name: 'Option 2',
+        lines: [2,3]
       },
       {
         id:3,
-        name: 'Option 3'
+        name: 'Option 3',
+        lines: [1]
       }
     ];
 
+    let unplannedStoppagesFilter = stoppages.filter(stop => stop.lines.filter(line => line === idLine));
+
     return Observable.create( observer => {
-      observer.next(stoppages);
+      observer.next(unplannedStoppagesFilter);
     })
   }
 
-  getProducts(): Observable<any[]>{
+  getProducts(idLine?: string): Observable<any[]>{
     let products: any[] = [
       {
         id: '750100200004100',
@@ -157,8 +165,10 @@ export class DataService {
         idLine: 3
       }
     ];
+
+    let productsFilter = products.filter(product => product.idLine === idLine);
     return Observable.create( observer => {
-      observer.next(products);
+      observer.next(productsFilter);
     })
   }
 
