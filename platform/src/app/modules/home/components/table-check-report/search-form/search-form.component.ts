@@ -31,8 +31,9 @@ export class SearchFormComponent implements OnInit {
   }
 
   onSearch():void{
-    //console.log(this.checkService.searchLine(this.searchForm.get('week').value,this.searchForm.get('line').value));
-    (this.searchForm.valid)?this.result.emit(this.checkService.getReport()):alert('Faltan datos');
+    (this.searchForm.valid)?
+      this.result.emit(this.checkService.getLine(this.searchForm.value))
+    :alert('Faltan datos');
   }
 
 }

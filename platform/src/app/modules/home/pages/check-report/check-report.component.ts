@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-check-report',
@@ -17,8 +18,8 @@ export class CheckReportComponent implements OnInit {
     this.showTable = false;
   }
 
-  onResult(data: any){
-    this.resultSearch = data;
+  onResult(data: Observable<any>){
+    data.subscribe(data => this.resultSearch = data);
     this.showTable = true;
   }
 

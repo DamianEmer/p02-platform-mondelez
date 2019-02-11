@@ -237,6 +237,8 @@ export class ReportsService {
 
     constructor() { }
 
+    //GET
+    // locahost:8080/report
     getData(info?: Data): Observable<InfoDay[]> {
         let params = new HttpParams()
             .set('week', info.week.toString())
@@ -246,6 +248,7 @@ export class ReportsService {
         });
     }
 
+    //GET
     getInfoWeek(info?: Data): Observable<InfoWeek[]> {
         let params = new HttpParams()
         .set('week', info.week.toString())
@@ -255,6 +258,7 @@ export class ReportsService {
         });
     }
 
+    //GET
     getInfoWeeks(info?: Data): Observable<InfoMonth[]> {
         let params = new HttpParams()
         .set('week', info.week.toString())
