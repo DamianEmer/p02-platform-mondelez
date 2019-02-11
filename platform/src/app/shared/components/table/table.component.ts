@@ -21,6 +21,7 @@ export class TableComponent implements OnInit {
   ngOnInit() { }
 
   addAvgsTotalForGraphic(value: number):void{
+    console.log("Para modal: ", value)
     this.avgsTotal.push(value);
     this.avgsTotal = this.avgsTotal.sort((a,b)=> b.avg - a.avg)
   }
@@ -28,6 +29,7 @@ export class TableComponent implements OnInit {
   showChart(turns?: any[]){
     this.dialog.open(ModalChartComponent, {
       data: {
+        ids: this.avgsTotal.map(v => v.id),
         names: this.avgsTotal.map(v => v.line),
         info: this.avgsTotal.map(v=>v.avg)
       }
