@@ -1,15 +1,23 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CheckReport } from '../models/checkReport';
+import { HttpParams } from '@angular/common/http';
+
+interface Data {
+  week: number;
+  day: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CheckReportService {
 
-  report: any = 
+  report: CheckReport = 
     {
       line: 'Pack Line 2',
       days: [
-        {
+        {          
           id: 1,
           lineByDay: [
             {
@@ -124,9 +132,6 @@ export class CheckReportService {
               producto_terminado: 3132
             },
             {
-              
-            },
-            {
               id: 5,
               line: 'pack line 2',
               product_designation: '',
@@ -212,7 +217,13 @@ export class CheckReportService {
     return this.report;
   }
 
-  searchLine(week: number, idLine: number){
-    return "Devolviendo datos de linea : "+idLine+" de la semana "+week;
+  getLine(info?: Data): Observable<CheckReport>{
+    // localhost:8080/chequeo
+    // let httpParams = new HttpParams()
+    //   .set('week', info.week.toString())
+    //   .set('day', info.day.toString());
+    return Observable.create( observer => {
+      observer.next(this.report);
+    });
   }
 }
