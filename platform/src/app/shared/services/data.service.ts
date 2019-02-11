@@ -8,6 +8,7 @@ export class DataService {
 
   constructor() { }
 
+  //GET
   getTurns(): Observable<any[]>{
     // localhost:8080/turns
     let turns:any[] = [
@@ -29,6 +30,7 @@ export class DataService {
     })
   }
 
+  //GET
   getLines(): Observable<any[]>{
     // localhost:8080/lines
     let lines:any[] = [
@@ -50,6 +52,7 @@ export class DataService {
     })
   }
 
+  //GET
   getOperators(idLine?: string): Observable<any[]> {
     // localhost:8080/operators?lineId=${isLine}
     let operators: any[] = [
@@ -87,6 +90,7 @@ export class DataService {
     })
   }
 
+  //GET
   getStoppages(): Observable<any[]>{
     // localhost:8080/stoppages
     let stoppages: any[] = [
@@ -112,6 +116,7 @@ export class DataService {
     })
   }
 
+  //GET
   getUnplannedStoppages(idLine?:string): Observable<any[]>{
     // localhost:8080/unplanned_stoppages?lineId=${isLine}
     let stoppages: any[] = [
@@ -134,6 +139,7 @@ export class DataService {
     })
   }
 
+  //GET
   getProducts(idLine?: string): Observable<any[]>{
     // localhost:8080/products?lineId=${isLine}
     let products: any[] = [
@@ -171,6 +177,12 @@ export class DataService {
     return Observable.create( observer => {
       observer.next(productsFilter);
     })
+  }
+
+  //POST
+  saveRegistry(registry: any){
+    // localhost:8080/sku
+    console.log("Registro save ", registry);
   }
 
 }

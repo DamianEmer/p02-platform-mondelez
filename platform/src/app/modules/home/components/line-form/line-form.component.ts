@@ -47,6 +47,7 @@ export class LineFormComponent implements OnInit {
   turnTime: number;
 
   constructor(private fb: FormBuilder, 
+    private ds: DataService,
     private store: Store<AppState>) {
 
       this.store.dispatch(new AllActionsLines.LoadLines());
@@ -77,7 +78,8 @@ export class LineFormComponent implements OnInit {
   }
 
   onSave() {
-    console.log(this.form.value);
+    if(this.form.valid)
+      this.ds.saveRegistry(this.form.value);
   }
 
   onTotalCal() {

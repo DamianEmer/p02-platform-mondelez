@@ -213,10 +213,12 @@ export class CheckReportService {
 
   constructor() { }
 
+  
   getReport() {
     return this.report;
   }
 
+  //GET
   getLine(info?: Data): Observable<CheckReport>{
     // localhost:8080/chequeo
     // let httpParams = new HttpParams()
