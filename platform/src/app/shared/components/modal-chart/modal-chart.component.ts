@@ -12,6 +12,7 @@ export class ModalChartComponent implements OnInit {
   constructor( @Inject(MAT_DIALOG_DATA) public data: any ) { }
 
   ngOnInit() { 
+    console.log('ids: ', this.data.ids);
     console.log("names: ",this.data.names);
     console.log("info: ",this.data.info);
    }
@@ -24,10 +25,21 @@ export class ModalChartComponent implements OnInit {
       categories: this.data.names.map( value => value)
     },
     title: {
-      text: 'Linechart'
+      text: 'Promedios'
     },
     credits: {
       enabled: false
+    },
+    plotOptions: {
+      series: {
+        point: {
+          events:{
+            click: function() {
+              alert("Nombre: "+this.name+" value: "+this.y);
+            }
+          }
+        }
+      }
     },
     series: [
       {

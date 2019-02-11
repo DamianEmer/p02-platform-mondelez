@@ -18,6 +18,7 @@ export class RowInfoComponent implements OnInit {
   constructor( public dialog: MatDialog ) { }
 
   ngOnInit() { 
+    console.log("Informacion ----> ", this.info);
     this.avg = this.calc(this.info.dates);
   }
 
@@ -30,8 +31,8 @@ export class RowInfoComponent implements OnInit {
         divder++;
     });
     (divder != 0)? 
-      this.valueAvg.emit({line: this.info.line, avg: avg/divder}) 
-      : this.valueAvg.emit({line: this.info.line, avg: 0});
+      this.valueAvg.emit({id: this.info.id, line: this.info.line, avg: avg/divder}) 
+      : this.valueAvg.emit({id: this.info.id, line: this.info.line, avg: 0});
     return (avg/divder);
   }
 

@@ -1,19 +1,35 @@
 <div class="report-container">
   <div>
-    <app-search-form></app-search-form>
+    <form [formGroup]="searchForm" class="fields" (ngSubmit)="onSearch()">
+      <div class="field">
+        <mat-form-field>
+          <input matInput type="number" min="1"  max="52" placeholder="semana" formControlName="week">
+        </mat-form-field>
+      </div>
+      
+      <div class="field">
+          <mat-form-field>
+            <input matInput type="number" min="1" max="7" placeholder="dia" formControlName="day">
+          </mat-form-field>
+        </div>
+    
+        <div>
+          <button type="submit">Buscar</button>
+        </div>
+    </form>
   </div>
 
-  <div>
+  <div *ngIf="showTbls">
 
-    <app-special-table [dataSource]="dataSource"></app-special-table>
-
-    <br><br> 
-
-    <app-table [header_columns]="header_columns_week" [info]="data_info"></app-table>
+    <app-special-table [dataSource]="data_info_day"></app-special-table>
 
     <br><br> 
 
-    <app-table [header_columns]=header_columns_weeks [info]="data_info_weeks"></app-table>
+    <app-table [header_columns]="header_columns_week" [info]="data_info_week"></app-table>
+
+    <br><br> 
+
+    <app-table [header_columns]=header_columns_weeks [info]="data_info_month"></app-table>
 
   </div>
 
