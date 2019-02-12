@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import { ModalChartComponent } from '../modal-chart/modal-chart.component';
 import { OperationsService } from '../../services/operations.service';
+import { Report } from '../../models/report';
 
 @Component({
   selector: 'app-table',
@@ -12,7 +13,7 @@ export class TableComponent implements OnInit {
 
   @Input()header_columns: string[];
 
-  @Input()info: any;
+  @Input()reports: Report[];
 
   avgsTotal: any[] = [];
   
@@ -21,7 +22,6 @@ export class TableComponent implements OnInit {
   ngOnInit() { }
 
   addAvgsTotalForGraphic(value: number):void{
-    console.log("Para modal: ", value)
     this.avgsTotal.push(value);
     this.avgsTotal = this.avgsTotal.sort((a,b)=> b.avg - a.avg)
   }
