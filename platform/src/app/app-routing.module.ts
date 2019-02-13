@@ -7,6 +7,10 @@ const routes: Routes = [
         loadChildren: './modules/home/pages/home/home.module#HomeModule'
     },
     {
+        path: 'login',
+        loadChildren: './modules/home/pages/login/login.module#LoginModule'
+    },
+    {
         path: 'register',
         loadChildren: './modules/home/pages/register/register.module#RegisterModule'
     },
