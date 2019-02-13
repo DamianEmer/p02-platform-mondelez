@@ -23,15 +23,15 @@ export class TableComponent implements OnInit {
 
   addAvgsTotalForGraphic(value: number):void{
     this.avgsTotal.push(value);
-    this.avgsTotal = this.avgsTotal.sort((a,b)=> b.avg - a.avg)
+    this.avgsTotal = this.avgsTotal.sort((a,b)=> b.y - a.y)
   }
 
   showChart(turns?: any[]){
     this.dialog.open(ModalChartComponent, {
       data: {
-        ids: this.avgsTotal.map(v => v.id),
-        names: this.avgsTotal.map(v => v.line),
-        info: this.avgsTotal.map(v=>v.avg)
+        // ids: this.avgsTotal.map(v => v.id),
+        // names: this.avgsTotal.map(v => v.line),
+        info: this.avgsTotal
       }
     });
   }

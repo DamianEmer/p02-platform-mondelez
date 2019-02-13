@@ -30,8 +30,8 @@ export class RowInfoComponent implements OnInit {
         divder++;
     });
     (divder != 0)? 
-      this.valueAvg.emit({id: this.info.id, line: this.info.line, avg: avg/divder}) 
-      : this.valueAvg.emit({id: this.info.id, line: this.info.line, avg: 0});
+      this.valueAvg.emit({key: this.info.id, name: this.info.line, y: avg/divder}) 
+      : this.valueAvg.emit({key: this.info.id, name: this.info.line, y: 0});
     return (avg/divder);
   }
 
