@@ -1,8 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/reports.service';
-
-// import { DOCUMENT } from '@angular/common';
-// import { DOCUMENT } from '@angular/platform-browser';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Report } from 'src/app/shared/models/report';
 
 @Component({
   selector: 'app-report',
@@ -11,28 +10,40 @@ import { ReportsService } from 'src/app/shared/services/reports.service';
 })
 export class ReportComponent implements OnInit {
 
-  dataSource: any [];
-
   header_columns_week: string[] = [
     "Linea", "Lunes", "Martes", "Miercoles", "Jueves","Viernes", "Sabado", "Domingo",
-    "Total Semana", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val", "Gráfica"
+    "Total Semana", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val"
   ]
 
   header_columns_weeks: string[] = [
     "Linea", "W1", "W2", "W3", "W4", "W5", 
-    "Total Mensual", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val", "Gráfica"
+    "Total Mensual", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val"
   ]
 
-  data_info: any[];
+  data_reports: Report[];
 
-  data_info_weeks: any[];
+  searchForm: FormGroup;
 
-  constructor(private reportService : ReportsService) {    }
+  showTbls: boolean = false;
 
-  ngOnInit() {
-    this.dataSource = this.reportService.getData();
-    this.data_info = this.reportService.getInfoWeek();
-    this.data_info_weeks = this.reportService.getInfoWeeks();
+  constructor(private reportService : ReportsService, private fb: FormBuilder) {  
+    this.searchForm = this.fb.group({
+      week: ['', Validators.required],
+      day: ['', Validators.required]
+    })
+    }
+
+  ngOnInit() { }
+
+  
+  onSearch(){
+    if(this.searchForm.valid){ 
+      this.reportService.getReports().subscribe((reports: Report[])=> {
+        this.data_reports = reports;
+      })
+      this.showTbls = true;
+    }else
+      alert("Faltan datos");
   }
 
 

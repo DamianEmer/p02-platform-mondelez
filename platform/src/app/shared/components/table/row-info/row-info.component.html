@@ -1,24 +1,23 @@
 <tr>
   <td> {{info.line}} </td>
 
-  <td *ngFor="let date of info.dates"
+  <td *ngFor="let date of info.infoWeek"
   [ngClass]="{
-    'b-green': (date.value >= 95),
-    'b-red': (date.value &#60; 95),
-    'b-null': (date.value == null || date.value == 0)
+    'b-green': (date.valueGE >= 95),
+    'b-red': (date.valueGE &#60; 95),
+    'b-null': (date.valueGE == null || date.valueGE == 0)
   }">
-    {{date.value}}
+    {{date.valueGE}}
   </td>
 
   <td 
   [ngClass]="{
-    'b-green': (calc(info.dates) >= 95),
-    'b-red': (calc(info.dates) &#60; 95),
-    'b-null': (calc(info.dates) == null || calc(info.dates) == 0)
-  }"> {{calc(info.dates) | number:'1.1-2'}} </td>
+    'b-green': (avg >= 95),
+    'b-red': (avg &#60; 95),
+    'b-null': (avg == null || avg == 0)
+  }"> {{avg | number:'1.1-2'}} </td>
   
   <td> {{info.volplan}} </td>
   <td> {{info.volreal}} </td>
   <td> {{info.kgvar}} </td>
-  <td> <button mat-button color="primary" (click)="showChart(info.dates)">Grafico</button> </td>
 </tr>

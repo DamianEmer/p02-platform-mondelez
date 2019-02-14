@@ -3,7 +3,10 @@
     <app-row-header [header_columns]="header_columns"></app-row-header>
   </thead>
   <tbody>
-    <app-row-info *ngFor="let di of info" [info]="di"></app-row-info>
-    <app-row-results [data]="info"></app-row-results>
+    <app-row-info *ngFor="let report of reports" [info]="report" (valueAvg)="addAvgsTotalForGraphic($event)"></app-row-info>
+    <app-row-results [data]="reports"></app-row-results>
+    <tr>
+      <td> <button mat-button color="primary" (click)="showChart()">Grafico</button></td>
+    </tr>
   </tbody>
 </table>
