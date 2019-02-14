@@ -8,7 +8,9 @@ export class DataService {
 
   constructor() { }
 
+  //GET
   getTurns(): Observable<any[]>{
+    // localhost:8080/turns
     let turns:any[] = [
       {
         id: 1,
@@ -28,7 +30,9 @@ export class DataService {
     })
   }
 
+  //GET
   getLines(): Observable<any[]>{
+    // localhost:8080/lines
     let lines:any[] = [
       {
         id: 1,
@@ -48,7 +52,9 @@ export class DataService {
     })
   }
 
+  //GET
   getOperators(idLine?: string): Observable<any[]> {
+    // localhost:8080/operators?lineId=${isLine}
     let operators: any[] = [
       {
         id: 1,
@@ -84,7 +90,9 @@ export class DataService {
     })
   }
 
+  //GET
   getStoppages(): Observable<any[]>{
+    // localhost:8080/stoppages
     let stoppages: any[] = [
       {
         id:1,
@@ -108,7 +116,9 @@ export class DataService {
     })
   }
 
-  getUnplannedStoppages(): Observable<any[]>{
+  //GET
+  getUnplannedStoppages(idLine?:string): Observable<any[]>{
+    // localhost:8080/unplanned_stoppages?lineId=${isLine}
     let stoppages: any[] = [
       {
         id:1,
@@ -129,7 +139,9 @@ export class DataService {
     })
   }
 
-  getProducts(): Observable<any[]>{
+  //GET
+  getProducts(idLine?: string): Observable<any[]>{
+    // localhost:8080/products?lineId=${isLine}
     let products: any[] = [
       {
         id: '750100200004100',
@@ -160,9 +172,17 @@ export class DataService {
         idLine: 3
       }
     ];
+
+    let productsFilter = products.filter(product => product.idLine === idLine);
     return Observable.create( observer => {
-      observer.next(products);
+      observer.next(productsFilter);
     })
+  }
+
+  //POST
+  saveRegistry(registry: any){
+    // localhost:8080/sku
+    console.log("Registro save ", registry);
   }
 
 }

@@ -18,20 +18,20 @@ export class RowInfoComponent implements OnInit {
   constructor( public dialog: MatDialog ) { }
 
   ngOnInit() { 
-    this.avg = this.calc(this.info.dates);
+    this.avg = this.calc(this.info.infoWeek);
   }
 
   calc(turns: any[]):number {
     let avg = 0;
     let divder = 0;
     turns.map(data => {
-      avg+=data.value
-      if(data.value != null && data.value != 0)
+      avg+=data.valueGE
+      if(data.valueGE != null && data.valueGE != 0)
         divder++;
     });
     (divder != 0)? 
-      this.valueAvg.emit({line: this.info.line, avg: avg/divder}) 
-      : this.valueAvg.emit({line: this.info.line, avg: 0});
+      this.valueAvg.emit({key: this.info.id, name: this.info.line, y: avg/divder}) 
+      : this.valueAvg.emit({key: this.info.id, name: this.info.line, y: 0});
     return (avg/divder);
   }
 

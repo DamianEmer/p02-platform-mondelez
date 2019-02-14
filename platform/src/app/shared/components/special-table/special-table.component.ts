@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Report } from '../../models/report';
 
 @Component({
   selector: 'app-special-table',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SpecialTableComponent implements OnInit {
 
-  @Input()dataSource: any[];
+  @Input()dataSource: Report[];
 
   displayedColumns: string[] = [
     'linea', 'GE Turno', 'GE Total Dia', 'OEE Turno', 'OEE Total Dia', 
@@ -16,8 +17,7 @@ export class SpecialTableComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { } 
 
   calc(turns: any[]):number {
     let avg = 0;

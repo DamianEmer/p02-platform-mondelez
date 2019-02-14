@@ -38,16 +38,16 @@ export class RowResultsComponent implements OnInit {
       sumvolreal += obj.volreal;
       sumkgvar += obj.kgvar;
 
-      sumHorizontal += this.calc(obj.dates);
-      (this.calc(obj.dates) != 0)?acumTotalHorizontal++ : acumTotalHorizontal;
+      sumHorizontal += this.calc(obj.infoWeek);
+      (this.calc(obj.infoWeek) != 0)?acumTotalHorizontal++ : acumTotalHorizontal;
 
-      obj.dates.map((date, j) => {        
+      obj.infoWeek.map((date, j) => {        
         if (i == 0) {
-          (date.value != null && date.value != 0)?this.contadores.push(1):this.contadores.push(0);
-          this.resultsByColumn.push(date.value);
+          (date.valueGE != null && date.valueGE != 0)?this.contadores.push(1):this.contadores.push(0);
+          this.resultsByColumn.push(date.valueGE);
         } else {
-          (date.value != null && date.value != 0)?this.contadores[j]+=1:this.contadores[j]+=0;
-          this.resultsByColumn[j] += date.value;
+          (date.valueGE != null && date.valueGE != 0)?this.contadores[j]+=1:this.contadores[j]+=0;
+          this.resultsByColumn[j] += date.valueGE;
         }
       });
     });
@@ -63,8 +63,8 @@ export class RowResultsComponent implements OnInit {
     let avg = 0;
     let divder = 0;
     turns.map(data => {
-      avg+=data.value
-      if(data.value != null && data.value != 0)
+      avg+=data.valueGE
+      if(data.valueGE != null && data.valueGE != 0)
         divder++;
     })
     return (divder == 0)? 0: (avg/divder);
