@@ -1,13 +1,13 @@
 <tr>
   <td> {{info.line}} </td>
 
-  <td *ngFor="let date of info.dates"
+  <td *ngFor="let date of info.infoWeek"
   [ngClass]="{
-    'b-green': (date.value >= 95),
-    'b-red': (date.value &#60; 95),
-    'b-null': (date.value == null || date.value == 0)
+    'b-green': (date.valueGE >= 95),
+    'b-red': (date.valueGE &#60; 95),
+    'b-null': (date.valueGE == null || date.valueGE == 0)
   }">
-    {{date.value}}
+    {{date.valueGE}}
   </td>
 
   <td 
