@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-corrections',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CorrectionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  onClickLogout(){
+    this.authService.logout();
+    this.router.navigate(['/home']);
   }
 
 }

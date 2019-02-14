@@ -22,6 +22,6 @@ const COMMON_IMPORTS = [
     exports: COMMON_DECLARATIONS
 })
 
-export class CorrectionsModules {
+export class CorrectionsModule {
     
 }
