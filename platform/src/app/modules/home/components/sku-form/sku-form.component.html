@@ -1,4 +1,4 @@
-<div class="container" [formGroup]="formParent">
+<div class="container font" [formGroup]="formParent">
 
   <div formArrayName="sku" class="sku-container" *ngFor="let sku of formParent.get('sku').controls; let i = index;">
 
@@ -64,7 +64,7 @@
       </div>
 
       <div class="section sub4">
-          <button class="btn" style="margin-left:15px" (click)="addParo(i)" [disabled]="formParent.get('sku').controls[i].get('stoppages').invalid">Paro NO
+          <button class="btn font" style="margin-left:15px" (click)="addParo(i)" [disabled]="formParent.get('sku').controls[i].get('stoppages').invalid">Paro NO
               Planeado</button>
       </div>
 

@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Gothic+A1'); @import url('https://fonts.googleapis.com/css?family=Gothic+A1');
 
 * {
     margin: 0;
@@ -8,6 +9,15 @@
 
 .error-container{
     color: red;
+}
+
+.font {
+    font-family: 'Gothic A1', sans-serif;
+}
+
+.font-title {
+    font-family: Helvetica;
+    font-weight: 500;
 }
 
 .btn{

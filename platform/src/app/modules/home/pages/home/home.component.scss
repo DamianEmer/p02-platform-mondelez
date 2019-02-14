@@ -8,8 +8,7 @@
 
     nav{
         width: 25%;
-        height: 100%;
-        margin-left: 50px;  
+        padding: 15px;
 
         ul{
             list-style: none;
@@ -19,13 +18,18 @@
                 width: 100%;
                 height: 100px;
                 margin-top: 15px;
-                background-color: #9f83b3;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
+                background-color:#9f83b3;
+                // display: flex;
+                // flex-direction: column;
+                // justify-content: center;
+                // align-items: center;
 
                 a{
+                    display: table-cell;
+                    height: 100px;
+                    width: 340px;
+                    text-align: center;
+                    vertical-align: middle;
                     text-decoration: none;
                     color: #fff;
                 }
@@ -38,12 +42,15 @@
     }
 
     .logo{
+        // border: 5px solid yellow;
         width: 75%;
 
         img{
+            display: block;
+            // border: 3px solid green;
             width: 600px;
             height: 400px;
-            margin: auto;
+            margin: 25px auto;
         }
     }
 }

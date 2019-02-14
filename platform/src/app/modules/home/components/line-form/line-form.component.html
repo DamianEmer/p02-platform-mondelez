@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container font">
 
   <div class="section-1">
     <div class="subsection-1">
@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="field actions">
-            <button class="btn" [disabled]="form.invalid" type="submit">Guardar</button>
+            <button class="btn font" [disabled]="form.invalid" type="submit">Guardar</button>
           </div>
         </div>
       </form>
@@ -70,7 +70,7 @@
 
     <div class="subsection-2">
       <div class="fields">
-        <button class="btn" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro
+        <button class="btn font" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro
           Planeado</button>
       </div>
       <div class="fields-stoppages">
@@ -81,7 +81,7 @@
 
   <div class="section-2">
     <div class="fields">
-      <button class="btn" style="margin-left:15px" (click)="addSku()" [disabled]="form.get('sku').invalid">SKU</button>
+      <button class="btn font" style="margin-left:15px" (click)="addSku()" [disabled]="form.get('sku').invalid">SKU</button>
     </div>
     <div style="overflow-x:scroll">
       <app-sku-form [formParent]="form" 
