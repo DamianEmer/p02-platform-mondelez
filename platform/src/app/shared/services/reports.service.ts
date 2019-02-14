@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { InfoDay } from '../models/infoDay';
-import { InfoWeek } from '../models/infoWeek';
-import { InfoMonth } from '../models/infoMonth';
-import { HttpParams } from '@angular/common/http';
+import { Report } from '../models/report';
 
-interface Data {
+interface Date {
     week: number,
     day: number;
 }
@@ -15,256 +12,180 @@ interface Data {
 })
 export class ReportsService {
 
-    info_day: InfoDay[] = [
+    reports: Report[] = [
         {
             id: 1,
             line: 'Hart 1',
             geTurno: [
                 {
-                    turno: 1,
-                    value: null,
+                    id: 1,
+                    turn: 450,
+                    value: null
                 },
                 {
-                    turno: 2,
+                    id: 2,
                     value: 92,
                 },
                 {
-                    turno: 3,
+                    id: 3,
                     value: 98,
                 }
             ],
             oeeTurno: [
                 {
-                    turno: 1,
-                    value: 98,
+                    id: 1,
+                    turn: 450,
+                    value: 98
                 },
                 {
-                    turno: 2,
+                    id: 2,
                     value: 96,
                 },
                 {
-                    turno: 3,
+                    id: 3,
                     value: 70,
                 }
             ],
-            volplan: 1,
-            volreal: 5000,
-            kgvar: 3000
+            infoWeek: [
+                { id: 1, valueGE: 0 },
+                { id: 2, valueGE: 99 },
+                { id: 3, valueGE: 95 },
+                { id: 4, valueGE: 85 },
+                { id: 5, valueGE: 85 },
+                { id: 6, valueGE: 96 },
+                { id: 7, valueGE: 90 },
+            ],
+            infoMonth: [
+                { week: 1, valueGE: 99 },
+                { week: 2, valueGE: 98 },
+                { week: 3, valueGE: 98 },
+                { week: 4, valueGE: 98 },
+                { week: 5, valueGE: 98 },
+                { week: 6, valueGE: 98 },
+                { week: 7, valueGE: null },
+            ],
+            volplan: 4000,
+            volreal: 598,
+            kgvar: 1587
         },
         {
             id: 2,
             line: 'Hart 2',
             geTurno: [
                 {
-                    turno: 1,
-                    value: 0,
+                    id: 1,
+                    turn: 450,
+                    value: null
                 },
                 {
-                    turno: 2,
-                    value: 95,
+                    id: 2,
+                    value: 92,
                 },
                 {
-                    turno: 3,
-                    value: 95,
+                    id: 3,
+                    value: 98,
                 }
             ],
             oeeTurno: [
                 {
-                    turno: 1,
-                    value: 99,
+                    id: 1,
+                    turn: 450,
+                    value: 98
                 },
                 {
-                    turno: 2,
-                    value: 89,
+                    id: 2,
+                    value: 96,
                 },
                 {
-                    turno: 3,
-                    value: 100,
+                    id: 3,
+                    value: 70,
                 }
             ],
-            volplan: 1,
-            volreal: 5000,
-            kgvar: 3000
+            infoWeek: [
+                { id: 1, valueGE: 0 },
+                { id: 2, valueGE: 98 },
+                { id: 3, valueGE: 98 },
+                { id: 4, valueGE: 88 },
+                { id: 5, valueGE: 88 },
+                { id: 6, valueGE: 98 },
+                { id: 7, valueGE: 98 },
+            ],
+            infoMonth: [
+                { week: 1, valueGE: 99 },
+                { week: 2, valueGE: 98 },
+                { week: 3, valueGE: 98 },
+                { week: 4, valueGE: 98 },
+                { week: 5, valueGE: 98 },
+                { week: 6, valueGE: 98 },
+                { week: 7, valueGE: null },
+            ],
+            volplan: 4000,
+            volreal: 598,
+            kgvar: 1587
         },
         {
             id: 3,
             line: 'Hart 3',
             geTurno: [
                 {
-                    turno: 1,
-                    value: null,
+                    id: 1,
+                    turn: 450,
+                    value: null
                 },
                 {
-                    turno: 2,
-                    value: null,
+                    id: 2,
+                    value: 92,
                 },
                 {
-                    turno: 3,
-                    value: null,
+                    id: 3,
+                    value: 98,
                 }
             ],
             oeeTurno: [
                 {
-                    turno: 1,
-                    value: 0,
+                    id: 1,
+                    turn: 450,
+                    value: 98
                 },
                 {
-                    turno: 2,
-                    value: 99,
+                    id: 2,
+                    value: 96,
                 },
                 {
-                    turno: 3,
-                    value: 0,
+                    id: 3,
+                    value: 70,
                 }
             ],
-            volplan: 1,
-            volreal: 5000,
-            kgvar: 3000
-        }
-    ]
-
-    info_week: InfoWeek[] = [
-        {
-            id: 1,
-            line: 'Hart 1',
-            dates: [
-                { id: 1, value: 0 },
-                { id: 2, value: 99 },
-                { id: 3, value: 95 },
-                { id: 4, value: 85 },
-                { id: 5, value: 85 },
-                { id: 6, value: 96 },
-                { id: 7, value: 90 },
+            infoWeek: [
+                { id: 1, valueGE: 0 },
+                { id: 2, valueGE: 99 },
+                { id: 3, valueGE: 95 },
+                { id: 4, valueGE: 85 },
+                { id: 5, valueGE: 85 },
+                { id: 6, valueGE: 96 },
+                { id: 7, valueGE: 90 },
             ],
-            volplan: 1000,
-            volreal: 2000,
-            kgvar: 3000
-        },
-        {
-            id: 2,
-            line: 'Hart 2',
-            dates: [
-                { id: 1, value: 100 },
-                { id: 2, value: 98 },
-                { id: 3, value: 98 },
-                { id: 4, value: 98 },
-                { id: 5, value: 95 },
-                { id: 6, value: 99 },
-                { id: 7, value: null },
-            ],
-            volplan: 2000,
-            volreal: 4000,
-            kgvar: 6000
-        },
-        {
-            id: 3,
-            line: 'Hart 3',
-            dates: [
-                { id: 1, value: 100 },
-                { id: 2, value: 92 },
-                { id: 3, value: 99 },
-                { id: 4, value: 95 },
-                { id: 5, value: 95 },
-                { id: 6, value: 85 },
-                { id: 7, value: 90 },
+            infoMonth: [
+                { week: 1, valueGE: 99 },
+                { week: 2, valueGE: 98 },
+                { week: 3, valueGE: 98 },
+                { week: 4, valueGE: 98 },
+                { week: 5, valueGE: 98 },
+                { week: 6, valueGE: 98 },
+                { week: 7, valueGE: null },
             ],
             volplan: 4000,
-            volreal: 8000,
-            kgvar: 9000
-        },
-        {
-            id: 4,
-            line: 'Nueva linea',
-            dates: [
-                { id: 1, value: 0 },
-                { id: 2, value: 0 },
-                { id: 3, value: 0 },
-                { id: 4, value: 0 },
-                { id: 5, value: 0 },
-                { id: 6, value: 0 },
-                { id: 7, value: 0 },
-            ],
-            volplan: 4000,
-            volreal: 8000,
-            kgvar: 9000
-        }
-    ]
-
-    info_month: InfoMonth[] = [
-        {
-            id: 1,
-            line: 'Hart 1',
-            dates: [
-                { id: 1, value: 99 },
-                { id: 2, value: 98 },
-                { id: 3, value: 96 },
-                { id: 4, value: 85 },
-                { id: 5, value: 99 },
-            ],
-            volplan: 846,
-            volreal: 295,
-            kgvar: 1547
-        },
-        {
-            id: 2,
-            line: 'Hart 2',
-            dates: [
-                { id: 1, value: 90 },
-                { id: 2, value: 98 },
-                { id: 3, value: 99 },
-                { id: 4, value: 70 },
-                { id: 5, value: 85 },
-            ],
-            volplan: 666,
-            volreal: 2965,
-            kgvar: 1589
-        },
-        {
-            id: 3,
-            line: 'Hart 3',
-            dates: [
-                { id: 1, value: 90 },
-                { id: 2, value: 85 },
-                { id: 3, value: 85 },
-                { id: 4, value: 80 },
-                { id: 5, value: 85 },
-            ],
-            volplan: 777,
-            volreal: 895,
-            kgvar: 135
+            volreal: 598,
+            kgvar: 1587
         }
     ]
 
     constructor() { }
 
-    //GET
-    // locahost:8080/report
-    getData(info?: Data): Observable<InfoDay[]> {
-        let params = new HttpParams()
-            .set('week', info.week.toString())
-            .set('day', info.day.toString());
+    getReports(infoSearch?: Date): Observable<Report[]> {
         return Observable.create(observer => {
-            observer.next(this.info_day);
-        });
-    }
-
-    //GET
-    getInfoWeek(info?: Data): Observable<InfoWeek[]> {
-        let params = new HttpParams()
-        .set('week', info.week.toString())
-        .set('day', info.day.toString());
-        return Observable.create(observer => {
-            observer.next(this.info_week);
-        });
-    }
-
-    //GET
-    getInfoWeeks(info?: Data): Observable<InfoMonth[]> {
-        let params = new HttpParams()
-        .set('week', info.week.toString())
-        .set('day', info.day.toString());
-        return Observable.create(observer => {
-            observer.next(this.info_month);
+            observer.next(this.reports);
         })
     }
+
 }

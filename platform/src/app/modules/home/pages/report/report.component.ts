@@ -1,12 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/reports.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { InfoDay } from 'src/app/shared/models/infoDay';
-import { InfoMonth } from 'src/app/shared/models/infoMonth';
-import { InfoWeek } from 'src/app/shared/models/infoWeek';
-
-// import { DOCUMENT } from '@angular/common';
-// import { DOCUMENT } from '@angular/platform-browser';
+import { Report } from 'src/app/shared/models/report';
 
 @Component({
   selector: 'app-report',
@@ -25,11 +20,7 @@ export class ReportComponent implements OnInit {
     "Total Mensual", "Vol Plan (Kg)", "Vol Real (Kg)", "Kg Val"
   ]
 
-  data_info_day: InfoDay [];
-
-  data_info_week: InfoWeek[];
-
-  data_info_month: InfoMonth[];
+  data_reports: Report[];
 
   searchForm: FormGroup;
 
@@ -47,9 +38,9 @@ export class ReportComponent implements OnInit {
   
   onSearch(){
     if(this.searchForm.valid){ 
-      this.reportService.getData(this.searchForm.value).subscribe(data => this.data_info_day = data);
-      this.reportService.getInfoWeek(this.searchForm.value).subscribe(data => this.data_info_week = data);
-      this.reportService.getInfoWeeks(this.searchForm.value).subscribe(data => this.data_info_month = data);
+      this.reportService.getReports().subscribe((reports: Report[])=> {
+        this.data_reports = reports;
+      })
       this.showTbls = true;
     }else
       alert("Faltan datos");
