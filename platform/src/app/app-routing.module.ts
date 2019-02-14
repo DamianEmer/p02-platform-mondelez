@@ -28,6 +28,10 @@ const routes: Routes = [
         path: 'check-report',
         loadChildren: './modules/home/pages/check-report/check-report.module#CheckReportModule'
     },
+    {
+        path: 'report/:id',
+        loadChildren: './modules/home/pages/line-detail/line-detail.module#LineDetailModule'
+    },
     { 
         path: '', 
         redirectTo: 'home', 

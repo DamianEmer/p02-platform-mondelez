@@ -1,6 +1,6 @@
 <div [formGroup]="form">
   <div formArrayName="stoppages" *ngFor="let stop of form.get('stoppages').controls; let i = index">
-    <div class="stoppages_container" [formGroupName]="i">
+    <div class="stoppages_container font" [formGroupName]="i">
       <div class="field">
         <mat-form-field>
           <label for="'inp-desc'i">Descripción</label>

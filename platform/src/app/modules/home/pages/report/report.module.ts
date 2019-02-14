@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 const routes: Routes = [
     { path: '', component: ReportComponent }
@@ -26,7 +27,8 @@ const COMMON_IMPORTS = [
     TableModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule
 ];
 
 @NgModule({
