@@ -1,4 +1,47 @@
 <div class="container_corrections">
   <h2 class="font-title">BIENVENIDO A CORRECCIONES</h2>
+
+  <mat-tab-group>
+    <mat-tab label="Operadores">
+      <div class="container-users">
+
+        <h3>Agregar nuevo usuario</h3>
+        <div>
+          <div class="container-form" [formGroup]="form">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Nombre de operador" formControlName="name">
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput type="text" placeholder="Linea" formControlName="line">
+            </mat-form-field>
+
+            <div>
+              <button class="font btn" [disabled]="form.invalid" (click)="onSave()">Agregar</button>
+              <button class="font btn" [disabled]="form.invalid" (click)="onSave()">Actualizar</button>
+            </div>
+
+          </div>
+        </div>
+        <div>
+          <mat-list>
+            <mat-list-item *ngFor="let operator of operators">{{operator.name}} -- <button class="btn" (click)="onEditOperator(operator.id)">Editar</button></mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Lineas">
+      <h3>Lineas</h3>
+      <mat-list>
+        <mat-list-item *ngFor="let line of lines">{{line.id}} -- {{line.line}} -- <button class="btn" (click)="onEdit(line.id)">Editar</button></mat-list-item>
+      </mat-list>
+    </mat-tab>
+
+    <mat-tab label="Registros">
+      <app-line-form></app-line-form>
+    </mat-tab>
+  </mat-tab-group>
+
   <button class="btn" type="button" (click)="onClickLogout()">Cerrar sesión</button>
 </div>

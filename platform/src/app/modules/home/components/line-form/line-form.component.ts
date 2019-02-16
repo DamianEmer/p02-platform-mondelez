@@ -13,15 +13,11 @@ import { getLines } from "../../../../shared/store/selectors/line.selectors";
 import { getOperators } from 'src/app/shared/store/selectors/operator.selectors';
 import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
 import { getStoppages } from 'src/app/shared/store/selectors/stoppage.selector';
-import { getProducts } from 'src/app/shared/store/selectors/product.selectors';
-import { getUnplannedStoppage } from 'src/app/shared/store/selectors/unplannedStoppage.selectors';
 //Models
-import { Line } from 'src/app/shared/models/line';
 import { Turn } from 'src/app/shared/models/turn';
 import { Operator } from 'src/app/shared/models/operator';
 import { Stoppage } from 'src/app/shared/models/stoppage';
-import { Product } from 'src/app/shared/models/product';
-import { UnplannedStoppage } from 'src/app/shared/models/unplannedStoppage';
+import { Line2, Product, BreakDown } from 'src/app/shared/models/Line2';
 
 @Component({
   selector: 'app-line-form',
@@ -34,7 +30,7 @@ export class LineFormComponent implements OnInit {
 
   turns: Turn[];
 
-  lines: Line[];
+  lines: Line2[];
 
   operators: Operator[];
 
@@ -42,7 +38,7 @@ export class LineFormComponent implements OnInit {
 
   products: Product[];
 
-  unplannedStoppages: UnplannedStoppage[];
+  unplannedStoppages: BreakDown[];
 
   turnTime: number;
 
@@ -50,7 +46,6 @@ export class LineFormComponent implements OnInit {
     private ds: DataService,
     private store: Store<AppState>) {
 
-      this.store.dispatch(new AllActionsLines.LoadLines());
       this.store.dispatch(new AllActionsStoppages.LoadStoppages())
       this.store.select(getLines).subscribe(lines => this.lines = lines);
       this.store.select(getTurns).subscribe(turns => this.turns = turns);
@@ -148,11 +143,11 @@ export class LineFormComponent implements OnInit {
   //Obtiene operadores y productos dependiendo de la linea seleccionada
 
   selectDropDown(select: string) {
-
     this.store.dispatch(new AllActionsLines.LoadIdLine(select));
     this.store.select(getOperators).subscribe(operators => this.operators = operators);
-    this.store.select(getProducts).subscribe(products => this.products = products);
-    this.store.select(getUnplannedStoppage).subscribe(unplannedStops => this.unplannedStoppages = unplannedStops);
+    let line = this.lines.find(line => line.id === parseInt(select));
+    this.products = line.products;
+    this.unplannedStoppages = line.breakdowns;
   }
 
   // Obtiene valor del tiempo del turno seleccionado

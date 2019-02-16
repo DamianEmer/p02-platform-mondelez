@@ -1,9 +1,9 @@
 import { ActionLineTypes, AllLineActions } from "../actions/line.actions";
-import { Line } from "../../models/line";
+import { Line2 } from "../../models/Line2";
 
 export interface LineState {
     isLoading: boolean;
-    lines: Line[];
+    lines: Line2[];
     msg_error: string;
     id: any;
 }

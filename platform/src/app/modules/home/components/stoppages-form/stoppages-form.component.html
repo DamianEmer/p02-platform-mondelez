@@ -5,7 +5,7 @@
         <mat-form-field>
           <label for="'inp-desc'i">Descripción</label>
           <mat-select formControlName="id">
-            <mat-option *ngFor="let stop of stoppages" [value]="stop.id">{{stop.name}}</mat-option>
+            <mat-option *ngFor="let stop of stoppages" [value]="stop.id">{{stop.description}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
