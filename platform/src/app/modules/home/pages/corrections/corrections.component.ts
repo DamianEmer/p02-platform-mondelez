@@ -8,6 +8,7 @@ import { getLines } from 'src/app/shared/store/selectors/line.selectors';
 import { getOperators } from 'src/app/shared/store/selectors/operator.selectors';
 import { Operator } from 'src/app/shared/models/operator';
 import { Line2 } from 'src/app/shared/models/Line2';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-corrections',
@@ -16,18 +17,40 @@ import { Line2 } from 'src/app/shared/models/Line2';
 })
 export class CorrectionsComponent implements OnInit {
 
+  form: FormGroup;
+
   lines: Line2[];
 
   operators: Operator[];
 
-  operator: Operator;
+  showBtnEdit: boolean
+
   
-  constructor(private authService: AuthService, private router: Router, private store: Store<AppState>) { }
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder, 
+    private router: Router, 
+    private store: Store<AppState>) { 
+      this.showBtnEdit = false;
+  }
 
   ngOnInit() {
     this.store.select(getLines).subscribe(lines => this.lines = lines);
     this.store.dispatch(new AllActionsOperator.LoadOperators());
     this.store.select(getOperators).subscribe(operators => this.operators = operators);
+
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      line: ['', Validators.required]
+    })
+  }
+
+  onSave(): void {
+    console.log("Nuevo operador: ", this.form.value);
+  }
+
+  onUpdate(){
+    console.log("Actualizar operador: ", this.form.value)
   }
 
   onClickLogout(){
@@ -35,8 +58,23 @@ export class CorrectionsComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
+  onEditOperator(id: number) {
+    this.showBtnEdit = true;
+    let operator = this.operators.find(ope => ope.id === id);
+    let line = this.lines.find(l => l.id === operator.idLine);
+    console.log("Linea: ", line);
+    this.form.patchValue({
+      name: operator.name,
+      line: line.line
+    })
+  }
+
   onEdit(idLine: number){
     this.router.navigate(['corrections', 'edit', idLine]);
+  }
+
+  get getName(){
+    return this.form.get('name');
   }
 
 }
