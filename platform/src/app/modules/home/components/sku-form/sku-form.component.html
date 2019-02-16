@@ -19,7 +19,7 @@
       <div class="section sub2">
         <mat-form-field>
           <mat-select placeholder="Selecciona" formControlName="description" (selectionChange)="selectDropDown($event.value, i)">
-            <mat-option *ngFor="let sku of products" [value]="sku.id">{{sku.product}}</mat-option>
+            <mat-option *ngFor="let sku of products" [value]="sku.id">{{sku.description}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

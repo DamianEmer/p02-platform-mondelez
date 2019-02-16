@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-line-form-edit',
@@ -13,86 +14,9 @@ export class LineFormEditComponent implements OnInit {
 
   idParam: string;
 
-  lines = [
-    {
-      id: 1,
-      line: 'Linea 1',
-      catogory: 'cat1',
-      technology: 'tech1',
-      numLine: '01 Linea 1',
-      products: [
-        {
-          id: 1,
-          product: 'pro 1',
-          kgmin: 1200,
-          kgcj: 5000
-        },
-        {
-          id: 2,
-          product: 'pro 2',
-          kgmin: 1880,
-          kgcj: 6220
-        },
-        {
-          id: 3,
-          product: 'pro 3',
-          kgmin: 1200,
-          kgcj: 2000
-        }
-      ],
-      breakdowns: [
-        {
-          id: 1,
-          breakdown: 'Sin energia eletrica'
-        },
-        {
-          id: 2,
-          breakdown: 'Sin agua'
-        }
-      ]
-    },
-    {
-      id: 2,
-      line: 'Linea 2',
-      catogory: 'cat2',
-      technology: 'tech2',
-      numLine: '02 Linea 2',
-      products: [
-        {
-          id: 1,
-          product: 'pro 1',
-          kgmin: 1200,
-          kgcj: 5000
-        },
-        {
-          id: 2,
-          product: 'pro 2',
-          kgmin: 1880,
-          kgcj: 6220
-        },
-        {
-          id: 3,
-          product: 'pro 3',
-          kgmin: 1200,
-          kgcj: 2000
-        }
-      ],
-      breakdowns: [
-        {
-          id: 1,
-          breakdown: 'Sin energia eletrica'
-        },
-        {
-          id: 2,
-          breakdown: 'Sin agua'
-        }
-      ]
-    }
-  ]
-
-
-
-  constructor(private fb: FormBuilder, private router: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, 
+    private router: ActivatedRoute,
+    private dataService: DataService) { }
 
   ngOnInit() {
 
@@ -111,12 +35,12 @@ export class LineFormEditComponent implements OnInit {
   }
 
   onEdit(id?: number): void {
-    let line = this.lines.find(line => line.id === id);
+    let line = this.dataService.getLineById(id);
     this.formEdit.patchValue({
       line: line.line,
-      category: line.catogory,
+      category: line.category,
       technology: line.technology,
-      number: line.numLine
+      number: line.number
     });
     this.formEdit.setControl('products', this.existProducts(line.products));
     this.formEdit.setControl('breakdowns', this.existBreakdowns(line.breakdowns));
@@ -126,7 +50,7 @@ export class LineFormEditComponent implements OnInit {
     const formArray = new FormArray([]);
     products.forEach(p => {
       formArray.push(this.fb.group({
-        product: p.product,
+        product: p.description,
         kgmin: p.kgmin,
         kgcj: p.kgcj
       }));
@@ -138,7 +62,7 @@ export class LineFormEditComponent implements OnInit {
     const formArray = new FormArray([]);
     breakdowns.forEach(bd => {
       formArray.push(this.fb.group({
-        breakdown: bd.breakdown
+        breakdown: bd.description
       }));
     });
     return formArray;

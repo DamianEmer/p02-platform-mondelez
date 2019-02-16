@@ -9,19 +9,23 @@
         <div>
           <app-user-form></app-user-form>
         </div>
-
-        <ul>
-          <li *ngFor="let line of lines">{{line.name}}</li>
-        </ul>
+        <div>
+          <mat-list>
+            <mat-list-item *ngFor="let operator of operators">{{operator.name}} </mat-list-item>
+          </mat-list>
+        </div>
       </div>
     </mat-tab>
 
     <mat-tab label="Lineas">
-      Lineas
+      <h3>Lineas</h3>
+      <mat-list>
+        <mat-list-item *ngFor="let line of lines">{{line.id}} -- {{line.line}} -- <button class="btn" (click)="onEdit(line.id)">Editar</button></mat-list-item>
+      </mat-list>
     </mat-tab>
 
     <mat-tab label="Registros">
-      Registros
+      <app-line-form></app-line-form>
     </mat-tab>
   </mat-tab-group>
 

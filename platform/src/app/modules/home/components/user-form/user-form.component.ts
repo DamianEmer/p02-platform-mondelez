@@ -15,7 +15,7 @@ export class UserFormComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       name: ['', Validators.required],
-      line: ['', Validators]
+      line: ['', Validators.required]
     })
   }
 
