@@ -78,8 +78,14 @@ export class LineFormComponent implements OnInit {
   }
 
   onSave() {
-    if(this.form.valid)
+    if(this.form.valid){ 
       this.ds.saveRegistry(this.form.value);
+      this.resetForm();
+    }
+  }
+
+  resetForm():void { 
+    this.form.reset();
   }
 
   onTotalCal() {
