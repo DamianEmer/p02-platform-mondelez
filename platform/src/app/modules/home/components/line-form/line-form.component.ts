@@ -50,7 +50,6 @@ export class LineFormComponent implements OnInit {
     private ds: DataService,
     private store: Store<AppState>) {
 
-      this.store.dispatch(new AllActionsLines.LoadLines());
       this.store.dispatch(new AllActionsStoppages.LoadStoppages())
       this.store.select(getLines).subscribe(lines => this.lines = lines);
       this.store.select(getTurns).subscribe(turns => this.turns = turns);

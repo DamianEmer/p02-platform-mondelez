@@ -1,4 +1,29 @@
 <div class="container_corrections">
   <h2 class="font-title">BIENVENIDO A CORRECCIONES</h2>
+
+  <mat-tab-group>
+    <mat-tab label="Operadores">
+      <div class="container-users">
+
+        <h3>Agregar nuevo usuario</h3>
+        <div>
+          <app-user-form></app-user-form>
+        </div>
+
+        <ul>
+          <li *ngFor="let line of lines">{{line.name}}</li>
+        </ul>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Lineas">
+      Lineas
+    </mat-tab>
+
+    <mat-tab label="Registros">
+      Registros
+    </mat-tab>
+  </mat-tab-group>
+
   <button class="btn" type="button" (click)="onClickLogout()">Cerrar sesión</button>
 </div>

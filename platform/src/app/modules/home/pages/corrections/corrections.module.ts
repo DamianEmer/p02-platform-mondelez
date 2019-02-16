@@ -1,19 +1,31 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CorrectionsComponent } from './corrections.component';
+import { EditComponent } from './edit/edit.component';
 import { CommonModule } from '@angular/common';
+import { SkuFormModule } from '../../components/sku-form/sku-form.module';
+import { UserFormModule } from '../../components/user-form/user-form.module';
+
+import {MatTabsModule} from '@angular/material/tabs'; 
+import { LineFormEditModule } from '../../components/line-form-edit/line-form-edit.module';
 
 const routes: Routes = [
-    { path: '', component: CorrectionsComponent }
+    { path: '', component: CorrectionsComponent },
+    { path: 'edit/:id', component: EditComponent }
 ]
 
 const COMMON_DECLARATIONS = [ 
-    CorrectionsComponent
+    CorrectionsComponent,
+    EditComponent
 ]
 
 const COMMON_IMPORTS = [
     CommonModule,
-    RouterModule.forChild(routes)
+    SkuFormModule,
+    RouterModule.forChild(routes),
+    UserFormModule,
+    LineFormEditModule,
+    MatTabsModule
 ]
 
 @NgModule({

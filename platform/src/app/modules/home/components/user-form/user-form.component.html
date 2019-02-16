@@ -1,0 +1,11 @@
+<div class="container-form" [formGroup]="form">
+  <mat-form-field>
+    <input matInput type="text" placeholder="Nombre de operador" formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput type="text" placeholder="Linea" formControlName="line">
+  </mat-form-field>
+  
+  <button class="font btn" [disabled]="getName.invalid" (click)="onSave()">Agregar</button>
+</div>
