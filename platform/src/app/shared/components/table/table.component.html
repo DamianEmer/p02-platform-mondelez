@@ -1,4 +1,4 @@
-<table>
+<table #table>
   <thead>
     <app-row-header [header_columns]="header_columns"></app-row-header>
   </thead>
@@ -7,6 +7,7 @@
     <app-row-results [data]="reports"></app-row-results>
     <tr>
       <td> <button mat-button color="primary" (click)="showChart()">Grafico</button></td>
+      <td><button mat-button (click)="exportAsXLSX()">Exportar a excel</button></td>
     </tr>
   </tbody>
 </table>
