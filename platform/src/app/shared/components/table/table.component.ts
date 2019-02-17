@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import { ModalChartComponent } from '../modal-chart/modal-chart.component';
 import { OperationsService } from '../../services/operations.service';
 import { Report } from '../../models/report';
+
+import * as exportAsXLSX from 'xlsx';
 
 @Component({
   selector: 'app-table',
@@ -16,8 +18,9 @@ export class TableComponent implements OnInit {
   @Input()reports: Report[];
 
   avgsTotal: any[] = [];
-  
-  constructor(public dialog: MatDialog, private operationService: OperationsService) { }
+
+  constructor(
+    public dialog: MatDialog) { }
 
   ngOnInit() { }
 
@@ -36,4 +39,15 @@ export class TableComponent implements OnInit {
     });
   }
 
+  @ViewChild('table') table: ElementRef;
+
+  exportAsXLSX():void {
+    console.log(this.table);
+    const ws: exportAsXLSX.WorkSheet = exportAsXLSX.utils.table_to_sheet(this.table.nativeElement);
+    const wb: exportAsXLSX.WorkBook = exportAsXLSX.utils.book_new();
+    exportAsXLSX.utils.book_append_sheet(wb, ws, 'Sheet 1');
+
+    exportAsXLSX.writeFile(wb, "sheet1.xlsx");
+
+ }
 }

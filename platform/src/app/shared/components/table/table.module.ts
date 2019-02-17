@@ -27,7 +27,7 @@ const COMMON_IMPORTS = [
 @NgModule({
     declarations: COMMON_DECLARATIONS,
     imports: COMMON_IMPORTS,
-    exports: COMMON_DECLARATIONS
+    exports: COMMON_DECLARATIONS,
 })
 
 export class TableModule{
