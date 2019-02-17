@@ -16,7 +16,9 @@
         <mat-form-field>
           <input matInput type="text" placeholder="Numero de linea" formControlName="number">
         </mat-form-field>
-      </div>
+        <button class="btn" [disabled]="formEdit.invalid" (click)="onSave()">Guardar</button>
+        <button class="btn" [disabled]="formEdit.invalid" (click)="onCancel()">Cancelar</button>
+      </div>    
     </div>
     <div class="container-bottom">
       

@@ -188,6 +188,43 @@ export class DataService {
           description: 'Sin agua'
         }
       ]
+    },
+    {
+      id: 3,
+      line: 'Linea 3',
+      category: 'cat3',
+      technology: 'tech3',
+      number: '03 Linea 3',
+      products: [
+        {
+          id: 1,
+          description: 'PHILLY BRCK 24x140G',
+          kgmin: 840,
+          kgcj: 3.36,
+        },
+        {
+          id: 75010020004500,
+          description: 'PHILLY BRCK ORIG CONS 24X190G',
+          kgmin: 1254,
+          kgcj: 4.56,
+        },
+        {
+          id: 75010020088500,
+          description: 'PHILLY BRCK ORIG CONS 24X190G',
+          kgmin: 1254,
+          kgcj: 4.56,
+        }
+      ],
+      breakdowns: [
+        {
+          id: 1,
+          description: 'Sin energia eletrica'
+        },
+        {
+          id: 2,
+          description: 'Sin agua'
+        }
+      ]
     }
   ]
 
@@ -205,27 +242,32 @@ export class DataService {
     {
       id: 1,
       name: "Damian",
-      idLine: 1
+      idLine: 1,
+      line: 'Linea 1'
     },
     {
       id: 2,
       name: "Emerson",
-      idLine: 1
+      idLine: 1,
+      line: 'Linea 1'
     },
     {
       id: 3,
       name: "Jesus",
-      idLine: 1
+      idLine: 1,
+      line: 'Line 1'
     },
     {
       id: 4,
       name: "Cristian",
-      idLine: 2
+      idLine: 2,
+      line:'Linea 2'
     },
     {
       id: 5,
       name: "Julio",
-      idLine: 3
+      idLine: 3,
+      line: 'Line 3'
     }
   ]
 
@@ -239,6 +281,48 @@ export class DataService {
     let operators = this.operators.filter(ope => ope.idLine === parseInt(id));
     return Observable.create(observer => {
       observer.next(operators)
+    })
+  }
+
+  // Registros 
+  records: any[] = [
+    {
+      idLine: 1,
+      line: 'Linea 1',
+      operator: 'Damian',
+      turn: 1,
+      date: 'Sun Feb 17 2019 00:00:00 GMT-0600 (hora estándar central)',
+      sku: [
+        {
+          idDescription: 1,
+          description: 'Philadelphia',
+          productionTime: 470,
+          volume: 600,
+          reprocess: '',
+          retentions: '',
+          waste: '',
+          kgmin: 20.90,
+          kgcj: 15.96,
+          tld: 458.18,
+          idealVolume: 615.48,
+          lossSpeed: 1.82,
+          ge: 95.45,
+          oee: 97.49,
+          stoppages: [
+            { 
+              id: 1,
+              minutes: 10,
+              times: 1 
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
+  getRecords(week: number, day: number):Observable<any[]>{
+    return Observable.create(observer => {
+      observer.next(this.records);
     })
   }
 
