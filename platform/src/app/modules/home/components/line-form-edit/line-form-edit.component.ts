@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class LineFormEditComponent implements OnInit {
 
   constructor(private fb: FormBuilder, 
     private router: ActivatedRoute,
+    private _router: Router,
     private dataService: DataService) { }
 
   ngOnInit() {
@@ -66,6 +67,14 @@ export class LineFormEditComponent implements OnInit {
       }));
     });
     return formArray;
+  }
+
+  onSave():void {
+    console.log("Datos actualizados: ", this.formEdit.value);
+  }
+
+  onCancel():void {
+    this._router.navigate(['./corrections']);
   }
 
   get getProducts() {
