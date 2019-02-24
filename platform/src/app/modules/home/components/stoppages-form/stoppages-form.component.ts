@@ -16,6 +16,12 @@ export class StoppagesFormComponent implements OnInit {
 
   ngOnInit() {  }
 
+  onRemove(index: number):void{
+    alert('¿SEGURO?');
+    const arr = this.form.get('stoppages') as FormArray;
+    arr.controls.splice(index, 1);
+  }
+
   get getStoppagesBySku(){
     return this.form.get('stoppages') as FormArray
   }
