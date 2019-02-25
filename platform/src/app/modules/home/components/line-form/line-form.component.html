@@ -73,7 +73,6 @@
       <div class="fields">
         <button class="btn font" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.length != 0 && getStoppages.invalid || getStoppages.length == 5">
           Paro Planeado</button>
-        <button class="btn font" (click)="onRemoveLastStoppage()">Eliminar</button>
       </div>
       <div class="fields-stoppages">
         <app-stoppages-form [form]="form" [stoppages]="stoppages"></app-stoppages-form>

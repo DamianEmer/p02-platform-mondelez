@@ -6,12 +6,11 @@ import { DataService } from 'src/app/shared/services/data.service';
 import { Store } from '@ngrx/store';
 import { AppState } from "../../../../shared/store/reducers/index";
 // actions
-import * as AllActionsLines from "../../../../shared/store/actions/line.actions";
 import * as AllActionsStoppages from '../../../../shared/store/actions/stoppage.actions';
 import * as AllActionsOperators from '../../../../shared/store/actions/operator.actions';
 //Selectors
 import { getLines } from "../../../../shared/store/selectors/line.selectors";
-import { getOperators, getOperatorsById } from 'src/app/shared/store/selectors/operator.selectors';
+import { getOperatorsById } from 'src/app/shared/store/selectors/operator.selectors';
 import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
 import { getStoppages } from 'src/app/shared/store/selectors/stoppage.selector';
 //Models
@@ -128,12 +127,12 @@ export class LineFormComponent implements OnChanges, OnInit {
     }
   }
 
-  onRemoveLastStoppage(): void {
-    this.getStoppages.controls.pop();
-  }
-
-  onRemove(index: number): void{
-    alert('Seguro desea eliminarlo');
+  onRemoveStoppages(): void {
+    this.getSku.controls.forEach(sku => {
+      const stoppages = sku.get('stoppages') as FormArray;
+      stoppages.controls.splice(0, stoppages.controls.length);
+    });
+    this.getStoppages.controls.splice(0, this.getStoppages.controls.length);
   }
 
   editRecord(): void {
@@ -256,6 +255,7 @@ export class LineFormComponent implements OnChanges, OnInit {
   }
 
   resetForm(): void {
+    this.onRemoveStoppages();
     this.form.reset();
   }
 
