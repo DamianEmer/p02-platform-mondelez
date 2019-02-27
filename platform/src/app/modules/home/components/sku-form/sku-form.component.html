@@ -64,7 +64,8 @@
       </div>
 
       <div class="section sub4">
-          <button class="btn font" style="margin-left:15px" (click)="addParo(i)" [disabled]="formParent.get('sku').controls[i].get('stoppages').invalid">Paro NO
+          <button class="btn font" style="margin-left:15px" (click)="addParo(i)" 
+            [disabled]="getSku.controls[i].get('stoppages').length != 0 && getSku.controls[i].get('stoppages').invalid || getSku.controls[i].get('stoppages').length == 10">Paro NO
               Planeado</button>
       </div>
 

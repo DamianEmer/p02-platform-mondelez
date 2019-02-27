@@ -34,6 +34,8 @@ export class CorrectionsComponent implements OnInit {
 
   showListRecords: boolean;
 
+  record: any;
+
 
   constructor(
     private authService: AuthService,
@@ -71,21 +73,21 @@ export class CorrectionsComponent implements OnInit {
   }
 
   onSave(): void {
-    console.log("Nuevo operador: ", this.form.value);
+    // console.log("Nuevo operador: ", this.form.value);
     this.resetForm();
   }
 
   fillValue(lineSelected): void {
-    console.log("Linea seleccionada: ", lineSelected);
+    // console.log("Linea seleccionada: ", lineSelected);
   }
 
   onUpdate(): void {
-    console.log("Actualizar operador: ", this.form.value)
+    // console.log("Actualizar operador: ", this.form.value)
   }
 
   onSearchRecords(): void {
     this.showListRecords = true;
-    console.log("Semana: ", this.getWeek.value, " Day: ", this.getDay.value);
+    // console.log("Semana: ", this.getWeek.value, " Day: ", this.getDay.value);
     this.dataService.getRecords(this.getWeek.value, this.getDay.value)
       .subscribe(records => {
         this.records = records;
@@ -113,7 +115,7 @@ export class CorrectionsComponent implements OnInit {
   onEditRecord(record: any): void {
     this.showListRecords = false;
     this.showFormRecord = true;
-    alert(record.line);
+    this.record = record;
   }
 
   onCancel(): void {
