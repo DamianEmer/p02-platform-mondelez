@@ -1,4 +1,71 @@
 <div class="container_corrections">
   <h2 class="font-title">BIENVENIDO A CORRECCIONES</h2>
   <button class="btn" type="button" (click)="onClickLogout()">Cerrar sesión</button>
+
+  <mat-tab-group>
+    <mat-tab label="Operadores">
+      <div class="container-users">
+
+        <h3>Agregar nuevo usuario</h3>
+        <div>
+          <div class="container-form" [formGroup]="form">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Nombre de operador" formControlName="name">
+            </mat-form-field>
+
+            <mat-form-field>
+              <!-- <input matInput type="text" placeholder="Linea Actual" formControlName="line"> -->
+              <mat-select placeholder="Linea" formControlName="line" (selectChange)="fillValue($event)">
+                <mat-option *ngFor="let line of lines" [value]="line.id">{{line?.line}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div>
+              <button *ngIf="!showBtnEdit" class="font btn" [disabled]="form.invalid" (click)="onSave()">Agregar</button>
+              <button *ngIf="showBtnEdit" class="font btn" [disabled]="form.invalid" (click)="onSave()">Actualizar</button>
+              <button class="font btn" [disabled]="form.invalid" (click)="onCancel()">Cancelar</button>
+            </div>
+
+          </div>
+        </div>
+        <div>
+          <mat-list>
+            <mat-list-item *ngFor="let operator of operators">{{operator.name}} -- <button class="btn" (click)="onEditOperator(operator.id)">Editar</button></mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Lineas">
+      <h3>Lineas</h3>
+      <mat-list>
+        <mat-list-item *ngFor="let line of lines">{{line.id}} -- {{line.line}} -- <button class="btn" (click)="onEditLine(line.id)">Editar</button></mat-list-item>
+      </mat-list>
+    </mat-tab>
+
+    <mat-tab label="Registros">
+      <div class="container_records">
+        <p>Busqueda de turnos por semana y dia</p>
+        <div>
+          <div class="container-form" [formGroup]="formSearch">
+            <mat-form-field>
+              <input matInput type="number" max="52" min="1" placeholder="Numero de Semana" formControlName="week">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput type="number" max="1" min="7" placeholder="Numero de Día" formControlName="day">
+            </mat-form-field>
+            <div>
+              <button class="btn" [disabled]="formSearch.invalid" (click)="onSearchRecords()">Buscar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="showListRecords" class="container-list-records">
+        <mat-list>
+          <mat-list-item *ngFor="let record of records">{{record?.idLine}} - {{record.line}} - {{record?.turn}} - <button (click)="onEditRecord(record)">Editar</button></mat-list-item>
+        </mat-list>
+      </div>
+      <app-line-form *ngIf="showFormRecord"></app-line-form>
+    </mat-tab>
+  </mat-tab-group>
 </div>

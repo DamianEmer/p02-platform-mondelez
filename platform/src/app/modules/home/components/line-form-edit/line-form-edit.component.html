@@ -1,0 +1,56 @@
+<div class="container-form">
+  <form [formGroup]="formEdit">
+    <div class="container-top">
+      <div class="section content-above">
+        <mat-form-field>
+          <input matInput type="text" placeholder="Nombre de Linea" formControlName="line">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Categoria" formControlName="category">
+        </mat-form-field>
+      </div>
+      <div class="section content-lower">
+        <mat-form-field>
+          <input matInput type="text" placeholder="Tecnologia" formControlName="technology">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Numero de linea" formControlName="number">
+        </mat-form-field>
+        <button class="btn" [disabled]="formEdit.invalid" (click)="onSave()">Guardar</button>
+        <button class="btn" [disabled]="formEdit.invalid" (click)="onCancel()">Cancelar</button>
+      </div>    
+    </div>
+    <div class="container-bottom">
+      
+        <div class="section left">
+          <h3>PRODUCTOS</h3>
+          <div formArrayName="products" *ngFor="let product of getProducts.controls; let i = index">
+            <div [formGroupName]="i">
+              <mat-form-field>
+                <input matInput type="text" [id]="'product'+i" placeholder="Producto" formControlName="product">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput type="text" [id]="'kgmin'+i" placeholder="kg/Min" formControlName="kgmin">
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput type="text" [id]="'kgcj'+i" placeholder="kg/cj" formControlName="kgcj">
+              </mat-form-field>
+              <button>X</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section right">
+            <h3>BREAKDOWNS</h3>
+          <div formArrayName="breakdowns" *ngFor="let bd of getBreakdowns.controls; let i=index">
+            <div [formGroupName]="i">
+              <mat-form-field>
+                <input matInput type="text" [id]="breakdown" placeholder="Breakdown" formControlName="breakdown">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </form>
+</div>
