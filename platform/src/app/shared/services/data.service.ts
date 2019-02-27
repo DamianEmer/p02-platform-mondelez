@@ -287,11 +287,23 @@ export class DataService {
   // Registros 
   records: any[] = [
     {
-      idLine: 1,
-      line: 'Linea 1',
-      operator: 'Damian',
+      idLine: 2,
+      line: 'Linea 2',
+      nameOperator: 'Cristian',
       turn: 1,
-      date: 'Sun Feb 17 2019 00:00:00 GMT-0600 (hora estándar central)',
+      date: 'Wed Feb 20 2019 00:00:00 GMT-0600 (hora estándar central)',
+      stoppages:[
+        {
+          id: 1,
+          minutes: 10,
+          times: 1
+        },
+        {
+          id: 2,
+          minutes: 30,
+          times: 1
+        }
+      ],
       sku: [
         {
           idDescription: 1,

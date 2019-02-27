@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { DataService } from 'src/app/shared/services/data.service';
 
@@ -6,11 +6,11 @@ import { DataService } from 'src/app/shared/services/data.service';
 import { Store } from '@ngrx/store';
 import { AppState } from "../../../../shared/store/reducers/index";
 // actions
-import * as AllActionsLines from "../../../../shared/store/actions/line.actions";
 import * as AllActionsStoppages from '../../../../shared/store/actions/stoppage.actions';
+import * as AllActionsOperators from '../../../../shared/store/actions/operator.actions';
 //Selectors
 import { getLines } from "../../../../shared/store/selectors/line.selectors";
-import { getOperators } from 'src/app/shared/store/selectors/operator.selectors';
+import { getOperatorsById } from 'src/app/shared/store/selectors/operator.selectors';
 import { getTurns } from 'src/app/shared/store/selectors/turn.selectors';
 import { getStoppages } from 'src/app/shared/store/selectors/stoppage.selector';
 //Models
@@ -24,34 +24,62 @@ import { Line2, Product, BreakDown } from 'src/app/shared/models/Line2';
   templateUrl: './line-form.component.html',
   styleUrls: ['./line-form.component.scss']
 })
-export class LineFormComponent implements OnInit {
+export class LineFormComponent implements OnChanges, OnInit {
 
-  form: FormGroup;
+  form: FormGroup; // formulario principal para registro
 
-  turns: Turn[];
+  turns: Turn[]; // Almacena los turnos
 
-  lines: Line2[];
+  lines: Line2[]; // Almacenara todas las lineas
 
-  operators: Operator[];
+  operators: Operator[]; // Almacenara los operadores de la linea seleccionada
 
-  stoppages: Stoppage[];
+  stoppages: Stoppage[]; // Almacena los paros planeados
 
-  products: Product[];
+  products: Product[]; // Almacena los productos (sku's) de la linea seleccionada
 
-  unplannedStoppages: BreakDown[];
+  unplannedStoppages: BreakDown[]; // Almacena los breakdowns de la linea seleccionada
 
-  turnTime: number;
+  turnTime: number; // Tiempo del turno seleccionado
 
-  constructor(private fb: FormBuilder, 
-    private ds: DataService,
+  @Input() record: any; // Captura la llegada del registro a editar
+
+  private _record: any; // Almacena el registro a editar
+
+  showBtnEdit: boolean; // Bandera para hacer cambio de los botones entre editar y nuevo
+
+  emptyStoppages: boolean;
+
+  constructor(private fb: FormBuilder, private ds: DataService,
     private store: Store<AppState>) {
+    this.showBtnEdit = false;
+    this.emptyStoppages = false;
+    this.store.dispatch(new AllActionsStoppages.LoadStoppages())
+    this.store.dispatch(new AllActionsOperators.LoadOperators());
+    this.store.select(getLines).subscribe(lines => this.lines = lines);
+    this.store.select(getTurns).subscribe(turns => this.turns = turns);
+    this.store.select(getStoppages).subscribe(stoppages => this.stoppages = stoppages);
 
-      this.store.dispatch(new AllActionsStoppages.LoadStoppages())
-      this.store.select(getLines).subscribe(lines => this.lines = lines);
-      this.store.select(getTurns).subscribe(turns => this.turns = turns);
-      this.store.select(getStoppages).subscribe(stoppages => this.stoppages = stoppages);
+    this.initForm();
 
-    this.form = fb.group({
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('ngOnChange')
+    this.showBtnEdit = true;
+    const record: SimpleChange = changes.record;
+    this._record = record.currentValue;
+    this.editRecord();
+    this.onTotalCal();
+  }
+
+  ngOnInit() {
+    console.log('ngOnInit')
+    this.onTotalCal(); // Metodo con observable interno para detectar cambios en cada SKU y recalcular valores totales
+  }
+
+  initForm(): void {
+    this.form = this.fb.group({
       line: ['', Validators.required],
       operator: ['', Validators.required],
       turn: ['', Validators.required],
@@ -63,27 +91,68 @@ export class LineFormComponent implements OnInit {
       oeetotal: [''],
       getotal: ['']
     });
-
   }
 
-  ngOnInit() {
+  skuForm(): FormGroup {
+    return this.fb.group({
+      productionTime: ['', Validators.required],
+      volume: ['', Validators.required],
+      description: ['', Validators.required],
+      waste: [''],
+      retentions: [''],
+      reprocess: [''],
+      stoppages: this.fb.array([]),
+      oee: [''],
+      ge: [''],
+      tld: [''],
+      kgMin: [''],
+      kgCj: [''],
+      lossSpeed: [''],
+      idealvolume: ['']
+    })
+  }
 
-    this.onTotalCal(); // Metodo con observable interno para detectar cambios en cada SKU y recalcular valores totales
-
+  stoppagesForm(): FormGroup {
+    return this.fb.group({
+      id: ['', Validators.required],
+      minutes: ['', Validators.required],
+      times: ['', Validators.required]
+    })
   }
 
   onSave() {
-    if(this.form.valid){ 
+    if (this.form.valid) {
       this.ds.saveRegistry(this.form.value);
       this.resetForm();
     }
   }
 
-  resetForm():void { 
-    this.form.reset();
+  onRemoveStoppages(): void {
+    this.getSku.controls.forEach(sku => {
+      const stoppages = sku.get('stoppages') as FormArray;
+      stoppages.controls.splice(0, stoppages.controls.length);
+    });
+    this.getStoppages.controls.splice(0, this.getStoppages.controls.length);
+  }
+
+  editRecord(): void {
+    this.loadSelects(this._record.idLine);
+    this.form.patchValue({
+      line: this._record.idLine,
+      operator: this._record.nameOperator,
+      turn: this._record.turn
+    });
+    this.form.setControl('stoppages', this.existStoppages(this._record.stoppages));
+    this.form.setControl('sku', this.existProducts(this._record.sku));
+
+    // this.form.get('line').setValue(this._record.idLine);
+    // this.getOperator.setValue(this._record.nameOperator);
+    // this.getTurn.setValue(this._record.turn);
+
   }
 
   onTotalCal() {
+    console.log('calculos')
     this.getSku.valueChanges.subscribe(data => {
       let oeeTotal: any[] = [];
       let geTotal: any[] = [];
@@ -119,39 +188,15 @@ export class LineFormComponent implements OnInit {
     })
   }
 
-  stoppagesForm(): FormGroup {
-    return this.fb.group({
-      id: [''],
-      minutes: ['', Validators.required],
-      times: ['', Validators.required]
-    })
-  }
-
-  skuForm(): FormGroup {
-    return this.fb.group({
-      productionTime: ['', Validators.required],
-      volume: ['', Validators.required],
-      description: ['', Validators.required],
-      waste: [''],
-      retentions: [''],
-      reprocess: [''],
-      stoppages: this.fb.array([]),
-      oee: [''],
-      ge: [''],
-      tld: [''],
-      kgMin: [''],
-      kgCj: [''],
-      lossSpeed: [''],
-      idealvolume: ['']
-    })
-  }
-
   //Obtiene operadores y productos dependiendo de la linea seleccionada
+  selectDropDown(select: number) {
+    this.loadSelects(select);
+  }
 
-  selectDropDown(select: string) {
-    this.store.dispatch(new AllActionsLines.LoadIdLine(select));
-    this.store.select(getOperators).subscribe(operators => this.operators = operators);
-    let line = this.lines.find(line => line.id === parseInt(select));
+  loadSelects(id: number): void {
+    this.store.select(getOperatorsById, { id: id })
+      .subscribe(operators => this.operators = operators);
+    let line = this.lines.find(line => line.id === id);
     this.products = line.products;
     this.unplannedStoppages = line.breakdowns;
   }
@@ -172,9 +217,56 @@ export class LineFormComponent implements OnInit {
     this.getSku.push(this.skuForm());
   }
 
+  existProducts(products: any[]): FormArray {
+    // console.log('PRODUCTS LIST ::> ', products);
+    const formArray = new FormArray([]);
+    products.forEach(p => {
+      formArray.push(this.fb.group({
+        productionTime: p.productionTime,
+        volume: p.volume,
+        description: p.idDescription,
+        waste: p.waste,
+        retentions: p.retentions,
+        reprocess: p.reprocess,
+        stoppages: this.existStoppages(p.stoppages),
+        oee: p.oee,
+        ge: p.ge,
+        tld: p.tld,
+        kgMin: p.kgmin,
+        kgCj: p.kgcj,
+        lossSpeed: p.lossSpeed,
+        idealvolume: p.idealvolume
+      }))
+    })
+    return formArray;
+  }
+
+  existStoppages(stoppages: any[]): FormArray {
+    const formArray = new FormArray([]);
+    stoppages.forEach(stop => {
+      formArray.push(this.fb.group({
+        id: stop.id,
+        minutes: stop.minutes,
+        times: stop.times
+      }));
+    });
+
+    return formArray;
+  }
+
+  resetForm(): void {
+    this.onRemoveStoppages();
+    this.form.reset();
+  }
+
   // Obtiene paros pleaneados
   get getStoppages() {
     return this.form.get('stoppages') as FormArray
+  }
+
+  get getBreakdowns() {
+    console.log('ESTRUCTURA SKU: ', this.getSku);
+    return this.getSku.get('stoppages') as FormArray;
   }
 
   // Obtiene Linea
