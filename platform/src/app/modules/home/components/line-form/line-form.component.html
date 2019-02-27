@@ -61,7 +61,8 @@
             </div>
           </div>
           <div class="field actions">
-            <button class="btn font" [disabled]="form.invalid" type="submit">Guardar</button>
+            <button class="btn font" *ngIf="!showBtnEdit" [disabled]="form.invalid" type="submit">Guardar</button>
+            <button class="btn font" *ngIf="showBtnEdit" [disabled]="form.invalid" type="button">Actualizar</button>
           </div>
         </div>
       </form>
@@ -70,8 +71,8 @@
 
     <div class="subsection-2">
       <div class="fields">
-        <button class="btn font" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro
-          Planeado</button>
+        <button class="btn font" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.length != 0 && getStoppages.invalid || getStoppages.length == 5">
+          Paro Planeado</button>
       </div>
       <div class="fields-stoppages">
         <app-stoppages-form [form]="form" [stoppages]="stoppages"></app-stoppages-form>
@@ -84,10 +85,7 @@
       <button class="btn font" style="margin-left:15px" (click)="addSku()" [disabled]="form.get('sku').invalid">SKU</button>
     </div>
     <div style="overflow-x:scroll">
-      <app-sku-form [formParent]="form" 
-        [products]=products 
-        [turnTime]=turnTime
-        [unplannedStoppages]="unplannedStoppages"></app-sku-form>
+      <app-sku-form [formParent]="form" [products]=products [turnTime]=turnTime [unplannedStoppages]="unplannedStoppages"></app-sku-form>
     </div>
   </div>
 
