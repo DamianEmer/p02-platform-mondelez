@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { OperationsService } from 'src/app/shared/services/operations.service';
 //Models
 import { UnplannedStoppage } from 'src/app/shared/models/unplannedStoppage';
+import { Product, BreakDown } from 'src/app/shared/models/Line2';
 
 @Component({
   selector: 'app-sku-form',
@@ -13,19 +14,18 @@ export class SkuFormComponent implements OnInit {
 
   @Input() formParent: FormGroup;
 
-  @Input() products: any;
+  @Input() products: Product[];
 
   @Input() turnTime: number;
 
-  @Input() unplannedStoppages: UnplannedStoppage[];
+  @Input() unplannedStoppages: BreakDown[];
 
-  product: any;
+  product: Product;
 
-  constructor( private fb: FormBuilder, 
-    private operationsServices: OperationsService ) { }
+  constructor(private fb: FormBuilder,
+    private operationsServices: OperationsService) { }
 
   ngOnInit() {
-  
   }
 
   stoppagesForm(): FormGroup {
@@ -45,11 +45,11 @@ export class SkuFormComponent implements OnInit {
     let sumUnplanned: number = 0; //sumatoria de minutos para paros no planeados
     let sumPlanned: number = 0; // sumatoria de minutos para paros planeados
     let speed; // velocidad de produccion
-    this.product = this.products.filter(product => select === product.id);
+    this.product = this.products.find(product => parseInt(select) === product.id);
 
-    speed = this.operationsServices.convertionSpeed(this.product[0].kgMin);//Se saca el valor de velocidad del productor seleccionado
+    speed = this.operationsServices.convertionSpeed(this.product.kgmin);//Se saca el valor de velocidad del productor seleccionado
     this.getSku.controls[i].get('kgMin').setValue(speed.toFixed(2));// Mostrando informacion de velocidad
-    this.getSku.controls[i].get('kgCj').setValue(this.product[0].kgCj); // Mostrando informacion de kg/caja
+    this.getSku.controls[i].get('kgCj').setValue(this.product.kgcj); // Mostrando informacion de kg/caja
 
     /**Recalcula (TLD, OEE, Perdida de velocidad y GE) Cuando se detectan cambios en los campos 
       tiempos de produccion y volumen
@@ -58,9 +58,9 @@ export class SkuFormComponent implements OnInit {
       prodTime = val;
       this.getSku.controls[i].get('volume').valueChanges.subscribe(val => {
         volume = val;
-        tld = this.operationsServices.calculateTLD(this.product[0].kgCj, volume, speed);
+        tld = this.operationsServices.calculateTLD(this.product.kgcj, volume, speed);
         this.getSku.controls[i].get('tld').setValue(tld.toFixed(2));
-        this.getSku.controls[i].get('idealvolume').setValue(this.operationsServices.calcIdealProduction(speed,prodTime,this.product[0].kgCj).toFixed(2));
+        this.getSku.controls[i].get('idealvolume').setValue(this.operationsServices.calcIdealProduction(speed, prodTime, this.product.kgcj).toFixed(2));
         this.getSku.controls[i].get('oee').setValue(this.operationsServices.calcOEE_Sku(tld, prodTime).toFixed(2));
         this.getSku.controls[i].get('lossSpeed').setValue(this.operationsServices.calcLossSpeed(prodTime, tld, sumUnplanned).toFixed(2));
         this.getSku.controls[i].get('ge').setValue(this.operationsServices.calcGE_Sku(tld, this.turnTime, sumPlanned).toFixed(2));
@@ -82,7 +82,7 @@ export class SkuFormComponent implements OnInit {
       data.map(val => {
         sumPlanned += (val.minutes * val.times);
       });
-      this.getSku.controls[i].get('ge').setValue(this.operationsServices.calcGE_Sku(tld, this.turnTime[0].time, sumPlanned).toFixed(2));
+      this.getSku.controls[i].get('ge').setValue(this.operationsServices.calcGE_Sku(tld, this.turnTime, sumPlanned).toFixed(2));
     });
   }
 

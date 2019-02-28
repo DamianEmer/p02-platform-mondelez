@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container font">
 
   <div class="section-1">
     <div class="subsection-1">
@@ -7,7 +7,7 @@
           <div class="field">
             <label>Elige la linea</label>
             <mat-select formControlName="line" placeholder="Selecciona" (selectionChange)="selectDropDown($event.value)">
-              <mat-option *ngFor="let line of lines; let i=index" [value]="line.id">{{line.name}}</mat-option>
+              <mat-option *ngFor="let line of lines; let i=index" [value]="line.id">{{line.line}}</mat-option>
             </mat-select>
             <div class="error-container" *ngIf="getLine.invalid && (getTurn.dirty || getTurn.touched)">
               <h6 *ngIf="getLine.errors.required">Es necesario la seleccion</h6>
@@ -61,7 +61,8 @@
             </div>
           </div>
           <div class="field actions">
-            <button class="btn" [disabled]="form.invalid" type="submit">Guardar</button>
+            <button class="btn font" *ngIf="!showBtnEdit" [disabled]="form.invalid" type="submit">Guardar</button>
+            <button class="btn font" *ngIf="showBtnEdit" [disabled]="form.invalid" type="button">Actualizar</button>
           </div>
         </div>
       </form>
@@ -70,8 +71,8 @@
 
     <div class="subsection-2">
       <div class="fields">
-        <button class="btn" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.invalid || getStoppages.length == 5">Paro
-          Planeado</button>
+        <button class="btn font" style="margin-left:15px" (click)="addPlannedStoppage()" [disabled]="getStoppages.length != 0 && getStoppages.invalid || getStoppages.length == 5">
+          Paro Planeado</button>
       </div>
       <div class="fields-stoppages">
         <app-stoppages-form [form]="form" [stoppages]="stoppages"></app-stoppages-form>
@@ -81,13 +82,10 @@
 
   <div class="section-2">
     <div class="fields">
-      <button class="btn" style="margin-left:15px" (click)="addSku()" [disabled]="form.get('sku').invalid">SKU</button>
+      <button class="btn font" style="margin-left:15px" (click)="addSku()" [disabled]="form.get('sku').invalid">SKU</button>
     </div>
     <div style="overflow-x:scroll">
-      <app-sku-form [formParent]="form" 
-        [products]=products 
-        [turnTime]=turnTime
-        [unplannedStoppages]="unplannedStoppages"></app-sku-form>
+      <app-sku-form [formParent]="form" [products]=products [turnTime]=turnTime [unplannedStoppages]="unplannedStoppages"></app-sku-form>
     </div>
   </div>
 

@@ -1,5 +1,6 @@
 export interface Operator {
     id: number;
     name: string;
-    idLine: string;
+    idLine?: number;
+    line: string;
 }
