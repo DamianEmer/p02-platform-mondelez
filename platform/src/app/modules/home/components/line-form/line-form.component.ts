@@ -18,6 +18,9 @@ import { Turn } from 'src/app/shared/models/turn';
 import { Operator } from 'src/app/shared/models/operator';
 import { Stoppage } from 'src/app/shared/models/stoppage';
 import { Line2, Product, BreakDown } from 'src/app/shared/models/Line2';
+import { MatSnackBar } from '@angular/material';
+import { SaveConfirmModalComponent } from 'src/app/shared/components/save-confirm-modal/save-confirm-modal.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-line-form',
@@ -50,8 +53,10 @@ export class LineFormComponent implements OnChanges, OnInit {
 
   emptyStoppages: boolean;
 
-  constructor(private fb: FormBuilder, private ds: DataService,
-    private store: Store<AppState>) {
+  constructor(private fb: FormBuilder, 
+    private ds: DataService,
+    private store: Store<AppState>,
+    private confirm: MatSnackBar) {
     this.showBtnEdit = false;
     this.emptyStoppages = false;
     this.store.dispatch(new AllActionsStoppages.LoadStoppages())
@@ -123,6 +128,11 @@ export class LineFormComponent implements OnChanges, OnInit {
   onSave() {
     if (this.form.valid) {
       this.ds.saveRegistry(this.form.value);
+      //Este modal se lanzara en caso satisfactorio
+      this.confirm.openFromComponent(SaveConfirmModalComponent, {
+        duration: 1500
+      })
+      //En caso de error mandar igual mensaje de error
       this.resetForm();
     }
   }
@@ -136,12 +146,19 @@ export class LineFormComponent implements OnChanges, OnInit {
   }
 
   editRecord(): void {
+    const pipe = new DatePipe('en-US');
     this.loadSelects(this._record.idLine);
     this.form.patchValue({
       line: this._record.idLine,
       operator: this._record.nameOperator,
-      turn: this._record.turn
+      turn: this._record.turn,
+      date: new Date (pipe.transform(this._record.date, 'dd/MM/yyyy')),
+      getotal: this._record.geTotal,
+      oeetotal: this._record.oeeTotal 
     });
+
+    console.log("data: ", this.form.get('date').value);
+
     this.form.setControl('stoppages', this.existStoppages(this._record.stoppages));
     this.form.setControl('sku', this.existProducts(this._record.sku));
 

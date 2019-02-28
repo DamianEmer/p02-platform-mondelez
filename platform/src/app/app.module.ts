@@ -19,9 +19,18 @@ import { SimpleAuthInterceptor } from './shared/helpers/simple-auth.interceptor'
 import { ErrorInterceptor } from './shared/helpers/error.interceptor';
 import { AuthGuard } from './shared/guards/auth.guard';
 
+// Material
+import { MatDialogModule } from '@angular/material';
+import { ErrorMessageModalComponent } from './shared/components/error-message-modal/error-message-modal.component';
+
+const MATERIAL_IMPORTS = [
+  MatDialogModule
+]
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ErrorMessageModalComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +43,8 @@ import { AuthGuard } from './shared/guards/auth.guard';
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
-    })
+    }),
+    MATERIAL_IMPORTS
   ],
   providers: [
     OperationsService,

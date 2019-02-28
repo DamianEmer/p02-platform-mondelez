@@ -291,7 +291,9 @@ export class DataService {
       line: 'Linea 2',
       nameOperator: 'Cristian',
       turn: 1,
-      date: 'Wed Feb 20 2019 00:00:00 GMT-0600 (hora estándar central)',
+      geTotal: 95,
+      oeeTotal: 95,
+      date: '1973-10-10T00:00:00',
       stoppages:[
         {
           id: 1,
