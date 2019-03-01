@@ -8,6 +8,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
+import { MatTableModule } from '@angular/material'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -35,7 +36,8 @@ const COMMON_IMPORTS = [
     MatInputModule,
     MatSelectModule,
     LineFormModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule
 ]
 
 @NgModule({

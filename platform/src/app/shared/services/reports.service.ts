@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Report } from '../models/report';
+import { DetailLine } from '../models/detailLine';
+import { UnplannedStoppageEffects } from '../store/effects/unplannedStoppages.effects';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 interface Date {
     week: number,
@@ -178,14 +181,66 @@ export class ReportsService {
             volreal: 598,
             kgvar: 1587
         }
-    ]
+    ];
 
-    constructor() { }
+    detailLine: DetailLine = {
+        id: 1,
+        nummberWeek: 50,
+        date: '2018/12/12',
+        line: 'Hart 1',
+        operator: 'Blas Torres Bertha',
+        turn: 1,
+        turnTime: 480,
+        idSku: '75010020004100',
+        descriptionSku: 'PHILLY BRCK ORIGCONS 21X4X190G',
+        oee: 0,
+        ge: 0,
+        timeProduction: 480,
+        volume: 620,
+        tld: 473,
+        waste: null,
+        typeWaste: null,
+        retentions: null,
+        typeRetention: null,
+        reprocess: null,
+        typeReprocess: null,
+        lostSpeed: 0.545454545,
+        unplannedStoppages: [
+            {
+                id:'H0102',
+                description: 'Paro menor Cerradora/Encintadora',
+                minutes: 3,
+                times: 2,
+                typeWF: 'Minor Stoppage'
+            }
+        ],
+        plannedStoppages: []
+    }
 
-    getReports(infoSearch?: Date): Observable<Report[]> {
+    apiURL = 'host:port/v1';
+    
+    constructor(private http: HttpClient) { }
+
+    getReports(infoDate?: Date): Observable<Report[]> {
+        // const httpParams = new HttpParams()
+        //     .set('week', infoDate.week.toString())
+        //     .set('day', infoDate.day.toString());
         return Observable.create(observer => {
             observer.next(this.reports);
         })
+
+        // return this.http.get<Report[]>(`${this.apiURL}/reports`, { params: httpParams});
+    }
+
+    getLineById(id: number, infoDate?: Date): Observable<any>{
+        console.log('FECHA SERVICIO:::: ',infoDate);
+        // const httpParams = new HttpParams()
+        // .set('week', infoDate.week.toString())
+        // .set('day', infoDate.day.toString())
+        return Observable.create(observer => {
+            observer.next(this.detailLine);
+        })
+        // return this.http.get<Report[]>(`${this.apiURL}/reports/id`, { params: httpParams});
     }
 
 }

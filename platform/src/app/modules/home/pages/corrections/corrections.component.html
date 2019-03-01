@@ -28,23 +28,53 @@
 
           </div>
         </div>
-        <div>
-          <mat-list>
-            <mat-list-item *ngFor="let operator of operators">{{operator.name}} -- 
+        <div class="container-list">
+          <!-- <mat-list>
+            <mat-list-item *ngFor="let operator of operators">{{operator.name}} --
               <button class="btn" (click)="onEditOperator(operator.id)">Editar</button>
             </mat-list-item>
-          </mat-list>
+          </mat-list> -->
+          <table mat-table [dataSource]="operators">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Operador</th>
+              <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>Editar</th>
+              <td mat-cell *matCellDef="let element">
+                <button class="btn" (click)="onEditOperator(element.id)">Editar</button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
         </div>
       </div>
     </mat-tab>
 
     <mat-tab label="Lineas">
       <h3>Lineas</h3>
-      <mat-list>
-        <mat-list-item *ngFor="let line of lines">{{line.id}} -- {{line.line}} -- 
+      <!-- <mat-list>
+        <mat-list-item *ngFor="let line of lines">{{line.id}} -- {{line.line}} --
           <button class="btn" (click)="onEditLine(line.id)">Editar</button>
         </mat-list-item>
-      </mat-list>
+      </mat-list> -->
+      <div class="container-list">
+      <table mat-table [dataSource]="lines">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Linea</th>
+          <td mat-cell *matCellDef="let element">{{element.line}}</td>
+        </ng-container>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>Editar</th>
+          <td mat-cell *matCellDef="let element">
+            <button class="btn" (click)="onEditLine(element.id)">Editar</button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      </div>
     </mat-tab>
 
     <mat-tab label="Registros">
@@ -65,11 +95,27 @@
         </div>
       </div>
       <div *ngIf="showListRecords" class="container-list-records">
-        <mat-list>
+        <!-- <mat-list>
           <mat-list-item *ngFor="let record of records">{{record?.idLine}} - {{record.line}} - {{record?.turn}} -
             <button (click)="onEditRecord(record)">Editar</button>
           </mat-list-item>
-        </mat-list>
+        </mat-list> -->
+        <div class="container-list">
+        <table mat-table [dataSource]="records">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Registro</th>
+            <td mat-cell *matCellDef="let element">{{element.line}} - {{element.turn}}</td>
+          </ng-container>
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>Editar</th>
+            <td mat-cell *matCellDef="let element">
+              <button class="btn" (click)="onEditRecord(element)">Editar</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        </div>
       </div>
       <app-line-form *ngIf="record != undefined" [record]="record"></app-line-form>
     </mat-tab>

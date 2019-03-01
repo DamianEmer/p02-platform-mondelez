@@ -21,6 +21,7 @@ import { Line2, Product, BreakDown } from 'src/app/shared/models/Line2';
 import { MatSnackBar } from '@angular/material';
 import { SaveConfirmModalComponent } from 'src/app/shared/components/save-confirm-modal/save-confirm-modal.component';
 import { DatePipe } from '@angular/common';
+import { ErrorDialogService } from 'src/app/shared/services/error-dialog.service';
 
 @Component({
   selector: 'app-line-form',
@@ -53,10 +54,11 @@ export class LineFormComponent implements OnChanges, OnInit {
 
   emptyStoppages: boolean;
 
-  constructor(private fb: FormBuilder, 
+  constructor(private fb: FormBuilder,
     private ds: DataService,
     private store: Store<AppState>,
-    private confirm: MatSnackBar) {
+    private confirm: MatSnackBar,
+    private errorDialog: ErrorDialogService) {
     this.showBtnEdit = false;
     this.emptyStoppages = false;
     this.store.dispatch(new AllActionsStoppages.LoadStoppages())
@@ -75,12 +77,13 @@ export class LineFormComponent implements OnChanges, OnInit {
     const record: SimpleChange = changes.record;
     this._record = record.currentValue;
     this.editRecord();
-    this.onTotalCal();
+    // this.onTotalCal();
   }
 
   ngOnInit() {
     console.log('ngOnInit')
-    this.onTotalCal(); // Metodo con observable interno para detectar cambios en cada SKU y recalcular valores totales
+    if (!this.showBtnEdit)
+      this.onTotalCal(); // Metodo con observable interno para detectar cambios en cada SKU y recalcular valores totales
   }
 
   initForm(): void {
@@ -127,11 +130,11 @@ export class LineFormComponent implements OnChanges, OnInit {
 
   onSave() {
     if (this.form.valid) {
-      this.ds.saveRegistry(this.form.value);
-      //Este modal se lanzara en caso satisfactorio
-      this.confirm.openFromComponent(SaveConfirmModalComponent, {
-        duration: 1500
-      })
+      this.ds.addRecord(this.form.value).subscribe(response => {
+        this.confirm.openFromComponent(SaveConfirmModalComponent, {
+          duration: 1500
+        })
+      });
       //En caso de error mandar igual mensaje de error
       this.resetForm();
     }
@@ -152,9 +155,9 @@ export class LineFormComponent implements OnChanges, OnInit {
       line: this._record.idLine,
       operator: this._record.nameOperator,
       turn: this._record.turn,
-      date: new Date (pipe.transform(this._record.date, 'dd/MM/yyyy')),
+      date: new Date(pipe.transform(this._record.date, 'dd/MM/yyyy')),
       getotal: this._record.geTotal,
-      oeetotal: this._record.oeeTotal 
+      oeetotal: this._record.oeeTotal
     });
 
     console.log("data: ", this.form.get('date').value);
@@ -168,8 +171,16 @@ export class LineFormComponent implements OnChanges, OnInit {
 
   }
 
+  sendUpdateRecord(): void {
+    this.ds.updateRecord(this._record.id, this.form.value).subscribe(response => {
+      this.confirm.openFromComponent(SaveConfirmModalComponent, {
+        duration: 1500
+      })
+    });
+  }
+
   onTotalCal() {
-    console.log('calculos')
+    console.log('calculos.......')
     this.getSku.valueChanges.subscribe(data => {
       let oeeTotal: any[] = [];
       let geTotal: any[] = [];
@@ -178,6 +189,7 @@ export class LineFormComponent implements OnChanges, OnInit {
       let ge = 0;
 
       for (let i = 0; i <= this.getSku.length - 1; i++) {
+        console.log('for....')
         oeeTotal.push(parseFloat(this.getSku.controls[i].get('oee').value));
         geTotal.push(parseFloat(this.getSku.controls[i].get('tld').value));
       }
@@ -186,6 +198,7 @@ export class LineFormComponent implements OnChanges, OnInit {
       this.form.get('oeetotal').setValue(oee.toFixed(2));
 
       this.form.get('stoppages').valueChanges.subscribe((data: any[]) => {
+        console.log('deteccion de cambios....')
         sumPlanned = 0;
         data.map(val => {
           this.stoppages.filter(stop => {

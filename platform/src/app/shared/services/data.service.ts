@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable, of, observable } from 'rxjs';
 import { Line2 } from '../models/Line2';
 import { Operator } from '../models/operator';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  constructor() { }
+  apiURL = 'host:port/v1';
+
+  constructor(private http: HttpClient) { }
 
   //GET
   getTurns(): Observable<any[]> {
@@ -30,6 +33,8 @@ export class DataService {
     return Observable.create(observer => {
       observer.next(turns);
     })
+
+    // return this.http.get<any>(`${this.apiURL}/turns`);
   }
 
  
@@ -57,6 +62,8 @@ export class DataService {
     return Observable.create(observer => {
       observer.next(stoppages);
     })
+
+    // return this.http.get<any[]>(`${this.apiURL}/stoppages`);
   }
 
   //GET
@@ -231,11 +238,15 @@ export class DataService {
   getLines2(): Observable<Line2[]> {
     return Observable.create(observer => {
       observer.next(this.lines);
-    })
+    });
+    // return this.http.get<Line2[]>(`${this.apiURL}/lines`);
   }
 
-  getLineById(id: number): Line2 {
-    return this.lines.find(line => line.id === id);
+  getLineById(id: number): Observable<Line2> {
+    return Observable.create(observer => {
+      observer.next(this.lines.find(line => line.id === id))
+    });
+    // return this.http.get<Line2>(`${this.apiURL}/lines/${id}`);
   }
 
   operators: Operator[] = [
@@ -275,6 +286,7 @@ export class DataService {
     return Observable.create(observer => {
       observer.next(this.operators)
     })
+    // return this.http.get<Operator[]>(`${this.apiURL}/operators`);
   }
 
   getOperatorsById(id: string): Observable<Operator[]>{
@@ -282,6 +294,7 @@ export class DataService {
     return Observable.create(observer => {
       observer.next(operators)
     })
+    // return this.http.get<Operator>(`${this.apiURL}/operators/${id}`);
   }
 
   // Registros 
@@ -338,6 +351,27 @@ export class DataService {
     return Observable.create(observer => {
       observer.next(this.records);
     })
+    // return this.http.get<any>(`${this.apiURL}/records`);
+  }
+
+  addRecord(record: any): Observable<any>{
+    return this.http.post<any>(`${this.apiURL}/record`, record);
+  }
+
+  addOperator(operator: Operator): Observable<Operator>{
+    return this.http.post<Operator>(`${this.apiURL}/operator`, operator);
+  }
+
+  updateRecord(idRecord: number, record: any): Observable<any>{
+    return this.http.patch<any>(`${this.apiURL}/record/${idRecord}`, record);
+  }
+
+  updateOperator(idOperator: number, operator: Operator): Observable<Operator>{
+    return this.http.patch<Operator>(`${this.apiURL}/operator/${idOperator}`, operator);
+  }
+
+  updateLine(idLine: number, line: Line2):Observable<Line2>{
+    return this.http.patch<Line2>(`${this.apiURL}/line/${idLine}`, line);
   }
 
 }

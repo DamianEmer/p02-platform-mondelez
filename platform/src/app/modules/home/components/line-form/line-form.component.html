@@ -62,7 +62,7 @@
           </div>
           <div class="field actions">
             <button class="btn font" *ngIf="!showBtnEdit" [disabled]="form.invalid" type="submit">Guardar</button>
-            <button class="btn font" *ngIf="showBtnEdit" [disabled]="form.invalid" type="button">Actualizar</button>
+            <button class="btn font" *ngIf="showBtnEdit" [disabled]="form.invalid" type="button" (click)="sendUpdateRecord()">Actualizar</button>
           </div>
         </div>
       </form>
