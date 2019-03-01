@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Report } from '../models/report';
+import { DetailLine } from '../models/detailLine';
+import { UnplannedStoppageEffects } from '../store/effects/unplannedStoppages.effects';
 
 interface Date {
     week: number,
@@ -178,13 +180,53 @@ export class ReportsService {
             volreal: 598,
             kgvar: 1587
         }
-    ]
+    ];
 
+    detailLine: DetailLine = {
+        id: 1,
+        nummberWeek: 50,
+        date: '2018/12/12',
+        line: 'Hart 1',
+        operator: 'Blas Torres Bertha',
+        turn: 1,
+        turnTime: 480,
+        idSku: '75010020004100',
+        descriptionSku: 'PHILLY BRCK ORIGCONS 21X4X190G',
+        oee: 0,
+        ge: 0,
+        timeProduction: 480,
+        volume: 620,
+        tld: 473,
+        waste: null,
+        typeWaste: null,
+        retentions: null,
+        typeRetention: null,
+        reprocess: null,
+        typeReprocess: null,
+        lostSpeed: 0.545454545,
+        unplannedStoppages: [
+            {
+                id:'H0102',
+                description: 'Paro menor Cerradora/Encintadora',
+                minutes: 3,
+                times: 2,
+                typeWF: 'Minor Stoppage'
+            }
+        ],
+        plannedStoppages: []
+    }
+    
     constructor() { }
 
     getReports(infoSearch?: Date): Observable<Report[]> {
         return Observable.create(observer => {
             observer.next(this.reports);
+        })
+    }
+
+    getLineById(id: number): Observable<any>{
+        return Observable.create(observer => {
+            observer.next(this.detailLine);
         })
     }
 

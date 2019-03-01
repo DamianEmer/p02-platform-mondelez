@@ -55,7 +55,19 @@ export class TableCheckReportComponent implements OnInit {
   days: string[] = [
     "Lunes 1",
     "Lunes 2",
-    "Lunes 3"
+    "Lunes 3",
+    "Martes 1",
+    "Martes 2",
+    "Martes 3",
+    "Miercoles 1",
+    "Miercoles 2",
+    "Miercoles 3",
+    "Jueves 1",
+    "Jueves 2",
+    "Jueves 3",
+    "Viernes 1",
+    "Viernes 2",
+    "Viernes 3",
   ]
 
   @Input()report: any;
