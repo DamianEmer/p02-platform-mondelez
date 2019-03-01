@@ -370,7 +370,8 @@ export class DataService {
     return this.http.patch<Operator>(`${this.apiURL}/operator/${idOperator}`, operator);
   }
 
-  updateLine(idLine: number, line: Line2):Observable<Line2>{
+  updateLine(idLine: number, line: any):Observable<Line2>{
+    console.log(`id: ${idLine}`);
     return this.http.patch<Line2>(`${this.apiURL}/line/${idLine}`, line);
   }
 

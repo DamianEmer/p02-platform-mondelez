@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/shared/services/data.service';
+import { MatSnackBar } from '@angular/material';
+import { SaveConfirmModalComponent } from 'src/app/shared/components/save-confirm-modal/save-confirm-modal.component';
 
 @Component({
   selector: 'app-line-form-edit',
@@ -14,9 +16,12 @@ export class LineFormEditComponent implements OnInit {
 
   idParam: string;
 
-  constructor(private fb: FormBuilder, 
+  line: any;
+
+  constructor(private fb: FormBuilder,
     private router: ActivatedRoute,
     private _router: Router,
+    private confirm: MatSnackBar,
     private dataService: DataService) { }
 
   ngOnInit() {
@@ -36,18 +41,16 @@ export class LineFormEditComponent implements OnInit {
   }
 
   onEdit(id?: number): void {
-    let line: any = {};
-    this.dataService.getLineById(id).subscribe(data => {
-      line = data;
-    });
+    // const line: any = {};
+    this.dataService.getLineById(id).subscribe(line => this.line = line);
     this.formEdit.patchValue({
-      line: line.line,
-      category: line.category,
-      technology: line.technology,
-      number: line.number
+      line: this.line.line,
+      category: this.line.category,
+      technology: this.line.technology,
+      number: this.line.number
     });
-    this.formEdit.setControl('products', this.existProducts(line.products));
-    this.formEdit.setControl('breakdowns', this.existBreakdowns(line.breakdowns));
+    this.formEdit.setControl('products', this.existProducts(this.line.products));
+    this.formEdit.setControl('breakdowns', this.existBreakdowns(this.line.breakdowns));
   }
 
   existProducts(products: any[]): FormArray {
@@ -72,11 +75,15 @@ export class LineFormEditComponent implements OnInit {
     return formArray;
   }
 
-  onSave():void {
-    console.log("Datos actualizados: ", this.formEdit.value);
+  onSave(): void {
+    this.dataService.updateLine(this.line.id, this.formEdit.value).subscribe(response => {
+      this.confirm.openFromComponent(SaveConfirmModalComponent, {
+        duration: 1500
+      })
+    });
   }
 
-  onCancel():void {
+  onCancel(): void {
     this._router.navigate(['./corrections']);
   }
 

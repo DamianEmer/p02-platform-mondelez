@@ -10,6 +10,8 @@ import { Operator } from 'src/app/shared/models/operator';
 import { Line2 } from 'src/app/shared/models/Line2';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/shared/services/data.service';
+import { MatSnackBar } from '@angular/material';
+import { SaveConfirmModalComponent } from 'src/app/shared/components/save-confirm-modal/save-confirm-modal.component';
 
 @Component({
   selector: 'app-corrections',
@@ -36,6 +38,8 @@ export class CorrectionsComponent implements OnInit {
 
   record: any;
 
+  operator: any;
+
   displayedColumns: string[] = [
     'name', 'id'
   ]
@@ -45,6 +49,7 @@ export class CorrectionsComponent implements OnInit {
     private dataService: DataService,
     private fb: FormBuilder,
     private router: Router,
+    private confirm: MatSnackBar,
     private store: Store<AppState>) {
     this.showBtnEdit = false;
     this.showFormRecord = false;
@@ -81,7 +86,14 @@ export class CorrectionsComponent implements OnInit {
     });
   }
 
-  onSave(): void {
+  onSaveOperator(): void {
+    this.dataService.addOperator(this.form.value).subscribe(
+      response => {
+        this.confirm.openFromComponent(SaveConfirmModalComponent, {
+          duration: 1500
+        })
+      }
+    )
     // console.log("Nuevo operador: ", this.form.value);
     this.resetForm();
   }
@@ -90,7 +102,14 @@ export class CorrectionsComponent implements OnInit {
     // console.log("Linea seleccionada: ", lineSelected);
   }
 
-  onUpdate(): void {
+  onUpdateOperator(): void {
+    this.dataService.updateOperator(this.operator.id, this.form.value).subscribe(
+      response => {
+        this.confirm.openFromComponent(SaveConfirmModalComponent, {
+          duration: 1500
+        })
+      }
+    )
     // console.log("Actualizar operador: ", this.form.value)
   }
 
@@ -112,10 +131,10 @@ export class CorrectionsComponent implements OnInit {
   onEditOperator(id: number): void {
     this.loadData();
     this.showBtnEdit = true;
-    let operator = this.operators.find(ope => ope.id === id);
+    this.operator = this.operators.find(ope => ope.id === id);
     this.form.patchValue({
-      name: operator.name,
-      line: operator.id
+      name: this.operator.name,
+      line: this.operator.id
     })
   }
 
