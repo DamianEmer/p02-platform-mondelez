@@ -36,6 +36,9 @@ export class CorrectionsComponent implements OnInit {
 
   record: any;
 
+  displayedColumns: string[] = [
+    'name', 'id'
+  ]
 
   constructor(
     private authService: AuthService,
@@ -49,12 +52,18 @@ export class CorrectionsComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.loadData();
+ 
+    this.initFormOperator();
+    this.initFormSearch();
+
+  }
+
+  loadData(): void {
     this.store.select(getLines).subscribe(lines => this.lines = lines);
     this.store.dispatch(new AllActionsOperator.LoadOperators());
     this.store.select(getOperators).subscribe(operators => this.operators = operators);
-
-    this.initFormOperator();
-    this.initFormSearch();
 
   }
 
@@ -87,6 +96,7 @@ export class CorrectionsComponent implements OnInit {
 
   onSearchRecords(): void {
     this.showListRecords = true;
+    this.record = undefined;
     // console.log("Semana: ", this.getWeek.value, " Day: ", this.getDay.value);
     this.dataService.getRecords(this.getWeek.value, this.getDay.value)
       .subscribe(records => {
@@ -100,11 +110,12 @@ export class CorrectionsComponent implements OnInit {
   }
 
   onEditOperator(id: number): void {
+    this.loadData();
     this.showBtnEdit = true;
     let operator = this.operators.find(ope => ope.id === id);
     this.form.patchValue({
       name: operator.name,
-      line: operator.line
+      line: operator.id
     })
   }
 
