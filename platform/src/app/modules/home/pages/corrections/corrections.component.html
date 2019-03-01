@@ -21,7 +21,7 @@
             </mat-form-field>
 
             <div>
-              <button *ngIf="!showBtnEdit" class="font btn" [disabled]="form.invalid" (click)="onSave()">Agregar</button>
+              <button *ngIf="!showBtnEdit" class="font btn" [disabled]="form.invalid" (click)="onSaveOperator()">Agregar</button>
               <button *ngIf="showBtnEdit" class="font btn" [disabled]="form.invalid" (click)="onSave()">Actualizar</button>
               <button class="font btn" [disabled]="form.invalid" (click)="onCancel()">Cancelar</button>
             </div>
