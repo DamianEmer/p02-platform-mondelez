@@ -22,11 +22,10 @@ export class SkuFormComponent implements OnInit {
 
   product: Product;
 
-  constructor( private fb: FormBuilder, 
-    private operationsServices: OperationsService ) { }
+  constructor(private fb: FormBuilder,
+    private operationsServices: OperationsService) { }
 
   ngOnInit() {
-  
   }
 
   stoppagesForm(): FormGroup {
@@ -61,7 +60,7 @@ export class SkuFormComponent implements OnInit {
         volume = val;
         tld = this.operationsServices.calculateTLD(this.product.kgcj, volume, speed);
         this.getSku.controls[i].get('tld').setValue(tld.toFixed(2));
-        this.getSku.controls[i].get('idealvolume').setValue(this.operationsServices.calcIdealProduction(speed,prodTime,this.product.kgcj).toFixed(2));
+        this.getSku.controls[i].get('idealvolume').setValue(this.operationsServices.calcIdealProduction(speed, prodTime, this.product.kgcj).toFixed(2));
         this.getSku.controls[i].get('oee').setValue(this.operationsServices.calcOEE_Sku(tld, prodTime).toFixed(2));
         this.getSku.controls[i].get('lossSpeed').setValue(this.operationsServices.calcLossSpeed(prodTime, tld, sumUnplanned).toFixed(2));
         this.getSku.controls[i].get('ge').setValue(this.operationsServices.calcGE_Sku(tld, this.turnTime, sumPlanned).toFixed(2));
