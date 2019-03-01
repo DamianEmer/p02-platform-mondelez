@@ -25,11 +25,11 @@
 
     <br><br> 
 
-    <app-table [header_columns]="header_columns_week" [reports]="data_reports"></app-table>
+    <app-table [header_columns]="header_columns_week" [infoDate]="searchForm.value" [reports]="data_reports"></app-table>
 
     <br><br> 
 
-    <app-table [header_columns]=header_columns_weeks [reports]="data_reports"></app-table>
+    <app-table [header_columns]="header_columns_weeks" [infoDate]="searchForm.value" [reports]="data_reports"></app-table>
 
   </div>
 

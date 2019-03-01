@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Report } from '../models/report';
 import { DetailLine } from '../models/detailLine';
 import { UnplannedStoppageEffects } from '../store/effects/unplannedStoppages.effects';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 interface Date {
     week: number,
@@ -215,19 +216,31 @@ export class ReportsService {
         ],
         plannedStoppages: []
     }
-    
-    constructor() { }
 
-    getReports(infoSearch?: Date): Observable<Report[]> {
+    apiURL = 'host:port/v1';
+    
+    constructor(private http: HttpClient) { }
+
+    getReports(infoDate?: Date): Observable<Report[]> {
+        // const httpParams = new HttpParams()
+        //     .set('week', infoDate.week.toString())
+        //     .set('day', infoDate.day.toString());
         return Observable.create(observer => {
             observer.next(this.reports);
         })
+
+        // return this.http.get<Report[]>(`${this.apiURL}/reports`, { params: httpParams});
     }
 
-    getLineById(id: number): Observable<any>{
+    getLineById(id: number, infoDate?: Date): Observable<any>{
+        console.log('FECHA SERVICIO:::: ',infoDate);
+        // const httpParams = new HttpParams()
+        // .set('week', infoDate.week.toString())
+        // .set('day', infoDate.day.toString())
         return Observable.create(observer => {
             observer.next(this.detailLine);
         })
+        // return this.http.get<Report[]>(`${this.apiURL}/reports/id`, { params: httpParams});
     }
 
 }

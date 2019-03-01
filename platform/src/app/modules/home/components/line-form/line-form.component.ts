@@ -21,6 +21,7 @@ import { Line2, Product, BreakDown } from 'src/app/shared/models/Line2';
 import { MatSnackBar } from '@angular/material';
 import { SaveConfirmModalComponent } from 'src/app/shared/components/save-confirm-modal/save-confirm-modal.component';
 import { DatePipe } from '@angular/common';
+import { ErrorDialogService } from 'src/app/shared/services/error-dialog.service';
 
 @Component({
   selector: 'app-line-form',
@@ -56,7 +57,8 @@ export class LineFormComponent implements OnChanges, OnInit {
   constructor(private fb: FormBuilder,
     private ds: DataService,
     private store: Store<AppState>,
-    private confirm: MatSnackBar) {
+    private confirm: MatSnackBar,
+    private errorDialog: ErrorDialogService) {
     this.showBtnEdit = false;
     this.emptyStoppages = false;
     this.store.dispatch(new AllActionsStoppages.LoadStoppages())
@@ -128,11 +130,11 @@ export class LineFormComponent implements OnChanges, OnInit {
 
   onSave() {
     if (this.form.valid) {
-      this.ds.saveRegistry(this.form.value);
-      //Este modal se lanzara en caso satisfactorio
-      this.confirm.openFromComponent(SaveConfirmModalComponent, {
-        duration: 1500
-      })
+      this.ds.addRecord(this.form.value).subscribe(response => {
+        this.confirm.openFromComponent(SaveConfirmModalComponent, {
+          duration: 1500
+        })
+      });
       //En caso de error mandar igual mensaje de error
       this.resetForm();
     }
@@ -170,7 +172,11 @@ export class LineFormComponent implements OnChanges, OnInit {
   }
 
   sendUpdateRecord(): void {
-    console.log("Actualizacion: ", this.form.value);
+    this.ds.updateRecord(this._record.id, this.form.value).subscribe(response => {
+      this.confirm.openFromComponent(SaveConfirmModalComponent, {
+        duration: 1500
+      })
+    });
   }
 
   onTotalCal() {

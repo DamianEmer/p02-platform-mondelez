@@ -22,6 +22,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 // Material
 import { MatDialogModule } from '@angular/material';
 import { ErrorMessageModalComponent } from './shared/components/error-message-modal/error-message-modal.component';
+import { DataSharedService } from './shared/services/data-shared.service';
 
 const MATERIAL_IMPORTS = [
   MatDialogModule
@@ -48,6 +49,7 @@ const MATERIAL_IMPORTS = [
   ],
   providers: [
     OperationsService,
+    DataSharedService,
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: SimpleAuthInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CheckReport } from '../models/checkReport';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 
 interface Data {
   week: number;
@@ -211,21 +211,18 @@ export class CheckReportService {
     };
 
 
-  constructor() { }
+    apiURL = 'host:port/v1';
 
-  
-  getReport() {
-    return this.report;
-  }
+  constructor( private http: HttpClient) { }
 
   //GET
   getLine(info?: Data): Observable<CheckReport>{
-    // localhost:8080/chequeo
-    // let httpParams = new HttpParams()
+    // const httpParams = new HttpParams()
     //   .set('week', info.week.toString())
     //   .set('day', info.day.toString());
     return Observable.create( observer => {
       observer.next(this.report);
     });
+    // return this.http.get<CheckReport>(`${this.apiURL}/check-report`, {params: httpParams } );
   }
 }
