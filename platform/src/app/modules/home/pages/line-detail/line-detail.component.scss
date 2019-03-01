@@ -1,0 +1,25 @@
+.container-detail {
+    // background-color: antiquewhite;
+    min-height: 100vh;
+    height: auto;
+    text-align: center;
+
+    .container-table-info{
+        // background-color: aquamarine;
+        width: 85%;
+        height: 250px;
+        margin: auto;
+
+        table{
+            width: 100%;
+            // border: 1px solid black;
+            border-collapse: collapse;
+
+            th, td{
+                border: 1px solid #ddd;
+                text-align: left;
+                padding: 15px;
+            }
+        }
+    }
+}
