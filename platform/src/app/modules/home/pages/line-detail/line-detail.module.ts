@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { LineDetailComponent } from './line-detail.component';
 import { CommonModule } from '@angular/common';
 
+import {MatTableModule} from '@angular/material/table'; 
+
 const routes: Routes = [
     { path: '', component: LineDetailComponent}
 ]
@@ -13,7 +15,8 @@ const COMMMON_DECLARATIONS = [
 
 const COMMON_IMPORTS = [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MatTableModule
 ];
 
 @NgModule({

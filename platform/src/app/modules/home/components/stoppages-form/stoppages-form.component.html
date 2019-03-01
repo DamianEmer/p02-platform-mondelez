@@ -1,11 +1,11 @@
 <div [formGroup]="form">
   <div formArrayName="stoppages" *ngFor="let stop of form.get('stoppages').controls; let i = index">
-    <div class="stoppages_container" [formGroupName]="i">
+    <div class="stoppages_container font" [formGroupName]="i">
       <div class="field">
         <mat-form-field>
           <label for="'inp-desc'i">Descripción</label>
           <mat-select formControlName="id">
-            <mat-option *ngFor="let stop of stoppages" [value]="stop.id">{{stop.name}}</mat-option>
+            <mat-option *ngFor="let stop of stoppages" [value]="stop.id">{{stop.description}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -16,11 +16,14 @@
         </mat-form-field>
       </div>
       <div class="field">
-          <mat-form-field>
-            <label for="'inp-time'i">Numero de veces</label>
-            <input matInput type="number" id="'inp-time'i" formControlName="times">
-          </mat-form-field>
-        </div>
-    </div>    
+        <mat-form-field>
+          <label for="'inp-time'i">Numero de veces</label>
+          <input matInput type="number" id="'inp-time'i" formControlName="times">
+        </mat-form-field>
+      </div>
+      <div>
+        <button (click)="onRemove(i)">X</button>
+      </div>
+    </div>
   </div>
 </div>

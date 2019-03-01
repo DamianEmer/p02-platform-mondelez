@@ -28,8 +28,10 @@
     "@ngrx/store-devtools": "^7.2.0",
     "angular-highcharts": "^7.1.0",
     "core-js": "^2.6.2",
+    "file-saver": "^2.0.0",
     "highcharts": "^7.0.2",
     "rxjs": "^6.3.3",
+    "xlsx": "^0.14.1",
     "zone.js": "^0.8.27"
   },
   "devDependencies": {

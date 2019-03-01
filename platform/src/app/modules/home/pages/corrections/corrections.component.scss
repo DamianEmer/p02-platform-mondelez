@@ -1,0 +1,39 @@
+.container-users{
+    // background-color: antiquewhite;
+    width: 90%;
+    margin: 25px auto;
+    text-align: center;
+
+    .container-form {
+        width: 90%;
+        margin: auto;
+        // border: 1px solid red;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    
+        mat-form-field{
+            width: 350px;
+        }
+    
+        button {
+            margin-left: 25px;
+        }
+    }
+}
+
+.container_records{
+    .container-form {
+        width: 90%;
+        margin: 15px auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        mat-form-field{
+            width: 300px;
+            margin: 10px;
+        }
+    }
+}

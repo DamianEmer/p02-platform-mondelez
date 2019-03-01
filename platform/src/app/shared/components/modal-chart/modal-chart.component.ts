@@ -37,7 +37,7 @@ export class ModalChartComponent implements OnInit {
           events:{
             click: function() {
               console.log(this.options);
-              // location.href='http://localhost:4200/#/report/'+this.options;//cambiar por key
+              location.href='http://localhost:4200/#/report/'+this.options;//cambiar por key
             }
           }
         }

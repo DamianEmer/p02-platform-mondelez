@@ -6,11 +6,13 @@ import { SkuFormModule } from '../sku-form/sku-form.module';
 
 import { MatButtonModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatNativeDateModule } from "@angular/material";
 import { StoppagesFormModule } from '../stoppages-form/stoppages-form.module';
+import { SaveConfirmModalModule } from 'src/app/shared/components/save-confirm-modal/save-confirm-modal.module';
 
 const COMMON_DECLARATIONS = [
     LineFormComponent
@@ -29,7 +31,9 @@ const COMMON_IMPORT_MATERIAL = [
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSnackBarModule,
+    SaveConfirmModalModule
 ]
 
 @NgModule({

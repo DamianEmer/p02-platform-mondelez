@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Line } from '../../models/line';
+import { Line2 } from '../../models/Line2';
 
 export enum ActionLineTypes {
     LOAD_LINES = '[Line] Load Lines',
@@ -17,7 +17,7 @@ export class LoadLines implements Action {
 export class LoadLineSuccess implements Action {
     readonly type = ActionLineTypes.LOAD_LINES_SUCCESS;
 
-    constructor ( public payload: Line[]) { }
+    constructor ( public payload: Line2[]) { }
 }
 
 export class LoadError implements Action {
