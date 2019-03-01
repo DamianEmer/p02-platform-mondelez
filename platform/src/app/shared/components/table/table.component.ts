@@ -5,6 +5,7 @@ import { OperationsService } from '../../services/operations.service';
 import { Report } from '../../models/report';
 
 import * as exportAsXLSX from 'xlsx';
+import { DataSharedService } from '../../services/data-shared.service';
 
 @Component({
   selector: 'app-table',
@@ -16,6 +17,8 @@ export class TableComponent implements OnInit {
   @Input()header_columns: string[];
 
   @Input()reports: Report[];
+
+  @Input()infoDate: any;
 
   avgsTotal: any[] = [];
 

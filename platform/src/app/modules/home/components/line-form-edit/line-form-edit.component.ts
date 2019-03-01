@@ -36,7 +36,8 @@ export class LineFormEditComponent implements OnInit {
   }
 
   onEdit(id?: number): void {
-    let line = this.dataService.getLineById(id);
+    const line: any = {};
+    this.dataService.getLineById(id).subscribe(line => line = line);
     this.formEdit.patchValue({
       line: line.line,
       category: line.category,

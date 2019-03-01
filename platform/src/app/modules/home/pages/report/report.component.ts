@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ReportsService } from 'src/app/shared/services/reports.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Report } from 'src/app/shared/models/report';
+import { DataSharedService } from 'src/app/shared/services/data-shared.service';
 
 @Component({
   selector: 'app-report',
@@ -26,7 +27,9 @@ export class ReportComponent implements OnInit {
 
   showTbls: boolean = false;
 
-  constructor(private reportService : ReportsService, private fb: FormBuilder) {  
+  constructor(private reportService : ReportsService, 
+    private fb: FormBuilder, 
+    private dataShared: DataSharedService) {  
     this.searchForm = this.fb.group({
       week: ['', Validators.required],
       day: ['', Validators.required]
@@ -38,6 +41,7 @@ export class ReportComponent implements OnInit {
   
   onSearch(){
     if(this.searchForm.valid){ 
+      this.dataShared.setCurrentDate(this.searchForm.value);
       this.reportService.getReports().subscribe((reports: Report[])=> {
         this.data_reports = reports;
       })

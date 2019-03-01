@@ -20,21 +20,28 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
             catchError((err: HttpErrorResponse) => {
-            if (err.status === 401){
-                this.authService.logout();
-                location.reload(true);
-            }
-            let data = {};
-            data = {
-                reason: err && err.error.reason ? err.error.reason : '',
-                status: err.status
-            };
+                let data = {};
+                // if (err.status === 401) {
+                //     this.authService.logout();
+                //     location.reload(true);
+                // }
+                if (err.error instanceof ErrorEvent) {
+                    data = {
+                        reason: err.error.message,
+                        status: err.status
+                    };
+                }
+                else{
+                    data = {
+                        reason: err && err.error.reason ? err.error.reason : err.message,
+                        status: err.status
+                    };
+                }
+                // const error = err.error.message || err.statusText;
+                this.errorDialog.openLoadErrorDialog(data);
 
-            // const error = err.error.message || err.statusText;
-            this.errorDialog.openLoadErrorDialog(data);
-
-            return throwError(err);
-        }));
+                return throwError(data);
+            }));
     }
 
 }
